@@ -1,0 +1,110 @@
+:host /deep/ .mat-tab-body-wrapper {
+  /* necesario pq em algunos browsers no se despliega*/
+  /*
+  top:  118px;
+  left: 1px;
+  bottom: 54px;
+  right: 1px;
+  position: fixed;
+  */
+  top: 128px;
+  left: 20px;
+  bottom: 68px;
+  right: 20px;
+  position: fixed;
+}
+
+#div-header-edit {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+}
+
+.div-container-edit {
+  /*
+  position: fixed;
+  top: 130px;
+  bottom: 70px;
+  left: 20px;
+  right: 20px;
+  margin: 10px;
+  */
+}
+#div-footer-edit {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+}
+
+fieldset {
+  padding: 10px;
+  margin: 10px;
+}
+
+.buttons-layout-left-top {
+  position: absolute;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  width: 80px;
+  height: 48px;
+  left: 0;
+}
+#btn-back {
+  top: 3px;
+  left: 10px;
+}
+.buttons-layout-right {
+  position: absolute;
+  right: 10px;
+}
+
+mat-form-field {
+  flex: auto;
+}
+.flex-none {
+  flex: none;
+}
+
+mat-radio-button {
+  padding-right: 25px;
+}
+
+matInput, .right {
+  text-align: right
+}
+label {
+  padding: 15px 0 10px 0px;
+  color: rgba(0,0,0,.54);
+  font-size: smaller;
+}
+
+.mat-icon-xx-large {
+  font-size: xx-large !important;
+}
+
+
+#btn-guardar-datos {
+  right: 8px;
+  bottom: 10px;
+  position: absolute;
+}
+
+.btn-cotizar {
+  line-height: 24px;
+}
+
+table {
+  width: 100%;
+  border-top: royalblue 2px dot-dash;
+}
+.mat-row:hover {
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+.cotizar-send {
+  -ms-transform: rotate(-45deg); /* IE 9 */
+  -webkit-transform: rotate(-45deg); /* Safari */
+  transform: rotate(-45deg);
+}

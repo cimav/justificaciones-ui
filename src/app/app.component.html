@@ -1,0 +1,35 @@
+<mat-toolbar id="div-header" color="primary">
+
+  <mat-toolbar-row style="font-size: x-large; font-weight: 100;" >
+    <img id="logo-cimav" src="assets/img/logo-cimav.png"> <!-- src="../assets/img/logo-cimav.png"  -->
+    <div id="logo-texto" style="display: block;" >
+      <span>Justificaciones</span>
+      <span style="display: block;letter-spacing: 4px; font-size: large;">generador</span>
+    </div>
+
+    <div *ngIf="auth.isAuthenticated(); else loggedOut">
+      <button mat-button (click)="auth.logout()" style="font-size: large; font-weight: 100;">
+        {{auth.getCuenta()}} <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+    <ng-template #loggedOut>
+      <button mat-button (click)="auth.login()" style="font-size: large; font-weight: 100;">
+        Ingresar <i class="fas fa-sign-in-alt"></i>
+      </button>
+    </ng-template>
+
+  </mat-toolbar-row>
+
+</mat-toolbar>
+
+<mat-sidenav-container id="div-container" *ngIf="auth.isAuthenticated();">
+  <!-- <router-outlet></router-outlet> -->
+  <app-table *ngIf="!justificacion_id" (justificacionIdChange)="justificacionIdChanged($event)"></app-table>
+  <app-edit *ngIf="justificacion_id" (justificacionIdToNull)="justificacionIdChanged($event)" [setJustificacion]="justificacion_id"></app-edit>
+
+</mat-sidenav-container>
+
+<mat-card color="primary" *ngIf="!auth.isAuthenticated()"
+          style="float: right; margin-right: 5px; top: 70px;">
+  <mat-card-subtitle style="font-size: larger;">Ingrese con cuenta del Cimav</mat-card-subtitle>
+</mat-card>

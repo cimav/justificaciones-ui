@@ -1,0 +1,23 @@
+
+
+.prov-cotizado {
+  border: 1px solid rgba(0,0,0,.12);
+  padding: 15px;
+}
+
+.btn-guardar-provee {
+  float: right;
+  margin-bottom: 5px;
+}
+mat-form-field {
+  flex: auto;
+}
+.flex-none {
+  flex: none;
+}
+.label-cotiza-answer {
+  float: left;
+  width: 100%;
+  font-size: smaller;
+  color: rgba(0,0,0,.54);
+}

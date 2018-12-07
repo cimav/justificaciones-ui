@@ -1,0 +1,27 @@
+<mat-sidenav-container class="div-header-dlg">
+  <h3>Proveedores de NetMultix</h3>
+  <mat-form-field class="field-filter">
+    <input matInput  (keyup)="applyFilter($event.target.value)" placeholder="Buscar proveedor por razón social" autofocus #id_input_filter>
+  </mat-form-field>
+</mat-sidenav-container>
+
+<mat-sidenav-container class="div-container-dlg">
+
+  <mat-spinner *ngIf="loading" mode="indeterminate" style="top: 110px; left: 250px;"></mat-spinner>
+
+  <mat-list *ngIf="!loading">
+    <mat-list-item *ngFor="let proveedorNetMultix of proveedoresNetmultixFiltered" (dblclick)="onDblClick(proveedorNetMultix)">
+      {{proveedorNetMultix.clave}} {{proveedorNetMultix.razon_social}}
+    </mat-list-item>
+  </mat-list>
+
+</mat-sidenav-container>
+
+<mat-toolbar class="div-footer-dlg">
+  <button mat-mini-fab color="primary" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar selección"
+          matTooltipPosition="after">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <label align="start" style="color: rgba(0,0,0,.74); font-size: 75%; font-weight: 400; right: 10px; position: absolute; top: 0px;">Seleccione al proveedor con doble-click</label>
+</mat-toolbar>
+

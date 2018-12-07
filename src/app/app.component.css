@@ -1,0 +1,27 @@
+#div-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+#div-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+}
+#logo-cimav {
+  /*content:url('../assets/img/logo-cimav.png'); */
+  margin-right: 20px;
+  background-color: white;
+  border-radius: 31px/21px;
+  padding: 2px;
+}
+#logo-texto {
+  flex: 1 1 auto;
+
+  text-align: center;
+  line-height: 20px;
+}
+

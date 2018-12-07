@@ -1,0 +1,99 @@
+
+<h1>Proveedor</h1>
+
+<form  #proveedorForm="ngForm" >
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+    <mat-form-field>
+      <input matInput placeholder="Razón social" name="razon_social" [(ngModel)]="proveedor.razon_social" required>
+      <button mat-icon-button matSuffix (click)="openSearchDialog()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5px">
+    <div fxFlex="60" style="padding: 15px;" >
+      <label>Fuente de consulta</label>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-radio-group name="fuente" [(ngModel)]="proveedor.fuente" >
+          <mat-radio-button color="primary"  name="fuente0" [value]="0">Internet</mat-radio-button>
+          <mat-radio-button color="primary" name="fuente1" [value]="1">Compranet</mat-radio-button>
+          <mat-radio-button color="primary"  name="fuente2" [value]="2">Presencial</mat-radio-button>
+        </mat-radio-group>
+        <mat-checkbox class="flex-none" name="nacional" [(ngModel)]="proveedor.es_nacional" color="primary" >Nacional</mat-checkbox>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-form-field class="flex-none">
+          <input matInput placeholder="RFC" name="rfc" [(ngModel)]="proveedor.rfc" required>
+        </mat-form-field >
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-form-field>
+          <input matInput placeholder="Domicilio" name="domicilio" [(ngModel)]="proveedor.domicilio" required>
+        </mat-form-field >
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-form-field>
+          <input matInput placeholder="Contacto" name="contacto" [(ngModel)]="proveedor.contacto" required>
+        </mat-form-field >
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-form-field>
+          <input matInput placeholder="Teléfono" name="telefono" [(ngModel)]="proveedor.telefono" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Email" name="email" [(ngModel)]="proveedor.email" required>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-form-field>
+          <input matInput placeholder="Datos bancarios" name="banco" [(ngModel)]="proveedor.banco" required>
+        </mat-form-field >
+      </div>
+
+      <!-- [disabled]="(!justificacionForm.form.valid || justificacionForm.form.dirty)" -->
+      <!--
+      <button class="btn-cotizar" mat-stroked-button (click)="cotizar()" matTooltip="Generar cotización Proveedor 2" matTooltipPosition="after">
+        <mat-icon>assessment</mat-icon>
+        Cotizar
+      </button>
+      -->
+
+    </div>
+    <div fxFlex="40" class="prov-cotizado">
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-form-field >
+                    <textarea mat-autosize name="tecnicas" maxlength="400" matInput placeholder="Cumple condiciones técnicas"
+                              [(ngModel)]="proveedor.cumple_tecnicas" required></textarea>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+        <mat-form-field >
+                    <textarea mat-autosize name="cantidad" maxlength="400" matInput placeholder="Cantidad que puede surtir"
+                              [(ngModel)]="proveedor.cantidad_surtir" required></textarea>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="flex-none"  style="width: 200px; float: right;">
+        <input currencyMask="" matInput class="right" placeholder="Monto" name="monto" [(ngModel)]="proveedor.monto" required
+               [options]="{ prefix: '', thousands: ',', decimal: '.' }">
+      </mat-form-field >
+      <label class="label-cotiza-answer">Resultado de la cotización</label>
+    </div>
+
+  </div>
+
+  <ng-container>
+    <span class="buttons-layout-left-top">
+      <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar cambios" matTooltipPosition="after">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+    </span>
+  </ng-container>
+
+  <button  class="btn-guardar-provee" [disabled]=proveedorForm.form.pristine mat-mini-fab  (click)="onClick()"
+           matTooltip="Guardar cambios" matTooltipPosition="above">
+    <mat-icon>check</mat-icon>
+  </button>
+
+</form>

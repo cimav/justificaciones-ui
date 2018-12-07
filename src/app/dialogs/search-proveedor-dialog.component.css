@@ -1,0 +1,32 @@
+mat-dialog-container {
+  position: relative !important;
+}
+.div-header-dlg {
+  top: 0px;
+  left: 0;
+  right: 0;
+/*  border: 2px dotted royalblue; */
+}
+.div-container-dlg {
+  position: absolute;
+  top: 154px;
+  bottom: 64px;
+  left: 24px;
+  right: 24px;
+  background-color: white;
+}
+.div-footer-dlg {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+}
+
+mat-list-item:hover {
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+mat-form-field {
+  width: 100%;
+}
