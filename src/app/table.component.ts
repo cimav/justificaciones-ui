@@ -176,7 +176,9 @@ export class TableComponent implements OnInit {
           },
           error => console.log('Error agregando! ' + error),
           () => {
-            console.log('Add Single Justificacion: ' );
+            console.log('Add Single Justificacion: ' + id_creada);
+
+              this.justificacionChanged(id_creada);
 
             // this.router.navigate(['/edit', id_creada]);
           }
@@ -226,7 +228,10 @@ export class TableComponent implements OnInit {
           },
           error => console.log('Error replicando! ' + error),
           () => {
-            console.log('Replicar Justificacion: ' );
+
+            this.justificacionChanged(replica_id);
+
+            console.log('Replicar Justificacion: ' + replica_id);
 
             // this.router.navigate(['/edit', replica_id]);
           }

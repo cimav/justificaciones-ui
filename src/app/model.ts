@@ -53,8 +53,21 @@ export class Proveedor {
   cantidad_surtir: string;
   monto: number;
   fuente: number;
-  es_nacional: false;
+  es_nacional: boolean;
+
+  constructor() {
+    this.clave = '';
+    this.rfc = '';
+    this.razon_social = '';
+    this.contacto = '';
+    this.telefono = '';
+    this.email = '';
+    this.banco = '';
+    this.es_nacional = true;
+  }
+
 }
+
 
 export class Justificacion {
 

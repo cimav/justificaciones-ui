@@ -4,8 +4,8 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" id="div-header-table">
   <h2 style="font-weight: 300;">Justificaciones</h2>
   <mat-form-field id="field-filter">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar" style="">
-    <mat-hint align="start">Escriba el término a filtrar</mat-hint>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar..." style="">
+    <mat-hint align="start">Escriba el término a buscar</mat-hint>
     <mat-hint align="end">Mostrando {{dataSource?.filteredData?.length}} de {{dataSource?.data?.length}}
       justificaciones
     </mat-hint>
