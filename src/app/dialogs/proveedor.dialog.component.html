@@ -6,9 +6,10 @@
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
     <mat-form-field>
       <input matInput placeholder="Razón social" name="razon_social" [(ngModel)]="proveedor.razon_social" required>
-      <button mat-icon-button matSuffix (click)="openSearchDialog()">
+      <button mat-icon-button matSuffix (click)="openSearchDialog()"  matTooltip="Buscar proveedor en NetMultix" matTooltipPosition="before">
         <mat-icon>search</mat-icon>
       </button>
+      <mat-hint align="end" >Use la lupa para buscar proveedores en NetMultix</mat-hint>
     </mat-form-field>
   </div>
 
@@ -61,7 +62,10 @@
       -->
 
     </div>
-    <div fxFlex="40" class="prov-cotizado">
+    <div fxFlex="40" class="prov-cotizado mat-elevation-z8" >
+      <div fxLayout="row" fxLayoutAlign="space-between top" fxLayoutGap="25px">
+        <label class="label-cotiza-answer"><strong>Resultado de la cotización</strong><br>A llenar cuando se reciba la cotización</label>
+      </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field >
                     <textarea mat-autosize name="tecnicas" maxlength="400" matInput placeholder="Cumple condiciones técnicas"
@@ -78,7 +82,6 @@
         <input currencyMask="" matInput class="right" placeholder="Monto" name="monto" [(ngModel)]="proveedor.monto" required
                [options]="{ prefix: '', thousands: ',', decimal: '.' }">
       </mat-form-field >
-      <label class="label-cotiza-answer">Resultado de la cotización</label>
     </div>
 
   </div>

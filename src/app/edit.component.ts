@@ -176,6 +176,9 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   */
 
   saveDatos(event: any) {
+    if (this.justificacion.num_pagos <= 0) {
+        this.justificacion.num_pagos = 1;
+    }
     this.rest.updateJustificacion(this.justificacion).subscribe( (response: Justificacion) => {
       this.justificacion = response;
     }, error => {

@@ -41,8 +41,8 @@
               <mat-radio-button color="primary"  name="cero" [value]="0" style="padding-right: 25px;">Bien</mat-radio-button>
               <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
           </mat-radio-group>
-          <mat-form-field>
-            <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de elaboración"
+          <mat-form-field > <!-- class="mat-elevation-z8" style="border: 1px solid #673ab7; padding: 5px;" -->
+            <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión"
                    [(ngModel)]="justificacion.fecha_elaboracion" required>
             <mat-datepicker-toggle matSuffix [for]="pickerFirma"></mat-datepicker-toggle>
             <mat-datepicker #pickerFirma></mat-datepicker>
