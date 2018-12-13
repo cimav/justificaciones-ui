@@ -269,12 +269,15 @@
           <ng-container matColumnDef="disclaimer">
 
             <td mat-footer-cell *matFooterCellDef="let element" colspan="6" >
-              <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()" style="float: left; margin-top: 20px;"
-                      matTooltip="Generar estudio de mercado" matTooltipPosition="before"
-                      [disabled]="justificacion.proveedores?.length <= 0">
-                <mat-icon>description</mat-icon>
-                Estudio de Mercado
-              </button>
+              <span style="float: left; margin-top: 10px;">
+                <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: rgba(0,0,0,.54);">Al menos un proveedor deber ser <strong>Compranet</strong></span>
+                <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()"
+                        matTooltip="Generar estudio de mercado" matTooltipPosition="before"
+                        [disabled]="justificacion.proveedores?.length <= 0">
+                  <mat-icon>description</mat-icon>
+                  Estudio de Mercado
+                </button>
+              </span>
               <button mat-mini-fab="" id="btn-add-prov" (click)="openProveedorDialog(null)"
                       matTooltip="Agregar proveedor" matTooltipPosition="before"
                       style="float: right;     margin: 10px;">

@@ -226,14 +226,15 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     });
     */
 
-      /*
-      const showWarning = localStorage.getItem('show-warning') === null;
+        /*
+      // const showWarning = localStorage.getItem('show-warning') === null;
+      const showWarning = true; //this.editForm.form.valid === false
       if (showWarning) {
           const dialogRef = this.dialog.open(WarningDialogComponent, {
               width: '350px'
           });
           dialogRef.afterClosed().subscribe(() => {
-              window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
+              // window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
           });
       } else {
           window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
@@ -424,6 +425,12 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         console.log('Requisiciǿn encontrada: ' + requisicion);
       }
     );
+  }
+
+  hasCompranet(): boolean {
+      // al menos 1 debe ser compranet
+      const has = this.justificacion.proveedores.filter(prov => prov.fuente === 1).length > 0;
+      return has;
   }
 
 }
