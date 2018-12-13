@@ -46,7 +46,7 @@ export class RestService {
   }
 
   public getJustificaciones = (idEmpleado: number): Observable<Justificacion[]> => {
-    console.log('1111 getJustificaciones');
+
     return this._http.get<Justificacion[]>(endpoint + 'justificaciones/all_by_creador/' + idEmpleado + '.json',  httpOptions)
       .pipe(
         /*
@@ -60,7 +60,7 @@ export class RestService {
   }
 
   getJustificacion(id: number): Observable<Justificacion> {
-    console.log('666 getJustificacion ' + ' : ' + id + ' *****************************************************************************');
+    // console.log('666 getJustificacion ' + ' : ' + id + ' *****************************************************************************');
     return this._http.get<Justificacion>(endpoint + 'justificaciones/' + id + '.json', httpOptions)
       .pipe(
         /*
@@ -82,7 +82,6 @@ export class RestService {
   }
 
   public updateJustificacion = (justificacion: Justificacion): Observable<Justificacion> => {
-    console.log('333 updateJustificacion ' + ' : ' + justificacion.id);
 
     if (justificacion.autoriza_cargo.trim().length <= 0) {
       justificacion.autoriza_cargo = 'RESPONSABLE DEL PROYECTO';
@@ -203,7 +202,7 @@ export class RestService {
   }
 
   public getProveedoresOf = (justificacionId: number): Observable<Proveedor[]> => {
-    console.log('888 getPOf ' );
+
     return this._http.get<Proveedor[]>(endpoint + 'proveedores/by_justificacion/' + justificacionId + '.json',  httpOptions)
       .pipe(
         /*
@@ -227,7 +226,7 @@ export class RestService {
       );
   }
   public updateProveedor = (proveedor: Proveedor): Observable<Proveedor> => {
-    console.log('999 updatePro ' + ' : ' + proveedor.id);
+
     return this._http.put(endpoint + 'proveedores/' + proveedor.id + '.json', JSON.stringify(proveedor), httpOptions)
       .pipe(
         map( (response: Response) => {
@@ -248,7 +247,7 @@ export class RestService {
   }
 
   getReplica(id: number, identificador: string): Observable<Justificacion> {
-    console.log('AAA replica ' + ' : ' + id + ' -- ');
+
     return this._http.get(endpoint + 'justificaciones/replicar/' + id + '/' + identificador + '.json', httpOptions)
       .pipe(
         map( (response: Response) => {

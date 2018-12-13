@@ -16,6 +16,7 @@ import {MatDialog, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
 import {CurrencyPipe} from '@angular/common';
 import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
+import {WarningDialogComponent} from './dialogs/warning.dialog.component';
 
 @Component({
   selector: 'app-edit',
@@ -54,7 +55,6 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       console.log('Error getJusficacion ' + justificacion_id + ' :::  ' + error);
     }, () => {
       console.log('Get Single Justificacion Entrando Edit:' + this.justificacion.id );
-      console.log(this.justificacion);
 
       this.dsProveedores = new MatTableDataSource(this.justificacion.proveedores);
       this.asignarProveeSelected();
@@ -144,7 +144,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   forceValidation() {
     // requerido pq Angular2-Polymer todavía no estan al 100%
     if (this.editForm) {
-      for(const nom in this.editForm.controls) {
+      for (const nom in this.editForm.controls) {
         // $("[name='" + inner + "']").trigger('validate');
         const ctrl = this.editForm.controls[nom];
         if (ctrl) {
@@ -206,7 +206,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
   comparePartida(p1: Partida, p2: Partida): boolean {
     // necesaria pq si no, no muestra la selección
-    console.log(p1 + ' : ' + p2);
+    // console.log(p1 + ' : ' + p2);
     return p1 && p2 ? p1.id === p2.id : p1 === p2;
   }
 
@@ -225,7 +225,23 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       // window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
     });
     */
-    window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
+
+      /*
+      const showWarning = localStorage.getItem('show-warning') === null;
+      if (showWarning) {
+          const dialogRef = this.dialog.open(WarningDialogComponent, {
+              width: '350px'
+          });
+          dialogRef.afterClosed().subscribe(() => {
+              window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
+          });
+      } else {
+          window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
+      }
+      */
+
+      window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
+
   }
 
   cotizar(prov_id: number) {
@@ -330,7 +346,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   doSeleccionar(event: any, prov: Proveedor) {
-    console.log('>>>', prov.razon_social);
+    // console.log('>>>', prov.razon_social);
     // this.editForm.form.markAsDirty();
     if (event.checked) {
       this.justificacion.proveedor_id = prov.id;
@@ -351,7 +367,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     dialogRef.afterClosed().subscribe((id_to_del: number) => {
       if (id_to_del) {
-        console.log('Eliminar proveedor: ', id_to_del);
+        // console.log('Eliminar proveedor: ', id_to_del);
 
         if (this.justificacion.proveedor_id === id_to_del) {
           this.justificacion.proveedor_id = null;
