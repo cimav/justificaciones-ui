@@ -14,7 +14,7 @@
 
 <mat-sidenav-container id="div-container-table" *ngIf="auth.isAuthenticated()" >
 
-  <table mat-table [dataSource]="dataSource" matSort >
+  <table mat-table [dataSource]="dataSource" matSort  matSortActive="fecha_elaboracion" matSortDirection="desc">
 
     <!--
     <ng-container matColumnDef="id">
