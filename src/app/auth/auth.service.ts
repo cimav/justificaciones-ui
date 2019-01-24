@@ -5,10 +5,22 @@ import {environment} from '../../environments/environment';
 
 (window as any).global = window;
 
+const options = {
+    language: 'es',
+    theme: {
+        logo: 'http://justificaciones.cimav.edu.mx/assets/img/logo-cimav.png',
+        primaryColor: '#31324F'
+    },
+    languageDictionary: {
+        title: 'Autentificarse con cuenta de Cimav'
+    }
+};
+
 @Injectable()
 export class AuthService {
 
   auth0 = new auth0.WebAuth({
+      audience: 'organize',
     clientID: 'IRPUwl406FAAq6zd4QWEZKUFAH8of29G',
     domain: 'cimav.auth0.com',
     responseType: 'token id_token',

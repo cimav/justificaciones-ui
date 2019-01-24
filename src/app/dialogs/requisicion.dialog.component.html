@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Importar requisición</h1>
+<div mat-dialog-content>
+    <p style="margin-bottom: 50px;">¿Importar datos de la requisición <strong>{{requisicion}}</strong>?</p>
+</div>
+<ng-container>
+    <span class="buttons-layout-left-top">
+      <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar" matTooltipPosition="after">
+        <mat-icon>close</mat-icon>
+      </button>
+    </span>
+</ng-container>
+<button  class="btn-guardar-provee" mat-mini-fab  (click)="onClick()" matTooltip="Importar" matTooltipPosition="before" style="float: right;">
+    <mat-icon>check</mat-icon>
+</button>
+
+

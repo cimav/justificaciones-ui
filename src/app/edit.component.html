@@ -30,7 +30,8 @@
           </mat-form-field >
           <mat-form-field matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below">
             <input matInput placeholder="Requisición" name="requisicion"  [(ngModel)]="justificacion.requisicion" required>
-            <button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">
+              <!--<button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">-->
+              <button mat-icon-button matSuffix (click)="openRequisicionProveedorDialog(justificacion.requisicion)">
               <mat-icon>search</mat-icon>
             </button>
           </mat-form-field>
@@ -52,7 +53,7 @@
 
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
           <mat-form-field >
-            <mat-select placeholder="Tipo de justificación" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" > <!-- [compareWith]="compareTipo"  -->
+            <mat-select placeholder="Fracción" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" > <!-- [compareWith]="compareTipo"  -->
 
               <!--
               <mat-select-trigger>
@@ -96,7 +97,7 @@
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px" >
           <mat-form-field style="    padding-top: 10px;">
             <textarea mat-autosize #razoncompra maxlength="800" matInput placeholder="Razón y/o utilidad de la compra" [(ngModel)]="justificacion.razon_compra" name="razon_compra" required></textarea>
-            <mat-hint align="end">{{razoncompra.value.length}} / 800</mat-hint>
+            <mat-hint align="end">{{razoncompra.value.length}} / 2000</mat-hint>
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="15px">
@@ -225,7 +226,7 @@
           <ng-container matColumnDef="seleccionar">
             <th mat-header-cell *matHeaderCellDef >Selección</th>
             <td mat-cell style="width: 60px;" *matCellDef="let element">
-               <mat-slide-toggle [checked]="element.id == justificacion.proveedor_id" (change)="doSeleccionar($event, element)" color="primary" matTooltip="Seleccionar" matTooltipPosition="after"></mat-slide-toggle>
+               <mat-slide-toggle [checked]="element.id == justificacion.proveedor_id" (change)="doSeleccionar($event, element)" (click)="clickSeleccionar($event)" color="primary" matTooltip="Seleccionar" matTooltipPosition="after"></mat-slide-toggle>
             </td>
           </ng-container>
 
@@ -253,13 +254,13 @@
             <th mat-header-cell *matHeaderCellDef > Acciones</th>
             <td mat-cell style="width: 120px;" *matCellDef="let element">
               <span class="acciones">
-                <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openProveedorDialog(element)" matTooltip="Editar">
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openProveedorDialog($event, element)" matTooltip="Editar">
                   <mat-icon >edit</mat-icon>
                 </button>
-                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Eliminar" (click)="openEliminarProveedorDialog(element.id, element.clave)" >
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Eliminar" (click)="openEliminarProveedorDialog($event, element.id, element.clave)" >
                   <mat-icon>delete</mat-icon>
                 </button>
-                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Cotizar" (click)="cotizar(element.id)" >
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Cotizar" (click)="cotizar($event, element.id)" >
                   <mat-icon class="cotizar-send">send</mat-icon>
                 </button>
               </span>
@@ -270,7 +271,7 @@
 
             <td mat-footer-cell *matFooterCellDef="let element" colspan="6" >
               <span style="float: left; margin-top: 10px;">
-                <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: rgba(0,0,0,.54);">Al menos un proveedor deber ser <strong>Compranet</strong></span>
+                <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: #f44336;">Al menos un proveedor debe ser Compranet</span>
                 <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()"
                         matTooltip="Generar estudio de mercado" matTooltipPosition="before"
                         [disabled]="justificacion.proveedores?.length <= 0">
@@ -287,7 +288,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr> <!-- style="display: none;" -->
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="rowHover(row.id)" (dblclick)="openProveedorDialog(row)"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="rowHover(row.id)" (click)="openProveedorDialog(null, row)"></tr>
 
           <tr mat-footer-row *matFooterRowDef="['disclaimer']; sticky: true;" class="example-second-footer-row" ></tr>
 

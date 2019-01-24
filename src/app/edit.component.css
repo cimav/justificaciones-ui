@@ -61,6 +61,8 @@ fieldset {
 
 mat-form-field {
   flex: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .flex-none {
   flex: none;

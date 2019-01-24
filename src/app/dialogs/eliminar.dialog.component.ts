@@ -1,6 +1,5 @@
 import {Component, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {CrearDialogComponent} from './crear.dialog.component';
 
 export interface EliminarDialogData {
   id: number;
@@ -16,7 +15,7 @@ export class EliminarDialogComponent {
 
   identificador: string;
 
-  constructor(public dialogRef: MatDialogRef<CrearDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<EliminarDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EliminarDialogData) {
   }
 

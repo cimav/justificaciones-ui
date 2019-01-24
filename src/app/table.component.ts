@@ -104,7 +104,11 @@ export class TableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  justificacionChanged(justificadorId: number) {
+  justificacionChanged(event: Event, justificadorId: number) {
+    if (event) {
+        event.stopPropagation();
+    }
+
     // this.router.navigate(['/edit', justificadorId]);
     this.justificacionIdChange.emit(justificadorId);
   }
@@ -178,7 +182,7 @@ export class TableComponent implements OnInit {
           () => {
             console.log('Add Single Justificacion: ' + id_creada);
 
-              this.justificacionChanged(id_creada);
+              this.justificacionChanged(null, id_creada);
 
             // this.router.navigate(['/edit', id_creada]);
           }
@@ -187,7 +191,9 @@ export class TableComponent implements OnInit {
     });
   }
 
-  openEliminarDialog(_id: number, _identificador: string): void {
+  openEliminarDialog(event: Event, _id: number, _identificador: string): void {
+    event.stopPropagation();
+
     const dialogRef = this.dialog.open(EliminarDialogComponent, {
       width: '400px',
       data: {id: _id, identificador: _identificador, titulo: 'justificación'}
@@ -211,7 +217,9 @@ export class TableComponent implements OnInit {
     });
   }
 
-  openReplicarDialog(justi: Justificacion): void {
+  openReplicarDialog(event: Event, justi: Justificacion): void {
+    event.stopPropagation();
+
     const dialogRef = this.dialog.open(ReplicarDialogComponent, {
       width: '450px',
       data: {'id': justi.id, 'identificador': justi.identificador}
@@ -229,7 +237,7 @@ export class TableComponent implements OnInit {
           error => console.log('Error replicando! ' + error),
           () => {
 
-            this.justificacionChanged(replica_id);
+            this.justificacionChanged(null, replica_id);
 
             console.log('Replicar Justificacion: ' + replica_id);
 

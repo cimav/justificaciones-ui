@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <p>Replicar justificación: <strong>{{data.identificador}}</strong>?</p>
   <form #identificadorForm="ngForm" novalidate>
-    <mat-form-field>
+    <mat-form-field style="margin-bottom: 30px;">
       <input rapido placeholder="Identificador" matInput [(ngModel)]="replica" pattern="^[a-zA-Z0-9_.-]{5,20}$" name="identificador_rapido" #identificador_rapido required>
       <mat-hint align="start">Letras, números y guión</mat-hint>
       <mat-hint align="end">{{identificador_rapido.value.length}} / 20</mat-hint>

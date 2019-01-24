@@ -54,15 +54,15 @@
       <th mat-header-cell *matHeaderCellDef style="   width: 120px;"> Acciones </th>
       <td mat-cell *matCellDef="let element">
         <span class="acciones">
-          <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="justificacionChanged(element.id)"
+          <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="justificacionChanged($event, element.id)"
                   matTooltip="Editar">
             <mat-icon >edit</mat-icon>
           </button>
-          <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openReplicarDialog(element)"
+          <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openReplicarDialog($event, element)"
                   matTooltip="Replicar">
             <mat-icon >file_copy</mat-icon>
           </button>
-          <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openEliminarDialog(element.id, element.identificador)"
+          <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openEliminarDialog($event, element.id, element.identificador)"
                   matTooltip="Eliminar">
             <mat-icon >delete</mat-icon>
           </button>
@@ -73,7 +73,7 @@
     <ng-container matColumnDef="disclaimer" >
       <td mat-footer-cell *matFooterCellDef="let element" colspan="6" style="border-top: 1px dotted lightgray;" >
         <span id='texto_ayuda_tabla' style="float:left;">
-          <p>Doble click sobre el renglón para editar</p>
+          <!--<p>Doble click sobre el renglón para editar</p>-->
           <p>Click sobre el encabezado para ordenar por columna</p>
         </span>
         <button mat-mini-fab="" id="btn-add" (click)="openCrearDialog()"
@@ -85,7 +85,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="rowHover(row.id)" (dblclick)="justificacionChanged(row.id)"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="rowHover(row.id)" (click)="justificacionChanged(null, row.id)"></tr>
 
     <tr mat-footer-row *matFooterRowDef="['disclaimer']; sticky: true;" ></tr>
 

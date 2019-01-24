@@ -17,6 +17,7 @@ import {ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
 import {CurrencyPipe} from '@angular/common';
 import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
 import {WarningDialogComponent} from './dialogs/warning.dialog.component';
+import {RequisicionDialogComponent} from './dialogs/requisicion.dialog.component';
 
 @Component({
   selector: 'app-edit',
@@ -245,7 +246,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   }
 
-  cotizar(prov_id: number) {
+  cotizar(event: Event, prov_id: number) {
+    event.stopPropagation();
     window.open(this.rest.getEndPoint() + 'cotizaciones/' + this.justificacion.id + '/' + prov_id + '.pdf');
   }
 
@@ -273,7 +275,10 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   rowHover(num: number) {
     this.row_hover = num;
   }
-  openProveedorDialog(proveedor: Proveedor): void {
+  openProveedorDialog(event: Event, proveedor: Proveedor): void {
+    if (event) {
+        event.stopPropagation();
+    }
 
     if (!proveedor) {
       proveedor = new Proveedor();
@@ -346,6 +351,10 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
+  clickSeleccionar(event: Event) {
+    event.stopPropagation();
+  }
+
   doSeleccionar(event: any, prov: Proveedor) {
     // console.log('>>>', prov.razon_social);
     // this.editForm.form.markAsDirty();
@@ -360,7 +369,9 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.saveDatos(null);
   }
 
-  openEliminarProveedorDialog(_id: number, _clave: string): void {
+  openEliminarProveedorDialog(event: Event, _id: number, _clave: string): void {
+    event.stopPropagation();
+
     const dialogRef = this.dialog.open(EliminarDialogComponent, {
       width: '350px',
       data: {id: _id, identificador: _clave, titulo: 'proveedor'}
@@ -390,6 +401,55 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     });
   }
 
+  openRequisicionProveedorDialog(requisicion: string): void {
+      const dialogRef = this.dialog.open(RequisicionDialogComponent, {
+          width: '350px',
+          data: requisicion
+      });
+
+      dialogRef.afterClosed().subscribe((inyectar: boolean) => {
+          if (inyectar) {
+
+              this.rest.searchRequisicion(requisicion).subscribe(
+                  data => {
+
+                      if (data) {
+                          this.justificacion.requisicion = data.requisicion;
+                          this.justificacion.proyecto = data.proyecto;
+                          this.justificacion.descripcion = data.descripcion;
+                          this.justificacion.autorizo_id = data.cve_responsable;
+                          this.justificacion.elaboro_id = data.cve_solicitante;
+
+                          /*
+                          const partida: Partida[] = this.partidas.filter(p => p.id === data.partida);
+                          if (partida && partida[0] && this.justificacion.tipo_id !== partida[0].tipo_id) {
+                            this.justificacion.tipo_id = partida[0].tipo_id;
+                            this.onTipoChanges(this.justificacion.tipo_id);
+                          }
+                          */
+
+                          this.justificacion.partida_id = data.partida;
+
+                          this.editForm.form.markAsDirty();
+                      } else {
+                          this.msgsBar.open('Requisición no encontrada', requisicion, {
+                              duration: 2000,
+                          });
+                      }
+                      /*
+                        fecha_requisicion: 20180914,
+                        cve_creador: 344,
+                       */
+                  },
+                  error => { console.log ('Error search requisicion ' + requisicion);
+                  }, () => {
+                      console.log('Requisiciǿn encontrada: ' + requisicion);
+                  }
+              );
+          }
+      });
+  }
+
   searchRequisicion(requisicion: string): void {
     this.rest.searchRequisicion(requisicion).subscribe(
       data => {
@@ -401,11 +461,13 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
           this.justificacion.autorizo_id = data.cve_responsable;
           this.justificacion.elaboro_id = data.cve_solicitante;
 
+          /*
           const partida: Partida[] = this.partidas.filter(p => p.id === data.partida);
           if (partida && partida[0] && this.justificacion.tipo_id !== partida[0].tipo_id) {
             this.justificacion.tipo_id = partida[0].tipo_id;
             this.onTipoChanges(this.justificacion.tipo_id);
           }
+          */
 
           this.justificacion.partida_id = data.partida;
 

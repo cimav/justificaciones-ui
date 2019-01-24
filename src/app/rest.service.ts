@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, SecurityContext} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Empleado, Justificacion, Moneda, Partida, Proveedor, ProveedorNetmultix, Requisicion, Tipo} from './model';
 import {Observable, of} from 'rxjs';
@@ -7,9 +7,6 @@ import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
 import {environment} from '../environments/environment';
 
-// const endpoint = 'http://10.0.4.40:3005/';
-// const endpoint = 'http://localhost:3000/';
-// const endpoint = 'http://10.0.4.40:3007/';
 const endpoint = environment.endpoint;
 
 const httpOptions = {
@@ -261,6 +258,7 @@ export class RestService {
   }
 
   searchRequisicion(requisicion: string): Observable<Requisicion> {
+    requisicion = requisicion.replace(/[^0-9]/g, '0');
     return this._http.get<Requisicion>(endpoint + 'requisiciones_netmultix/search/' + requisicion + '.json', httpOptions)
       .pipe(
         // map( this.extractData ),
