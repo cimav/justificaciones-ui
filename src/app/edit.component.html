@@ -324,6 +324,7 @@
             <mat-radio-button color="primary" name="decision1" [value]="1">Eficacia</mat-radio-button>
           </mat-radio-group>
         </div>
+        <!--
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
           <mat-form-field fxFill>
             <textarea mat-autosize  maxlength="400" matInput placeholder="Forma de pago (cheque, transferencia bancaria, depósito, etc.)" name="forma_pago" #forma_pago
@@ -331,6 +332,7 @@
             <mat-hint align="end">{{forma_pago.value.length}} / 200</mat-hint>
           </mat-form-field >
         </div>
+        -->
         <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px">
           <mat-form-field style="width: 250px;">
             <mat-select placeholder="Moneda" [(ngModel)]="justificacion.moneda_id" name="moneda" required >
