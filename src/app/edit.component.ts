@@ -17,7 +17,7 @@ import {ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
 import {CurrencyPipe} from '@angular/common';
 import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
 import {WarningDialogComponent} from './dialogs/warning.dialog.component';
-import {RequisicionDialogComponent} from './dialogs/requisicion.dialog.component';
+import {ImportarDialogComponent} from './dialogs/importar.dialog.component';
 
 @Component({
   selector: 'app-edit',
@@ -300,7 +300,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
           this.rest.updateProveedor(result).subscribe( (response: Proveedor) => {
             // this.justificacion.proveedores = response;
             // this.dsProveedores = new MatTableDataSource(this.justificacion.proveedores);
-            // setTimeout( () => { /*Your Code*/ }, 17000 );
+            setTimeout( () => { /*Your Code*/ }, 217000 );
           }, error => {
             console.log('Error updateProveedor ' + result.id + ' :::  ' + error);
           }, () => {
@@ -327,6 +327,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   loadProveedores() {
+    this.valueBuffer = 0;
     this.rest.getProveedoresOf(this.justificacion.id).subscribe( (response: Proveedor[]) => {
       this.justificacion.proveedores = response;
       this.dsProveedores = new MatTableDataSource(response);
@@ -334,6 +335,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       console.log('Error getProveedoresOf ' + this.justificacion.id + ' ::: ' + error);
     }, () => {
       console.log('Get getProveedoresOf:' + this.justificacion.id);
+
+      this.valueBuffer = 100;
 
       this.asignarProveeSelected();
     });
@@ -402,7 +405,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   openRequisicionProveedorDialog(requisicion: string): void {
-      const dialogRef = this.dialog.open(RequisicionDialogComponent, {
+      const dialogRef = this.dialog.open(ImportarDialogComponent, {
           width: '350px',
           data: requisicion
       });

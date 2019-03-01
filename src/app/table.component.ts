@@ -28,6 +28,9 @@ export class TableComponent implements OnInit {
   valueBuffer = 0;
   esAsistente = false;
 
+  // ordenarPor = 'fecha_elaboracion';
+  // ordenDireccion = 'desc';
+
   // public router: Router,
   constructor(public auth: AuthService, public rest: RestService, public dialog: MatDialog) { }
 
@@ -52,9 +55,9 @@ export class TableComponent implements OnInit {
 
       this.esAsistente = justificaciones.filter(jus => jus.creador_id !== this.empleado.id).length > 0;
       if (this.esAsistente) {
-        this.displayedColumns = ['identificador', 'requisicion', 'creador_cuenta_cimav', 'fecha_elaboracion', 'descripcion', 'acciones'];
+        this.displayedColumns = ['identificador', 'requisicion', 'creador_cuenta_cimav', 'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
       } else {
-        this.displayedColumns = ['identificador', 'requisicion', 'fecha_elaboracion', 'descripcion', 'acciones'];
+        this.displayedColumns = ['identificador', 'requisicion',                         'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
       }
 
       this.dataSource = new MatTableDataSource(justificaciones); // .slice(0, 2)
@@ -89,14 +92,36 @@ export class TableComponent implements OnInit {
         */
         return result != null;
       };
-      this.dataSource.sort = this.sort;
+
+        this.dataSource.sort = this.sort;
+
     }, error => {
       console.log('DB NO CONECTADA ' + this.auth.getCuenta() + ' :::  ' + error);
     }, () => {
       console.log('Get Justificaciones:' + this.dataSource.data.length);
 
-      this.valueBuffer = 100;
+        let ordenarPor =  localStorage.getItem('ordenado_por');
+        let ordenDireccion =  'desc' ; // localStorage.getItem('orden_direccion');
+        ordenarPor =  ordenarPor == null ? 'fecha_elaboracion' : ordenarPor;
+        ordenDireccion =  ordenDireccion == null ? 'desc' : ordenDireccion;
+
+        /*
+        const s: 'des' | 'asc' = ordenDireccion;
+
+        this.dataSource.sort.sort({
+            id: ordenarPor,
+            start: s,
+            disableClear: false
+        });
+        */
+
+        this.valueBuffer = 100;
     });
+  }
+
+  tablaSortChange(event: any) {
+      localStorage.setItem('ordenado_por', event.active);
+      localStorage.setItem('orden_direccion', event.direction);
   }
 
   applyFilter(filterValue: string) {
@@ -108,6 +133,9 @@ export class TableComponent implements OnInit {
     if (event) {
         event.stopPropagation();
     }
+
+      // localStorage.setItem('ordenado_por', this.ordenarPor);
+      // localStorage.setItem('orden_tabla', this.ordenTabla);
 
     // this.router.navigate(['/edit', justificadorId]);
     this.justificacionIdChange.emit(justificadorId);

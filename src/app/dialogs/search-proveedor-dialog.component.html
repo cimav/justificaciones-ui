@@ -10,18 +10,32 @@
   <mat-spinner *ngIf="loading" mode="indeterminate" style="top: 110px; left: 250px;"></mat-spinner>
 
   <mat-list *ngIf="!loading">
-    <mat-list-item *ngFor="let proveedorNetMultix of proveedoresNetmultixFiltered" (dblclick)="onDblClick(proveedorNetMultix)">
-      {{proveedorNetMultix.clave}} {{proveedorNetMultix.razon_social}}
+    <mat-list-item *ngFor="let proveedorNetMultix of proveedoresNetmultixFiltered; index as i" (click)="onClick(proveedorNetMultix)">
+      <span>
+        {{proveedorNetMultix.clave}} {{proveedorNetMultix.razon_social}}
+      </span>
+
+      <!--
+      <span style="float: right;">
+
+        <button class="btn-cotizar" color="accent" mat-flat-button
+                matTooltip="Generar estudio de mercado" matTooltipPosition="before"
+                ><mat-icon>description</mat-icon>
+                  {{i}}|
+                </button>
+
+      </span>
+      -->
     </mat-list-item>
   </mat-list>
 
 </mat-sidenav-container>
 
 <mat-toolbar class="div-footer-dlg">
-  <button mat-mini-fab color="primary" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar selección"
-          matTooltipPosition="after">
-    <mat-icon>chevron_left</mat-icon>
+  <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar selección"
+          matTooltipPosition="after"> <!-- color="primary"  -->
+    <!-- <mat-icon>chevron_left</mat-icon> -->
+    <mat-icon>close</mat-icon>
   </button>
-  <label align="start" style="color: rgba(0,0,0,.74); font-size: 75%; font-weight: 400; right: 10px; position: absolute; top: 0px;">Seleccione al proveedor con doble-click</label>
+  <label align="start" style="color: rgba(0,0,0,.74); font-size: 75%; font-weight: 400; right: 10px; position: absolute; top: 0px;">Seleccione al proveedor</label>
 </mat-toolbar>
-

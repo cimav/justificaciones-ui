@@ -3,11 +3,11 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
     selector: 'app-requisicion-dialog',
-    templateUrl: './requisicion.dialog.component.html'
+    templateUrl: './importar.dialog.component.html'
 })
-export class RequisicionDialogComponent {
+export class ImportarDialogComponent {
 
-    constructor(public dialogRef: MatDialogRef<RequisicionDialogComponent>,
+    constructor(public dialogRef: MatDialogRef<ImportarDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public requisicion: string) {
     }
 

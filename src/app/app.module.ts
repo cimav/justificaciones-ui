@@ -22,14 +22,14 @@ import {SearchProveedorDialogComponent} from './dialogs/search-proveedor-dialog.
 import {EditComponent} from './edit.component';
 import {ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
 import {WarningDialogComponent} from './dialogs/warning.dialog.component';
-import {RequisicionDialogComponent} from './dialogs/requisicion.dialog.component';
+import {ImportarDialogComponent} from './dialogs/importar.dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
     SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ProveedorDialogComponent,
-      WarningDialogComponent, RequisicionDialogComponent,
+      WarningDialogComponent, ImportarDialogComponent,
     EditComponent,
     CallbackComponent,
     HighlightSearch
@@ -46,7 +46,7 @@ import {RequisicionDialogComponent} from './dialogs/requisicion.dialog.component
     CurrencyMaskModule
   ],
   entryComponents: [SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent,
-      ProveedorDialogComponent, WarningDialogComponent, RequisicionDialogComponent],
+      ProveedorDialogComponent, WarningDialogComponent, ImportarDialogComponent],
 
   providers: [
     AuthService,

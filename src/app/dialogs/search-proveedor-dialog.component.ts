@@ -45,7 +45,7 @@ export class SearchProveedorDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onDblClick(selected: ProveedorNetmultix): void {
+  onClick(selected: ProveedorNetmultix): void {
     this.dialogRef.close({selected});
   }
 
