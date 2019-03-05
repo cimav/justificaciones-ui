@@ -120,7 +120,8 @@ export class Justificacion {
   economica: boolean;
   eficiencia_eficacia: number;
 
-  fecha_cotizar: Date;
+    fecha_cotizar: Date;
+    fecha_mercado: Date;
 
   creador_cuenta_cimav: string;
   
@@ -153,13 +154,13 @@ export class Justificacion {
     this.economica = true;
     this.eficiencia_eficacia = 0;
 
-    this.fecha_cotizar = new Date();
-
     this.porcen_garantia = 0;
-    this.fecha_cotizar = new Date();
 
-    this.fecha_cotizar = new Date();
-
+      this.fecha_mercado = new Date();
+      this.fecha_cotizar = new Date();
+      this.fecha_termino = new Date();
+      this.fecha_inicio = new Date();
+      this.fecha_elaboracion = new Date();
   }
 
 }

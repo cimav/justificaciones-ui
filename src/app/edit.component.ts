@@ -275,6 +275,27 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   rowHover(num: number) {
     this.row_hover = num;
   }
+
+
+  addNewProveedor(): void {
+      this.valueBuffer = 0;
+      const proveedor: Proveedor = new Proveedor();
+      proveedor.justificacion_id = this.justificacion.id;
+      proveedor.monto = 0.00;
+      proveedor.fuente = 0;
+      this.rest.addProveedor(proveedor).subscribe( (response: Proveedor) => {
+          // setTimeout( () => { /*Your Code*/ }, 17000 );
+      }, error => {
+          console.log('Error addNewProveedor ' + proveedor.id + ' :::  ' + error);
+      }, () => {
+          console.log('Get addNewProveedor:' + proveedor.id );
+
+          this.valueBuffer = 100;
+
+          this.loadProveedores();
+      });
+  }
+
   openProveedorDialog(event: Event, proveedor: Proveedor): void {
     if (event) {
         event.stopPropagation();
@@ -375,33 +396,54 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   openEliminarProveedorDialog(event: Event, _id: number, _clave: string): void {
     event.stopPropagation();
 
-    const dialogRef = this.dialog.open(EliminarDialogComponent, {
-      width: '350px',
-      data: {id: _id, identificador: _clave, titulo: 'proveedor'}
-    });
+    if (_clave.trim().length > 5) {
+        const dialogRef = this.dialog.open(EliminarDialogComponent, {
+            width: '450px',
+            data: {id: _id, identificador: _clave, titulo: 'proveedor'}
+        });
 
-    dialogRef.afterClosed().subscribe((id_to_del: number) => {
-      if (id_to_del) {
-        // console.log('Eliminar proveedor: ', id_to_del);
+        dialogRef.afterClosed().subscribe((id_to_del: number) => {
+            if (id_to_del) {
+                // console.log('Eliminar proveedor: ', id_to_del);
 
-        if (this.justificacion.proveedor_id === id_to_del) {
-          this.justificacion.proveedor_id = null;
-          this.justificacion.proveedor_selected = null;
+                if (this.justificacion.proveedor_id === id_to_del) {
+                    this.justificacion.proveedor_id = null;
+                    this.justificacion.proveedor_selected = null;
+                }
+
+                this.rest.deleteProveedor(id_to_del).subscribe(
+                    data => {
+                        console.log('Data borrando');
+                    },
+                    error => {
+                        console.log('Error borrando ' + id_to_del);
+                    }, () => {
+                        console.log('Borrado proveedor: ' + id_to_del);
+
+                        this.loadProveedores();
+                    }
+                );
+            }
+        });
+    } else {
+        if (this.justificacion.proveedor_id === _id) {
+            this.justificacion.proveedor_id = null;
+            this.justificacion.proveedor_selected = null;
         }
 
-        this.rest.deleteProveedor(id_to_del).subscribe(
-          data => {
-            console.log ('Data borrando');
-          },
-          error => { console.log ('Error borrando ' + id_to_del);
-          }, () => {
-            console.log('Borrado proveedor: ' + id_to_del);
+        this.rest.deleteProveedor(_id).subscribe(
+            data => {
+                console.log('Data borrando');
+            },
+            error => {
+                console.log('Error borrando ' + _id);
+            }, () => {
+                console.log('Borrado proveedor: ' + _id);
 
-            this.loadProveedores();
-          }
+                this.loadProveedores();
+            }
         );
-      }
-    });
+    }
   }
 
   openRequisicionProveedorDialog(requisicion: string): void {

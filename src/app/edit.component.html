@@ -257,7 +257,7 @@
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openProveedorDialog($event, element)" matTooltip="Editar">
                   <mat-icon >edit</mat-icon>
                 </button>
-                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Eliminar" (click)="openEliminarProveedorDialog($event, element.id, element.clave)" >
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Eliminar" (click)="openEliminarProveedorDialog($event, element.id, element.razon_social)" >
                   <mat-icon>delete</mat-icon>
                 </button>
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Cotizar" (click)="cotizar($event, element.id)" >
@@ -272,14 +272,20 @@
             <td mat-footer-cell *matFooterCellDef="let element" colspan="6" >
               <span style="float: left; margin-top: 10px;">
                 <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: #f44336;">Al menos un proveedor debe ser Compranet</span>
+                <mat-form-field class="flex-none" style="width: 280px; padding-right: 20px;">
+                  <input name="fechaMercado" matInput [matDatepicker]="fechaMercado" placeholder="Fecha de estudio de mercado"
+                    [(ngModel)]="justificacion.fecha_mercado" required>
+                  <mat-datepicker-toggle matSuffix [for]="fechaMercado"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaMercado></mat-datepicker>
+                </mat-form-field>
                 <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()"
                         matTooltip="Generar estudio de mercado" matTooltipPosition="before"
-                        [disabled]="justificacion.proveedores?.length <= 0">
+                        [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
                   <mat-icon>description</mat-icon>
                   Estudio de Mercado
                 </button>
               </span>
-              <button mat-mini-fab="" id="btn-add-prov" (click)="openProveedorDialog(null)"
+              <button mat-mini-fab="" id="btn-add-prov" (click)="addNewProveedor()"
                       matTooltip="Agregar proveedor" matTooltipPosition="before"
                       style="float: right;     margin: 10px;">
                 <mat-icon>add</mat-icon>
