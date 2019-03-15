@@ -130,7 +130,7 @@ export class Justificacion {
     this.proyecto = '';
     this.condiciones_pago = '';
     this.terminos_entrega = '';
-    this.plazo = 0;
+    this.plazo = 1; // fecha tope
     this.subtotal = 0.00;
     this.iva = 0.00;
     this.importe = 0.00;
