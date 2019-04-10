@@ -6,9 +6,7 @@
   <mat-form-field id="field-filter">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar..." style="">
     <mat-hint align="start">Escriba el término a buscar</mat-hint>
-    <mat-hint align="end">Mostrando {{dataSource?.filteredData?.length}} de {{dataSource?.data?.length}}
-      justificaciones
-    </mat-hint>
+    <mat-hint align="end">Mostrando {{dataSource?.filteredData?.length}} de {{dataSource?.data?.length}} justificaciones</mat-hint>
   </mat-form-field>
 </div>
 
@@ -35,8 +33,8 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="creador_cuenta_cimav" *ngIf="esAsistente">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'" style="width: 120px;"> Creador </th>
+    <ng-container matColumnDef="creador_cuenta_cimav" *ngIf="empleado?.is_asistente">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'" style="width: 130px;"> Creador </th>
       <td mat-cell *matCellDef="let element" [innerHTML]="element?.creador_cuenta_cimav | highlight: filterValue"> {{element.creador_cuenta_cimav}} </td>
     </ng-container>
 
@@ -100,7 +98,7 @@
     </ng-container>
 
     <ng-container matColumnDef="disclaimer" >
-      <td mat-footer-cell *matFooterCellDef="let element" colspan="6" style="border-top: 1px dotted lightgray;" >
+      <td mat-footer-cell *matFooterCellDef="let element" colspan="7" style="border-top: 1px dotted lightgray;" >
         <span id='texto_ayuda_tabla' style="float:left;">
           <!--<p>Doble click sobre el renglón para editar</p>-->
           <p>Click sobre el encabezado para ordenar por columna</p>

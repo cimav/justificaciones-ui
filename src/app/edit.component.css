@@ -50,6 +50,13 @@ fieldset {
   height: 48px;
   left: 0;
 }
+.buttons-layout-right-top {
+  position: absolute;
+  right: 10px;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  width: 380px;
+  height: 48px;
+}
 #btn-back {
   top: 3px;
   left: 10px;
@@ -57,6 +64,15 @@ fieldset {
 .buttons-layout-right {
   position: absolute;
   right: 10px;
+}
+#label-estatus {
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  padding: 6px 10px;
+  background-color: #d1c4e9;
+  color: black;
+  color: #673ab7;
 }
 
 mat-form-field {
@@ -93,7 +109,7 @@ label {
 }
 
 .btn-cotizar {
-  line-height: 24px;
+ /* line-height: 24px; */
 }
 
 table {
@@ -109,4 +125,9 @@ table {
   -ms-transform: rotate(-45deg); /* IE 9 */
   -webkit-transform: rotate(-45deg); /* Safari */
   transform: rotate(-45deg);
+}
+
+.notificando {
+    opacity: 0.5;
+    pointer-events: none;
 }

@@ -9,7 +9,7 @@
 
     <div *ngIf="auth.isAuthenticated(); else loggedOut">
       <button mat-button (click)="auth.logout()" style="font-size: large; font-weight: 100;">
-        {{auth.getCuenta()}} <i class="fas fa-sign-out-alt"></i>
+        <span>{{auth.getCuenta()}} <i class="fas fa-sign-out-alt"></i></span>
       </button>
     </div>
     <ng-template #loggedOut>
@@ -22,10 +22,10 @@
 
 </mat-toolbar>
 
-<mat-sidenav-container id="div-container" *ngIf="auth.isAuthenticated();">
+<mat-sidenav-container id="div-container" *ngIf="auth.isAuthenticated()">
   <!-- <router-outlet></router-outlet> -->
-  <app-table *ngIf="!justificacion_id" (justificacionIdChange)="justificacionIdChanged($event)"></app-table>
-  <app-edit *ngIf="justificacion_id" (justificacionIdToNull)="justificacionIdChanged($event)" [setJustificacion]="justificacion_id"></app-edit>
+  <app-table *ngIf="!justificacion_id" (justificacionIdChange)="justificacionIdChanged($event)" ></app-table>
+  <app-edit *ngIf="justificacion_id" (justificacionIdToNull)="justificacionIdChanged($event)" [setJustificacion]="justificacion_id" ></app-edit>
 
 </mat-sidenav-container>
 

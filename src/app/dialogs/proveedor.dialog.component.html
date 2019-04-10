@@ -3,9 +3,9 @@
 
 <form  #proveedorForm="ngForm" >
 
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" > <!-- [class.notificando]="!canEditar()" -->
     <mat-form-field>
-      <input matInput placeholder="Razón social" name="razon_social" [(ngModel)]="proveedor.razon_social" required>
+      <input matInput placeholder="Razón social" name="razon_social" [(ngModel)]="data.proveedor.razon_social" required>
       <button mat-icon-button matSuffix (click)="openSearchDialog()"  matTooltip="Buscar proveedor en NetMultix" matTooltipPosition="before">
         <mat-icon>search</mat-icon>
       </button>
@@ -14,42 +14,42 @@
   </div>
 
   <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5px">
-    <div fxFlex="60" style="padding: 15px;" >
+    <div fxFlex="60" style="padding: 15px;"  > <!--[class.notificando]="!canEditar()" -->
       <label>Fuente de consulta</label>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
-        <mat-radio-group name="fuente" [(ngModel)]="proveedor.fuente" >
+        <mat-radio-group name="fuente" [(ngModel)]="data.proveedor.fuente" >
           <mat-radio-button color="primary"  name="fuente0" [value]="0">Internet</mat-radio-button>
-          <mat-radio-button color="primary" name="fuente1" [value]="1">Compranet</mat-radio-button>
           <mat-radio-button color="primary"  name="fuente2" [value]="2">Presencial</mat-radio-button>
+          <mat-radio-button color="primary" name="fuente1" [value]="1" >Compranet</mat-radio-button>
         </mat-radio-group>
-        <mat-checkbox class="flex-none" name="nacional" [(ngModel)]="proveedor.es_nacional" color="primary" >Nacional</mat-checkbox>
+        <mat-checkbox class="flex-none" name="nacional" [(ngModel)]="data.proveedor.es_nacional" color="primary" >Nacional</mat-checkbox>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field class="flex-none">
-          <input matInput placeholder="RFC" name="rfc" [(ngModel)]="proveedor.rfc" required>
+          <input matInput placeholder="RFC" name="rfc" [(ngModel)]="data.proveedor.rfc" required>
         </mat-form-field >
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
-          <input matInput placeholder="Domicilio" name="domicilio" [(ngModel)]="proveedor.domicilio" required>
+          <input matInput placeholder="Domicilio" name="domicilio" [(ngModel)]="data.proveedor.domicilio" required>
         </mat-form-field >
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
-          <input matInput placeholder="Contacto" name="contacto" [(ngModel)]="proveedor.contacto" required>
+          <input matInput placeholder="Contacto" name="contacto" [(ngModel)]="data.proveedor.contacto" required>
         </mat-form-field >
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
-          <input matInput placeholder="Teléfono" name="telefono" [(ngModel)]="proveedor.telefono" required>
+          <input matInput placeholder="Teléfono" name="telefono" [(ngModel)]="data.proveedor.telefono" required>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Email" name="email" [(ngModel)]="proveedor.email" required>
+          <input matInput placeholder="Email" name="email" [(ngModel)]="data.proveedor.email" required>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
-          <input matInput placeholder="Datos bancarios" name="banco" [(ngModel)]="proveedor.banco" required>
+          <input matInput placeholder="Datos bancarios" name="banco" [(ngModel)]="data.proveedor.banco" required>
         </mat-form-field >
       </div>
 
@@ -69,17 +69,17 @@
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field >
                     <textarea mat-autosize name="tecnicas" maxlength="400" matInput placeholder="Cumple condiciones técnicas"
-                              [(ngModel)]="proveedor.cumple_tecnicas" required></textarea>
+                              [(ngModel)]="data.proveedor.cumple_tecnicas" required></textarea>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field >
                     <textarea mat-autosize name="cantidad" maxlength="400" matInput placeholder="Cantidad que puede surtir"
-                              [(ngModel)]="proveedor.cantidad_surtir" required></textarea>
+                              [(ngModel)]="data.proveedor.cantidad_surtir" required></textarea>
         </mat-form-field>
       </div>
-      <mat-form-field class="flex-none"  style="width: 200px; float: right;">
-        <input currencyMask="" matInput class="right" placeholder="Monto" name="monto" [(ngModel)]="proveedor.monto" required
+      <mat-form-field class="flex-none"  style="width: 200px; float: right;" > <!-- [class.notificando]="!canEditar()" -->
+        <input currencyMask="" matInput class="right" placeholder="Monto" name="monto" [(ngModel)]="data.proveedor.monto" required
                [options]="{ prefix: '', thousands: ',', decimal: '.' }">
       </mat-form-field >
     </div>

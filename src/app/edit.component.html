@@ -10,6 +10,11 @@
         <mat-icon>chevron_left</mat-icon>
       </button>
     </div>
+    <!--
+    <div class="buttons-layout-right-top">
+      <span id="label-estatus">{{statusTxt()}}</span>
+    </div>
+    -->
   </ng-container>
 
   <form #editForm="ngForm"  >
@@ -19,8 +24,7 @@
 
     <!-- Datos generales -->
     <mat-tab label="Justificación" >
-
-      <mat-sidenav-container class="div-container-edit">
+      <mat-sidenav-container class="div-container-edit"  > <!--[class.notificando]="!canEditar()"-->
 
       <!-- <fieldset > -->
 
@@ -43,36 +47,24 @@
               <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
           </mat-radio-group>
           <mat-form-field > <!-- class="mat-elevation-z8" style="border: 1px solid #673ab7; padding: 5px;" -->
+            <input type="date" name="fechaElaboracion" matInput placeholder="Fecha de elaboración" [ngModel]="justificacion.created_at | date:'yyyy-MM-dd'" [disabled]="true" >
+          </mat-form-field>
+          <mat-form-field >
             <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión"
                    [(ngModel)]="justificacion.fecha_elaboracion" required>
             <mat-datepicker-toggle matSuffix [for]="pickerFirma"></mat-datepicker-toggle>
             <mat-datepicker #pickerFirma></mat-datepicker>
             <mat-hint align="start" >Fecha en que se firma</mat-hint>
           </mat-form-field>
+
         </div>
 
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
           <mat-form-field >
             <mat-select placeholder="Fracción" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" > <!-- [compareWith]="compareTipo"  -->
-
-              <!--
-              <mat-select-trigger>
-                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-                  <ng-container>
-                    <span fxFlex>{{justificacion.tipo.texto}}</span>
-                    <span fxFlex="nogrow" class="right" style="font-style: italic; padding-left: 5px; width: 96px;  padding-right: 2px;">{{justiDicta(justificacion.tipo.fraccion)}}</span>
-                  </ng-container>
-                </div>
-              </mat-select-trigger>
-              -->
-
-              <mat-option *ngFor="let tipo of tipos" [value]="tipo.id">
-                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-                  <span fxFlex>{{tipo.texto}}</span>
-                  <!-- <span fxFlex="nogrow" class="right" style="font-style: italic; padding-left: 5px; width: 96px; padding-right: 2px;">{{justiDicta(tipo.fraccion)}}</span> -->
-                </div>
+              <mat-option *ngFor="let tipo of tipos" [value]="tipo.id" >
+                <span >{{tipo.texto}}</span>
               </mat-option>
-
             </mat-select>
           </mat-form-field>
 
@@ -160,7 +152,7 @@
         </div>
 
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px" style="padding-right: 30px;">
-          <mat-form-field class="flex-none" style="width: 300px;">
+          <mat-form-field class="flex-none" style="width: 300px;" matTooltip="Fecha límite para que cada proveedor entregue su cotización" matTooltipPosition="above">
             <input name="fechaCotizar" matInput [matDatepicker]="fechaCotizar" placeholder="Fecha límite para cotizar"
                    [(ngModel)]="justificacion.fecha_cotizar" required>
             <mat-datepicker-toggle matSuffix [for]="fechaCotizar"></mat-datepicker-toggle>
@@ -206,9 +198,10 @@
         <!-- </fieldset> -->
 
         <!--- Proveedores -->
-  </mat-sidenav-container>
+  </mat-sidenav-container >
     </mat-tab>
 
+    <!-- Proveedores -->
     <mat-tab label="Cotizar Proveedores">
       <mat-sidenav-container class="div-container-edit">
 
@@ -226,18 +219,19 @@
           <ng-container matColumnDef="seleccionar">
             <th mat-header-cell *matHeaderCellDef >Selección</th>
             <td mat-cell style="width: 60px;" *matCellDef="let element">
-               <mat-slide-toggle [checked]="element.id == justificacion.proveedor_id" (change)="doSeleccionar($event, element)" (click)="clickSeleccionar($event)" color="primary" matTooltip="Seleccionar" matTooltipPosition="after"></mat-slide-toggle>
+               <mat-slide-toggle [checked]="element.id == justificacion.proveedor_id" (change)="doSeleccionar($event, element)"
+                                 (click)="clickSeleccionar($event)" color="primary" matTooltip="Seleccionar" matTooltipPosition="after" ></mat-slide-toggle>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="clave" >
             <th mat-header-cell *matHeaderCellDef > Clave </th>
-            <td mat-cell style="width: 40px; font-style: italic;" *matCellDef="let element"> {{element.clave}} </td>
+            <td mat-cell style="width: 40px; font-style: italic;" *matCellDef="let element" (click)="openProveedorDialog(null, element)"> {{element.clave}} </td>
           </ng-container>
 
           <ng-container matColumnDef="razon_social" >
             <th mat-header-cell *matHeaderCellDef > Razón social </th>
-            <td mat-cell *matCellDef="let element"> {{element.razon_social}} </td>
+            <td mat-cell *matCellDef="let element" (click)="openProveedorDialog(null, element)"> {{element.razon_social}} </td>
           </ng-container>
 
           <ng-container matColumnDef="monto">
@@ -251,7 +245,7 @@
           </ng-container>
 
           <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef > Acciones</th>
+            <th mat-header-cell *matHeaderCellDef > Acciones </th>
             <td mat-cell style="width: 120px;" *matCellDef="let element">
               <span class="acciones">
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openProveedorDialog($event, element)" matTooltip="Editar">
@@ -270,31 +264,47 @@
           <ng-container matColumnDef="disclaimer">
 
             <td mat-footer-cell *matFooterCellDef="let element" colspan="6" >
-              <span style="float: left; margin-top: 10px;">
-                <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: #f44336;">Al menos un proveedor debe ser Compranet</span>
-                <mat-form-field class="flex-none" style="width: 280px; padding-right: 20px;">
-                  <input name="fechaMercado" matInput [matDatepicker]="fechaMercado" placeholder="Fecha de estudio de mercado"
-                    [(ngModel)]="justificacion.fecha_mercado" required>
-                  <mat-datepicker-toggle matSuffix [for]="fechaMercado"></mat-datepicker-toggle>
-                  <mat-datepicker #fechaMercado></mat-datepicker>
-                </mat-form-field>
-                <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()"
-                        matTooltip="Generar estudio de mercado" matTooltipPosition="before"
+
+              <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="15px" >
+
+                <span style="float: left; margin-top: 10px;">
+                  <!-- <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: #f44336;">Al menos un proveedor debe ser Compranet</span> -->
+                  <mat-form-field class="flex-none" style="width: 280px; padding-right: 20px;" matTooltip="Fecha en que ya se recibieron todas la cotizaciones y se puede generar el estudio de mercardo" matTooltipPosition="above">
+                    <input name="fechaMercado" matInput [matDatepicker]="fechaMercado" placeholder="Fecha de estudio de mercado"
+                      [(ngModel)]="justificacion.fecha_mercado" required>
+                    <mat-datepicker-toggle matSuffix [for]="fechaMercado"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaMercado></mat-datepicker>
+                  </mat-form-field>
+                  <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()"
+                          matTooltip="Generar estudio de mercado" matTooltipPosition="above"
+                          [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
+                    <mat-icon>description</mat-icon>
+                    Estudio de Mercado
+                  </button>
+                </span>
+        <!--
+                <button [disabled]="!isEdicion()" class="btn-notificar" color="accent" mat-flat-button (click)="openNotificarDialog()"
+                        matTooltip="Una vez enviada la notificación no se podrán modificar los datos de compra" matTooltipPosition="above"
                         [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
                   <mat-icon>description</mat-icon>
-                  Estudio de Mercado
+                  Notificar a Compras
                 </button>
-              </span>
-              <button mat-mini-fab="" id="btn-add-prov" (click)="addNewProveedor()"
-                      matTooltip="Agregar proveedor" matTooltipPosition="before"
-                      style="float: right;     margin: 10px;">
-                <mat-icon>add</mat-icon>
-              </button>
+
+                <span>{{empleado.is_asistente}} | {{empleado.is_admin}}</span>
+        -->
+                <button mat-mini-fab="" id="btn-add-prov" (click)="addNewProveedor()"
+                        matTooltip="Agregar proveedor" matTooltipPosition="before"
+                        style="float: right;     margin: 10px;">
+                  <mat-icon>add</mat-icon>
+                </button>
+
+              </div>
+
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr> <!-- style="display: none;" -->
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="rowHover(row.id)" (click)="openProveedorDialog(null, row)"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="rowHover(row.id)" ></tr>
 
           <tr mat-footer-row *matFooterRowDef="['disclaimer']; sticky: true;" class="example-second-footer-row" ></tr>
 
@@ -304,7 +314,7 @@
     </mat-tab>
 
     <!-- Selección y Montos -->
-    <mat-tab label="Selección y Montos">
+    <mat-tab label="Selección y Montos"  > <!-- [disabled]="!hasCompranet()" -->
       <mat-sidenav-container *ngIf="!justificacion.proveedor_selected" class="div-container-edit">
         <h4>No ha seleccionado proveedor</h4>
       </mat-sidenav-container>
@@ -393,7 +403,8 @@
 
     <div class="buttons-layout-right">
 
-      <button id="btn-pdf" mat-flat-button [disabled]="(!editForm.form.valid || editForm.form.dirty || !justificacion.proveedor_selected)" (click)="pdficar()" style="margin-right: 10px;"  matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="above">
+      <button id="btn-pdf" mat-flat-button [disabled]="(!editForm.form.valid || editForm.form.dirty || !justificacion.proveedor_selected)" (click)="openImprimirDialog()"
+              style="margin-right: 10px;"  matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="above">
         <mat-icon>description</mat-icon>
         {{justiDicta(justificacion.tipo.fraccion)}}
       </button>

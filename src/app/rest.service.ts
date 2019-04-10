@@ -20,6 +20,7 @@ const httpOptions = {
 @Injectable({providedIn: 'root'})
 export class RestService {
 
+  cachedEmpleado: Empleado;
   cachedEmpleados: Empleado[];
   cachedTipos: Tipo[];
   cachedMonedas: Moneda[];
@@ -35,11 +36,15 @@ export class RestService {
   }
 
   getEmpleado(cuenta: string): Observable<Empleado> {
-    return this._http.get(endpoint + 'empleados/cuenta/' + cuenta + '.json', httpOptions)
-      .pipe(
-        map( this.extractData ),
-        catchError(this.handleError<any>('getEmpleado'))
-      );
+      if (this.cachedEmpleado) {
+          return of(this.cachedEmpleado);
+      } else {
+          return this._http.get(endpoint + 'empleados/cuenta/' + cuenta + '.json', httpOptions)
+              .pipe(
+                  map(this.extractData),
+                  catchError(this.handleError<any>('getEmpleado'))
+              );
+      }
   }
 
   public getJustificaciones = (idEmpleado: number): Observable<Justificacion[]> => {

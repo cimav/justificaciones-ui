@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Generar PDF</h1>
+<div mat-dialog-content>
+    <form #identificadorForm="ngForm" novalidate>
+
+        <mat-form-field >
+            <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión"
+                   [(ngModel)]="data" required>
+            <mat-datepicker-toggle matSuffix [for]="pickerFirma"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFirma></mat-datepicker>
+            <mat-hint align="start" >Fecha en que se firma</mat-hint>
+        </mat-form-field>
+
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button button (click)="onNoClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial >Generar PDF</button>
+</div>

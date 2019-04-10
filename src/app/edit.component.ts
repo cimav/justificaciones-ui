@@ -13,11 +13,11 @@ import {RestService} from './rest.service';
 import {Empleado, Justificacion, Moneda, Partida, Proveedor, Tipo} from './model';
 import { NgForm} from '@angular/forms';
 import {MatDialog, MatSnackBar, MatTableDataSource} from '@angular/material';
-import {ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
+import {ProveedorData, ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
 import {CurrencyPipe} from '@angular/common';
 import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
-import {WarningDialogComponent} from './dialogs/warning.dialog.component';
 import {ImportarDialogComponent} from './dialogs/importar.dialog.component';
+import {ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
 
 @Component({
   selector: 'app-edit',
@@ -66,6 +66,12 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       this.valueBuffer = 100;
     });
   }
+
+  /*
+    @Input() public set setEmpleado(empleado: Empleado) {
+      this.empleado = empleado;
+    }
+    */
 
   ngOnInit() {
   }
@@ -211,45 +217,57 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return p1 && p2 ? p1.id === p2.id : p1 === p2;
   }
 
+  /*
   pdficar() {
-    /*
-    this.rest.updateJustificacion(this.justificacion).subscribe( (response: Justificacion) => {
-      this.justificacion = response;
-    }, error => {
-      console.log('Error Pdficar ' + this.justificacion.id + ' :::  ' + error);
-    }, () => {
-      console.log('Pdficar:' + this.justificacion.id);
-
-      this.editForm.form.markAsPristine();
-      this.asignarProveeSelected();
-
-      // window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
-    });
-    */
-
-        /*
-      // const showWarning = localStorage.getItem('show-warning') === null;
-      const showWarning = true; //this.editForm.form.valid === false
-      if (showWarning) {
-          const dialogRef = this.dialog.open(WarningDialogComponent, {
-              width: '350px'
-          });
-          dialogRef.afterClosed().subscribe(() => {
-              // window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
-          });
-      } else {
-          window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
-      }
-      */
-
       window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
-
   }
+  */
+
+    openImprimirDialog(): void {
+        const dialogRef = this.dialog.open(ImprimirDialogComponent, {
+            width: '300px', hasBackdrop: true,
+            data: this.justificacion.fecha_elaboracion
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                if (this.justificacion.num_pagos <= 0) {
+                    this.justificacion.num_pagos = 1;
+                }
+                this.justificacion.fecha_elaboracion = result;
+                this.rest.updateJustificacion(this.justificacion).subscribe( (response: Justificacion) => {
+                    this.justificacion = response;
+                }, error => {
+                    console.log('Error Update Justificacion ' + this.justificacion.id + ' :::  ' + error);
+                }, () => {
+                    console.log('Get Update Justificacion:' + this.justificacion.id);
+
+                    window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
+
+                    this.editForm.form.markAsPristine();
+                    this.asignarProveeSelected();
+                });
+            }
+        });
+    }
 
   cotizar(event: Event, prov_id: number) {
     event.stopPropagation();
     window.open(this.rest.getEndPoint() + 'cotizaciones/' + this.justificacion.id + '/' + prov_id + '.pdf');
   }
+
+  /*
+  openNotificarDialog(): void {
+      const dialogRef = this.dialog.open(NotificarDialogComponent, {
+          width: '600px', hasBackdrop: true
+      });
+      dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+              this.justificacion.status = Estado.notificado;
+              this.saveDatos(null);
+          }
+      });
+  }
+  */
 
   mercado() {
     window.open(this.rest.getEndPoint() + 'mercado/' + this.justificacion.id + '.pdf');
@@ -301,6 +319,12 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         event.stopPropagation();
     }
 
+    /*
+    if (this.justificacion.status !== Estado.edicion ) {
+        return;
+    }
+    */
+
     if (!proveedor) {
       proveedor = new Proveedor();
       proveedor.justificacion_id = this.justificacion.id;
@@ -308,10 +332,12 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       proveedor.fuente = 0;
     }
 
-    const prove_cpy: Proveedor = Object.assign({}, proveedor);
+    // const prove_cpy: Proveedor = Object.assign({}, proveedor);
+    // //  const dataProveedor: ProveedorData = new ProveedorData( Object.assign({}, proveedor), this.justificacion.status, this.empleado.is_admin);
+    const dataProveedor: ProveedorData = new ProveedorData( Object.assign({}, proveedor), 0, true);
     const dialogRef = this.dialog.open(ProveedorDialogComponent, {
       width: '850px',
-      data: prove_cpy
+      data: dataProveedor // prove_cpy
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -540,5 +566,25 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       return has;
   }
 
+  /*
+  canEditar(): boolean {
+      const can = this.empleado.is_admin || this.justificacion.status === Estado.edicion;
+      return can;
+  }
+  canEnviarCotiza(): boolean {
+      return this.empleado.is_admin || this.justificacion.status === Estado.notificado;
+  }
+  isEdicion(): boolean {
+      return this.justificacion.status === Estado.edicion;
+  }
+
+    statusTxt(): string {
+        switch (this.justificacion.status) {
+            case Estado.edicion: return 'Edición';
+            case Estado.notificado: return 'Notificado';
+            case Estado.aceptado: return 'Aceptado';
+        }
+    }
+    */
 }
 

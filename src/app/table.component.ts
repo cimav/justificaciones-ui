@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, Pipe, PipeTransform, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform, ViewChild} from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import {RestService} from './rest.service';
 import {Empleado, Justificacion, Moneda, Partida, Proveedor, Tipo} from './model';
@@ -42,9 +42,19 @@ export class TableComponent implements OnInit {
     }, error => {
       console.log('DB NO CONECTADA ' + this.auth.getCuenta() + ' :::  ' + error);
     }, () => {
-      console.log('Get Single Empleado:' + this.empleado.cuenta_cimav);
+      console.log('Get Single Empleado:' + this.empleado.cuenta_cimav + ' > ' + this.empleado.is_admin);
     });
   }
+
+  /*
+  @Input() public set setEmpleado(empleado: Empleado) {
+    if (empleado) {
+        this.empleado = empleado;
+        console.log('5> ', this.empleado);
+        this.getJustificaciones();
+    }
+  }
+  */
 
   private getJustificaciones() {
     this.rest.getJustificaciones(this.empleado.id).subscribe((response: Justificacion[]) => {
@@ -53,8 +63,8 @@ export class TableComponent implements OnInit {
 
       const justificaciones: Justificacion[] = response;
 
-      this.esAsistente = justificaciones.filter(jus => jus.creador_id !== this.empleado.id).length > 0;
-      if (this.esAsistente) {
+      // this.esAsistente = justificaciones.filter(jus => jus.creador_id !== this.empleado.id).length > 0;
+      if (this.empleado.is_asistente) {
         this.displayedColumns = ['identificador', 'requisicion', 'creador_cuenta_cimav', 'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
       } else {
         this.displayedColumns = ['identificador', 'requisicion',                         'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
@@ -290,13 +300,15 @@ export class TableComponent implements OnInit {
     });
   }
 
+  /*
   showCreador() {
-    if (this.esAsistente) {
+    if (this.empleado.is_asistente) {
       return 'display';
     } else {
       return 'none';
     }
   }
+  */
 
 }
 

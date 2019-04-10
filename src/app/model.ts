@@ -2,6 +2,9 @@ export class Empleado {
   id: number;
   nombre: string;
   cuenta_cimav: string;
+
+    is_admin: boolean;
+    is_asistente: boolean;
 }
 
 export class Tipo {
@@ -10,6 +13,7 @@ export class Tipo {
   fraccion: number;
   romano: string;
   texto: string;
+  descripcion: string;
 }
 
 export class Moneda {
@@ -68,6 +72,11 @@ export class Proveedor {
 
 }
 
+export enum Estado {
+    edicion = 0,
+    notificado = 1,
+    aceptado = 2
+}
 
 export class Justificacion {
 
@@ -116,12 +125,14 @@ export class Justificacion {
   forma_pago: string;
   motivo_seleccion: string;
   es_nacional: boolean;
+  status: number;
 
   economica: boolean;
   eficiencia_eficacia: number;
 
     fecha_cotizar: Date;
     fecha_mercado: Date;
+    created_at: Date;
 
   creador_cuenta_cimav: string;
   
@@ -155,6 +166,8 @@ export class Justificacion {
     this.eficiencia_eficacia = 0;
 
     this.porcen_garantia = 0;
+
+    this.status = 0;
 
       this.fecha_mercado = new Date();
       this.fecha_cotizar = new Date();

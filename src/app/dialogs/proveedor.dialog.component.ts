@@ -1,9 +1,19 @@
 import {Component, Inject, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {RestService} from '../rest.service';
 import {Proveedor, ProveedorNetmultix} from '../model';
 import {SearchProveedorDialogComponent} from './search-proveedor-dialog.component';
 import {NgForm} from '@angular/forms';
+
+export class ProveedorData {
+  proveedor: Proveedor;
+  status: number;
+  is_admin: boolean;
+  constructor(proveedor: Proveedor, status: number, is_admin: boolean) {
+    this.proveedor = proveedor;
+    this.status = status;
+    this.is_admin = is_admin;
+  }
+}
 
 @Component({
   selector: 'app-proveedor-dialog',
@@ -15,8 +25,8 @@ export class ProveedorDialogComponent {
 
   @ViewChild('proveedorForm') proveedorForm: NgForm;
 
-  constructor(public dialogRef: MatDialogRef<ProveedorDialogComponent>, private rest: RestService,
-              @Inject(MAT_DIALOG_DATA) public proveedor: Proveedor, public dialog: MatDialog) {
+  constructor(private dialogRef: MatDialogRef<ProveedorDialogComponent>, // private rest: RestService,
+              @Inject(MAT_DIALOG_DATA) public data: ProveedorData, public dialog: MatDialog) {
   }
 
   openSearchDialog(): void {
@@ -26,14 +36,14 @@ export class ProveedorDialogComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         const proveedorNetmultix: ProveedorNetmultix = <ProveedorNetmultix>result.selected;
-        this.proveedor.clave = proveedorNetmultix.clave.trim();
-        this.proveedor.razon_social = proveedorNetmultix.razon_social;
-        this.proveedor.rfc = proveedorNetmultix.rfc;
-        this.proveedor.telefono = proveedorNetmultix.telefono;
-        this.proveedor.domicilio = proveedorNetmultix.domicilio;
-        this.proveedor.email = proveedorNetmultix.email;
-        this.proveedor.banco = proveedorNetmultix.banco;
-        this.proveedor.contacto = proveedorNetmultix.contacto;
+        this.data.proveedor.clave = proveedorNetmultix.clave.trim();
+        this.data.proveedor.razon_social = proveedorNetmultix.razon_social;
+        this.data.proveedor.rfc = proveedorNetmultix.rfc;
+        this.data.proveedor.telefono = proveedorNetmultix.telefono;
+        this.data.proveedor.domicilio = proveedorNetmultix.domicilio;
+        this.data.proveedor.email = proveedorNetmultix.email;
+        this.data.proveedor.banco = proveedorNetmultix.banco;
+        this.data.proveedor.contacto = proveedorNetmultix.contacto;
 
         this.proveedorForm.form.markAsDirty();
       }
@@ -45,7 +55,12 @@ export class ProveedorDialogComponent {
   }
 
   onClick(): void {
-    this.dialogRef.close(this.proveedor);
+    this.dialogRef.close(this.data.proveedor);
   }
 
+  /*
+  canEditar(): boolean {
+    return this.data.is_admin || this.data.status === Estado.edicion;
+  }
+  */
 }

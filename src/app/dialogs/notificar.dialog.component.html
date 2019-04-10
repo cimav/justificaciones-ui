@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Notificar a Compras</h1>
+<div mat-dialog-content style="margin-bottom: 30px;">
+    <p>Una vez enviada la notificación:</p>
+    <ul>
+        <li>No se podrán modificar los datos de la justificación</li>
+        <li>No se podrán agregar o modificar proveedores</li>
+        <li>Compras procederá a buscar el bien o servicio en Compranet</li>
+        <li>El proceso de compra: envío de solicitudes de cotización a proveedores y selección de proveedor y montos, se prodrá continuar hasta que Compras agregue a Compranet</li>
+    </ul>
+</div>
+<ng-container>
+    <span class="buttons-layout-left-top">
+      <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar" matTooltipPosition="after">
+        <mat-icon>close</mat-icon>
+      </button>
+    </span>
+</ng-container>
+
+<button  class="btn-guardar-provee" mat-mini-fab  (click)="onClick()" matTooltip="Notificar?" matTooltipPosition="above" style="float: right;">
+    <mat-icon>check</mat-icon>
+</button>
+
+
