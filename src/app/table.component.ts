@@ -234,7 +234,8 @@ export class TableComponent implements OnInit {
 
     const dialogRef = this.dialog.open(EliminarDialogComponent, {
       width: '400px',
-      data: {id: _id, identificador: _identificador, titulo: 'justificación'}
+      data: {id: _id, identificador: _identificador, titulo: 'justificación'},
+        hasBackdrop: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -260,7 +261,8 @@ export class TableComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ReplicarDialogComponent, {
       width: '450px',
-      data: {'id': justi.id, 'identificador': justi.identificador}
+      data: {'id': justi.id, 'identificador': justi.identificador},
+        hasBackdrop: true
     });
 
     dialogRef.afterClosed().subscribe(result => {

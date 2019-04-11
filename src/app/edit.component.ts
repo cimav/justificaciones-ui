@@ -337,7 +337,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     const dataProveedor: ProveedorData = new ProveedorData( Object.assign({}, proveedor), 0, true);
     const dialogRef = this.dialog.open(ProveedorDialogComponent, {
       width: '850px',
-      data: dataProveedor // prove_cpy
+      data: dataProveedor, // prove_cpy
+        hasBackdrop: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -425,7 +426,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     if (_clave.trim().length > 5) {
         const dialogRef = this.dialog.open(EliminarDialogComponent, {
             width: '450px',
-            data: {id: _id, identificador: _clave, titulo: 'proveedor'}
+            data: {id: _id, identificador: _clave, titulo: 'proveedor'},
+            hasBackdrop: true
         });
 
         dialogRef.afterClosed().subscribe((id_to_del: number) => {
@@ -475,7 +477,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   openRequisicionProveedorDialog(requisicion: string): void {
       const dialogRef = this.dialog.open(ImportarDialogComponent, {
           width: '350px',
-          data: requisicion
+          data: requisicion,
+          hasBackdrop: true
       });
 
       dialogRef.afterClosed().subscribe((inyectar: boolean) => {

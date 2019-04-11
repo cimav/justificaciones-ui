@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ProveedorNetmultix} from '../model';
 
 @Component({
-  selector: 'app-proveedor-dialog',
+  selector: 'app-search-proveedor-dialog',
   templateUrl: './search-proveedor-dialog.component.html',
   styleUrls: ['./search-proveedor-dialog.component.css'],
   encapsulation: ViewEncapsulation.None

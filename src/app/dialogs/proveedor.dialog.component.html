@@ -1,6 +1,7 @@
 
-<h1>Proveedor</h1>
+<h1 mat-dialog-title>Proveedor</h1>
 
+<div mat-dialog-content>
 <form  #proveedorForm="ngForm" >
 
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" > <!-- [class.notificando]="!canEditar()" -->
@@ -86,6 +87,10 @@
 
   </div>
 
+</form>
+</div>
+
+<div mat-dialog-actions style="    display: initial;">
   <ng-container>
     <span class="buttons-layout-left-top">
       <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar cambios" matTooltipPosition="after">
@@ -98,5 +103,4 @@
            matTooltip="Guardar cambios" matTooltipPosition="above">
     <mat-icon>check</mat-icon>
   </button>
-
-</form>
+</div>
