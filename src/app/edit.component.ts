@@ -502,7 +502,11 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
                           }
                           */
 
-                          this.justificacion.partida_id = data.partida;
+                          if (data.partida && this.partidas.some(p => p.id === data.partida)) {
+                              this.justificacion.partida_id = data.partida;
+                          } else {
+                              this.msgsBar.open('Partida no encontrada', data.partida.toString(), {duration: 2000});
+                          }
 
                           this.editForm.form.markAsDirty();
                       } else {
