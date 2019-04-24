@@ -24,27 +24,30 @@
 
     <!-- Datos generales -->
     <mat-tab label="Justificación" >
+
+      <div class="subtitulos-tabs">Definir la necesidad o requerimiento</div>
+
       <mat-sidenav-container class="div-container-edit"  > <!--[class.notificando]="!canEditar()"-->
 
       <!-- <fieldset > -->
 
-        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
-          <mat-form-field>
+        <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+          <mat-form-field >
             <input matInput placeholder="Identificador" name="identificador" [(ngModel)]="justificacion.identificador" required>
-          </mat-form-field >
-          <mat-form-field matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below">
+          </mat-form-field>
+          <mat-form-field matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below" >
             <input matInput placeholder="Requisición" name="requisicion"  [(ngModel)]="justificacion.requisicion" required>
-              <!--<button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">-->
-              <button mat-icon-button matSuffix (click)="openRequisicionProveedorDialog(justificacion.requisicion)">
+            <!--<button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">-->
+            <button mat-icon-button matSuffix (click)="openRequisicionProveedorDialog(justificacion.requisicion)">
               <mat-icon>search</mat-icon>
             </button>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field >
             <input matInput placeholder="Número de proyecto" name="proyecto"  [(ngModel)]="justificacion.proyecto" required>
           </mat-form-field>
-          <mat-radio-group name="bien_servicio" [(ngModel)]="justificacion.bien_servicio" style="width: 1090px;">
-              <mat-radio-button color="primary"  name="cero" [value]="0" style="padding-right: 25px;">Bien</mat-radio-button>
-              <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
+          <mat-radio-group name="bien_servicio" [(ngModel)]="justificacion.bien_servicio" class="flex-none">
+            <mat-radio-button color="primary"  name="cero" [value]="0" style="padding-right: 25px;">Bien</mat-radio-button>
+            <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
           </mat-radio-group>
           <mat-form-field > <!-- class="mat-elevation-z8" style="border: 1px solid #673ab7; padding: 5px;" -->
             <input type="date" name="fechaElaboracion" matInput placeholder="Fecha de elaboración" [ngModel]="justificacion.created_at | date:'yyyy-MM-dd'" [disabled]="true" >
@@ -56,26 +59,6 @@
             <mat-datepicker #pickerFirma></mat-datepicker>
             <mat-hint align="start" >Fecha en que se firma</mat-hint>
           </mat-form-field>
-
-        </div>
-
-        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
-          <mat-form-field >
-            <mat-select placeholder="Fracción" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" > <!-- [compareWith]="compareTipo"  -->
-              <mat-option *ngFor="let tipo of tipos" [value]="tipo.id" >
-                <span >{{tipo.texto}}</span>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-select placeholder="Partida" [(ngModel)]="justificacion.partida_id" name="partida_sel" required   > <!-- [compareWith]="comparePartida" -->
-              <mat-option *ngFor="let partida of partidas" [value]="partida.id" >
-                 {{partida.texto}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
         </div>
 
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
@@ -197,13 +180,14 @@
 
         <!-- </fieldset> -->
 
-        <!--- Proveedores -->
   </mat-sidenav-container >
     </mat-tab>
 
     <!-- Proveedores -->
-    <mat-tab label="Cotizar Proveedores">
+    <mat-tab label="Cotizar Proveedores" >
       <mat-sidenav-container class="div-container-edit">
+
+        <div class="subtitulos-tabs">Comparar y seleccionar proveedores</div>
 
         <table mat-table [dataSource]="dsProveedores">
 
@@ -226,22 +210,22 @@
 
           <ng-container matColumnDef="clave" >
             <th mat-header-cell *matHeaderCellDef > Clave </th>
-            <td mat-cell style="width: 40px; font-style: italic;" *matCellDef="let element" (click)="openProveedorDialog(null, element)"> {{element.clave}} </td>
+            <td mat-cell style="width: 40px; font-style: italic;" *matCellDef="let element" (click)="openProveedorDialog(null, element)" [class.row-selected]="element.id == justificacion.proveedor_id" > {{element.clave}} </td>
           </ng-container>
 
           <ng-container matColumnDef="razon_social" >
             <th mat-header-cell *matHeaderCellDef > Razón social </th>
-            <td mat-cell *matCellDef="let element" (click)="openProveedorDialog(null, element)"> {{element.razon_social}} </td>
+            <td mat-cell *matCellDef="let element" (click)="openProveedorDialog(null, element)" [class.row-selected]="element.id == justificacion.proveedor_id"> {{element.razon_social}} </td>
           </ng-container>
 
           <ng-container matColumnDef="monto">
             <th mat-header-cell *matHeaderCellDef> Monto </th>
-            <td mat-cell style="width: 120px;"*matCellDef="let element" > {{currencyMonto(element?.monto)}} </td>
+            <td mat-cell style="width: 120px;"*matCellDef="let element" [class.row-selected]="element.id == justificacion.proveedor_id" > {{currencyMonto(element?.monto)}} </td>
           </ng-container>
 
           <ng-container matColumnDef="fuente" >
             <th mat-header-cell *matHeaderCellDef > Fuente </th>
-            <td mat-cell style="width: 80px;" *matCellDef="let element"> {{fuenteTxt(element.fuente)}} </td>
+            <td mat-cell style="width: 80px;" *matCellDef="let element" [class.row-selected]="element.id == justificacion.proveedor_id" > {{fuenteTxt(element.fuente)}} </td>
           </ng-container>
 
           <ng-container matColumnDef="acciones">
@@ -254,7 +238,7 @@
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Eliminar" (click)="openEliminarProveedorDialog($event, element.id, element.razon_social)" >
                   <mat-icon>delete</mat-icon>
                 </button>
-                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Cotizar" (click)="cotizar($event, element.id)" >
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Generar solicitud de cotización" (click)="cotizar($event, element.id)" >
                   <mat-icon class="cotizar-send">send</mat-icon>
                 </button>
               </span>
@@ -276,9 +260,9 @@
                     <mat-datepicker #fechaMercado></mat-datepicker>
                   </mat-form-field>
                   <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()"
-                          matTooltip="Generar estudio de mercado" matTooltipPosition="above"
+                          matTooltip="Generar estudio de mercado para determinar si se presenta a comité" matTooltipPosition="above"
                           [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
-                    <mat-icon>description</mat-icon>
+                    <mat-icon>account_balance</mat-icon>
                     Estudio de Mercado
                   </button>
                 </span>
@@ -311,19 +295,18 @@
         </table>
 
       </mat-sidenav-container>
-    </mat-tab>
 
-    <!-- Selección y Montos -->
-    <mat-tab label="Selección y Montos"  > <!-- [disabled]="!hasCompranet()" -->
       <mat-sidenav-container *ngIf="!justificacion.proveedor_selected" class="div-container-edit">
         <h4>No ha seleccionado proveedor</h4>
       </mat-sidenav-container>
 
       <mat-sidenav-container *ngIf="justificacion.proveedor_selected"class="div-container-edit">
 
+        <!--
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
           <label>Proveedor: </label><h3>{{justificacion?.proveedor_selected?.razon_social}}</h3>
         </div>
+        -->
 
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
           <mat-form-field fxFill>
@@ -360,7 +343,7 @@
           <mat-form-field style="width: 200px;">
             <span matPrefix>{{justificacion.moneda.simbolo}} &nbsp;</span>
             <input currencyMask class="right" matInput placeholder="Subtotal" name="subtotal"  [ngModel]="monto()"
-                     [options]="{ prefix: '', thousands: ',', decimal: '.' }" required [disabled]="true">
+                   [options]="{ prefix: '', thousands: ',', decimal: '.' }" required [disabled]="true">
             <mat-hint>Proveedor seleccionado</mat-hint>
           </mat-form-field>
           <mat-form-field style="width: 200px;">
@@ -386,6 +369,36 @@
         -->
 
       </mat-sidenav-container>
+
+    </mat-tab>
+
+    <!-- Definicion -->
+    <mat-tab label="Tramitar ante comité"  > <!-- [disabled]="!hasCompranet()" -->
+
+      <div class="subtitulos-tabs">Si aplica, someter el asunto a comité</div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px">
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
+        <mat-form-field >
+          <mat-select placeholder="Fracción" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" > <!-- [compareWith]="compareTipo"  -->
+            <mat-option *ngFor="let tipo of tipos" [value]="tipo.id" >
+              <span >{{tipo.texto}}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Partida" [(ngModel)]="justificacion.partida_id" name="partida_sel" required   > <!-- [compareWith]="comparePartida" -->
+            <mat-option *ngFor="let partida of partidas" [value]="partida.id" >
+              {{partida.texto}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
     </mat-tab>
 
   </mat-tab-group>
