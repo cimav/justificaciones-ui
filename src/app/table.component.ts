@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform, ViewChild} from '@angular/core';
+import {Component, EventEmitter,  OnInit, Output, Pipe, PipeTransform, ViewChild} from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import {RestService} from './rest.service';
-import {Empleado, Justificacion, Moneda, Partida, Proveedor, Tipo} from './model';
+import {Empleado, Justificacion, Moneda, Partida,  Tipo} from './model';
 import {MatDialog, MatProgressBar, MatSort, MatTableDataSource} from '@angular/material';
 import {CrearDialogComponent} from './dialogs/crear.dialog.component';
 import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
@@ -179,20 +179,20 @@ export class TableComponent implements OnInit {
         nuevaJustificacion.autorizo = this.empleado;
         nuevaJustificacion.autorizo_id = this.empleado.id;
 
-        const tipo1: Tipo = new Tipo();
-        tipo1.id = 1 ;
-        nuevaJustificacion.tipo = tipo1;
-        nuevaJustificacion.tipo_id = tipo1.id;
+        const tipo0: Tipo = new Tipo();
+        tipo0.id = 0 ;
+        nuevaJustificacion.tipo = tipo0;
+        nuevaJustificacion.tipo_id = tipo0.id;
 
         const mon1: Moneda = new Moneda();
         mon1.id = 1;
         nuevaJustificacion.moneda = mon1;
         nuevaJustificacion.moneda_id = mon1.id;
 
-        const partida22104: Partida =  new Partida();
-        partida22104.id = 22104;
-        nuevaJustificacion.partida = partida22104;
-        nuevaJustificacion.partida_id = partida22104.id;
+        const partida10000: Partida =  new Partida();
+          partida10000.id = 10000;
+        nuevaJustificacion.partida = partida10000;
+        nuevaJustificacion.partida_id = partida10000.id;
 
         nuevaJustificacion.autoriza_cargo = 'RESPONSABLE DEL PROYECTO';
 

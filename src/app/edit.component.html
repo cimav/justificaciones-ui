@@ -1,5 +1,4 @@
-
-<mat-progress-bar #matBuffer value="0" [bufferValue]="valueBuffer" mode="buffer"></mat-progress-bar>
+<mat-progress-bar #matBuffer value="0" [bufferValue]="valueBuffer" mode="buffer" xmlns="http://www.w3.org/1999/html"></mat-progress-bar>
 
 <ng-container *ngIf="justificacion">
 <!-- (ngSubmit)="onSubmit(justificacionForm)"  novalidate -->
@@ -38,8 +37,8 @@
           <mat-form-field matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below" >
             <input matInput placeholder="Requisición" name="requisicion"  [(ngModel)]="justificacion.requisicion" required>
             <!--<button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">-->
-            <button mat-icon-button matSuffix (click)="openRequisicionProveedorDialog(justificacion.requisicion)">
-              <mat-icon>search</mat-icon>
+            <button mat-icon-button matSuffix >
+              <mat-icon (click)="openRequisicionProveedorDialog(justificacion.requisicion)">search</mat-icon>
             </button>
           </mat-form-field>
           <mat-form-field >
@@ -64,7 +63,6 @@
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
           <mat-form-field>
             <textarea #descripcion mat-autosize mat-autosize maxlength="2000" matInput placeholder="Descripción" [(ngModel)]="justificacion.descripcion" name="descripcion" required></textarea>
-            <mat-hint align="start">Evite simbolos raros</mat-hint>
             <mat-hint align="end">{{descripcion.value.length}} / 2000</mat-hint>
           </mat-form-field>
         </div>
@@ -100,6 +98,7 @@
           <mat-form-field >
             <textarea mat-autosize #condiciones_pago maxlength="2000" matInput placeholder="Condiciones de pago"
                       [(ngModel)]="justificacion.condiciones_pago" name="condiciones_pago" required></textarea>
+              <mat-hint align="start" >Como se va a pagar. E.g. Contra entrega, Contra factura, Reporte entregrado, etc.</mat-hint>
             <mat-hint align="end">{{condiciones_pago.value.length}} / 200</mat-hint>
           </mat-form-field>
         </div>
@@ -159,6 +158,7 @@
           <mat-form-field >
             <textarea mat-autosize  #terminos_entrega maxlength="2000" matInput placeholder="Térmimos de entrega"
                       [(ngModel)]="justificacion.terminos_entrega" name="terminos_entrega" required></textarea>
+              <mat-hint align="start" >Como se va a entrgar el bien o servicio. E.g. En una sola exhibición, Subcontratado asiste de lunes a viernes, etc.</mat-hint>
             <mat-hint align="end">{{terminos_entrega.value.length}} / 200</mat-hint>
           </mat-form-field>
         </div>
@@ -203,14 +203,14 @@
           <ng-container matColumnDef="seleccionar">
             <th mat-header-cell *matHeaderCellDef >Selección</th>
             <td mat-cell style="width: 60px;" *matCellDef="let element">
-               <mat-slide-toggle [checked]="element.id == justificacion.proveedor_id" (change)="doSeleccionar($event, element)"
+               <mat-slide-toggle  [checked]="element.id == justificacion.proveedor_id" (change)="doSeleccionar($event, element)"
                                  (click)="clickSeleccionar($event)" color="primary" matTooltip="Seleccionar" matTooltipPosition="after" ></mat-slide-toggle>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="clave" >
             <th mat-header-cell *matHeaderCellDef > Clave </th>
-            <td mat-cell style="width: 40px; font-style: italic;" *matCellDef="let element" (click)="openProveedorDialog(null, element)" [class.row-selected]="element.id == justificacion.proveedor_id" > {{element.clave}} </td>
+            <td mat-cell style="width: 40px; font-style: italic;" *matCellDef="let element" (click)="doSeleccionar($event, element)" [class.row-selected]="element.id == justificacion.proveedor_id" > {{element.clave}} </td>
           </ng-container>
 
           <ng-container matColumnDef="razon_social" >
@@ -375,19 +375,46 @@
     <!-- Definicion -->
     <mat-tab label="Tramitar ante comité"  > <!-- [disabled]="!hasCompranet()" -->
 
-      <div class="subtitulos-tabs">Si aplica, someter el asunto a comité</div>
+      <div class="subtitulos-tabs">En su caso, someter el asunto a comité</div>
 
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px">
-      </div>
+        <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="25px">
+            <label>Fracción * <span style="font-style: italic;">Consultar con personal de adquisiciones</span></label>
+        </div>
 
-      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
+        <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="25px">
+            <table mat-table [dataSource]="dsTipos">
+            <ng-container matColumnDef="seleccionar">
+                <td mat-cell style="width: 60px;" *matCellDef="let element">
+                    <mat-slide-toggle color="primary" [checked]="element.id == justificacion.tipo_id" (change)="doSeleccionarTipo($event, element)" matTooltip="Seleccionar" matTooltipPosition="after" ></mat-slide-toggle>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="romano" >
+                <td mat-cell style="" *matCellDef="let element">
+                    <strong>{{element.romano}}</strong>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="texto" >
+                <td mat-cell style="" *matCellDef="let element">
+                    <div>{{element.code}}</div>
+                    <div style="font-style: italic; color: rgba(0, 0, 0, 0.54); padding-top: 3px;">{{element.descripcion}}</div>
+                </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsTipos;" (mouseover)="rowHover(row.id)" ></tr>
+
+        </table>
+        </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px" style="    padding-top: 10px;">
+
+          <!--
         <mat-form-field >
-          <mat-select placeholder="Fracción" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" > <!-- [compareWith]="compareTipo"  -->
+          <mat-select placeholder="Fracción" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" >
             <mat-option *ngFor="let tipo of tipos" [value]="tipo.id" >
-              <span >{{tipo.texto}}</span>
+                {{tipo.texto}}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        -->
 
         <mat-form-field>
           <mat-select placeholder="Partida" [(ngModel)]="justificacion.partida_id" name="partida_sel" required   > <!-- [compareWith]="comparePartida" -->

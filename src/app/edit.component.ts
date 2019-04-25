@@ -35,9 +35,13 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   // partidas_by_tipo: Partida[] = [];
   empleados: Empleado[] = [];
 
+  dsTipos: MatTableDataSource<Tipo>;
+
   dsProveedores: MatTableDataSource<Proveedor>;
   displayedColumns: string[] = ['seleccionar', 'clave', 'razon_social', 'fuente', 'monto', 'acciones'];
   row_hover = 0;
+
+    displayedColumnsTipos: string[] = ['seleccionar', 'romano', 'texto'];
 
   valueBuffer = 0;
 
@@ -89,6 +93,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.rest.getTipos().subscribe(
       (response: Tipo[]) => {
         this.tipos = response;
+        this.dsTipos = new MatTableDataSource(this.tipos);
       },
       error => console.log(error),
       () => console.log('Get Tipos:' + (this.tipos).length)
@@ -110,7 +115,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       () => {
         console.log('Get Partidas:' + (this.partidas).length);
 
-        this.onTipoChanges(this.justificacion.tipo_id);
+        // this.onTipoChanges(this.justificacion.tipo_id);
       }
     );
 
@@ -419,6 +424,15 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.saveDatos(null);
   }
+
+    doSeleccionarTipo(event: any, tipo: Tipo) {
+        if (event.checked) {
+            this.justificacion.tipo_id = tipo.id;
+        } else {
+            this.justificacion.tipo_id = 0; // 5 Fracción I
+        }
+        this.saveDatos(null);
+    }
 
   openEliminarProveedorDialog(event: Event, _id: number, _clave: string): void {
     event.stopPropagation();
