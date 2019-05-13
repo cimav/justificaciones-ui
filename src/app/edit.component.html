@@ -62,8 +62,8 @@
 
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
           <mat-form-field>
-            <textarea #descripcion mat-autosize mat-autosize maxlength="2000" matInput placeholder="Descripción" [(ngModel)]="justificacion.descripcion" name="descripcion" required></textarea>
-            <mat-hint align="end">{{descripcion.value.length}} / 2000</mat-hint>
+            <textarea #descripcion mat-autosize mat-autosize maxlength="4000" matInput placeholder="Descripción" [(ngModel)]="justificacion.descripcion" name="descripcion" required></textarea>
+            <mat-hint align="end">{{descripcion.value.length}} / 4000</mat-hint>
           </mat-form-field>
         </div>
 
