@@ -40,7 +40,7 @@
 
     <ng-container matColumnDef="fecha_elaboracion" >
       <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'" style="width: 120px;"> Fecha </th>
-      <td mat-cell *matCellDef="let element" [innerHTML]="element?.fecha_elaboracion | date: 'dd/MM/yyyy' | highlight: filterValue">{{element.fecha_elaboracion}}</td>
+      <td mat-cell *matCellDef="let element" [innerHTML]="element?.created_at | date: 'dd/MM/yyyy' | highlight: filterValue">{{element.created_at}}</td>
     </ng-container>
 
     <ng-container matColumnDef="descripcion">

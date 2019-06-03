@@ -3,16 +3,16 @@
     <form #identificadorForm="ngForm" novalidate>
 
         <mat-form-field >
-            <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión"
-                   [(ngModel)]="data" required>
+            <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión/firma"
+                   [(ngModel)]="data.fechaEmision" required>
             <mat-datepicker-toggle matSuffix [for]="pickerFirma"></mat-datepicker-toggle>
             <mat-datepicker #pickerFirma></mat-datepicker>
-            <mat-hint align="start" >Fecha en que se firma</mat-hint>
+            <mat-hint align="start" >Posterior a estudio de mercado {{data.fechaMercado}}</mat-hint>
+            <mat-error *ngIf="">Nada..</mat-error>
         </mat-form-field>
-
     </form>
 </div>
 <div mat-dialog-actions>
     <button mat-button button (click)="onNoClick()">Cancelar</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial >Generar PDF</button>
+    <button mat-button [mat-dialog-close]="data.fechaEmision" cdkFocusInitial >Generar PDF</button>
 </div>

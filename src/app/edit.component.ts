@@ -11,13 +11,17 @@ import {
 } from '@angular/core';
 import {RestService} from './rest.service';
 import {Empleado, Justificacion, Moneda, Partida, Proveedor, Tipo} from './model';
-import { NgForm} from '@angular/forms';
+import {NgForm,} from '@angular/forms';
 import {MatDialog, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {ProveedorData, ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
 import {CurrencyPipe} from '@angular/common';
 import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
 import {ImportarDialogComponent} from './dialogs/importar.dialog.component';
-import {ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
+import {FechasImprimir, ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
+import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.component';
+import * as moment from 'moment';
+
+// https://angular.io/api/forms/FormControlName#use-with-ngmodel
 
 @Component({
   selector: 'app-edit',
@@ -26,7 +30,7 @@ import {ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
 })
 export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
-  @ViewChild('editForm') editForm: NgForm;
+    @ViewChild('editForm') editForm: NgForm;
 
   justificacion: Justificacion;
   tipos: Tipo[] = [];
@@ -49,6 +53,44 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   constructor(private rest: RestService,  public dialog: MatDialog,
               private currencyPipe: CurrencyPipe, public msgsBar: MatSnackBar, private changeDetector: ChangeDetectorRef) {
   }
+
+  /*
+    ageRangeCtrl: FormControl = new FormControl('', [ageRangeValidator]);
+    fMercadoCtrl: FormControl = new FormControl('', []);
+    fCotizarCtrl: FormControl = new FormControl('', [this.betweenValidator(this.fMercadoCtrl, null)]);
+*/
+    /*
+    fechasGroup: FormGroup = new FormGroup({
+        fCotizarCtrl: new FormControl(),
+        fMercadoCtrl: new FormControl()
+    }, {validators: cotizarValidator});
+    */
+/*
+    betweenValidator(c1: AbstractControl, c2: AbstractControl): ValidatorFn {
+        return (c0: AbstractControl): { [key: string]: boolean } | null => {
+                if (moment && moment(c0.value).isBetween(c0.value, c1.value, null, '[]')) {
+                    return null;
+                } else {
+                    return {'mismatchCotizar': true};
+                }
+                this.forceValidation();
+        };
+    }
+
+    getErrorMessage() {
+        return this.ageRangeCtrl.hasError('ageRange') ? 'El maldito AgRe' : 'Nada';
+    }
+*/
+
+    /*
+    checkCotizar(): { [key: string]: boolean } | null {
+        if (this.fCotizarCtrl.value.isBetween('2019-04-09', this.fMercadoCtrl.value, null, '[]')) {
+            return null;
+        } else {
+            return { 'dateBetween': true };
+        }
+    }
+    */
 
   @Output() justificacionIdToNull = new EventEmitter();
 
@@ -191,16 +233,30 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     if (this.justificacion.num_pagos <= 0) {
         this.justificacion.num_pagos = 1;
     }
-    this.rest.updateJustificacion(this.justificacion).subscribe( (response: Justificacion) => {
-      this.justificacion = response;
-    }, error => {
-      console.log('Error Update Justificacion ' + this.justificacion.id + ' :::  ' + error);
-    }, () => {
-      console.log('Get Update Justificacion:' + this.justificacion.id);
 
-      this.editForm.form.markAsPristine();
-      this.asignarProveeSelected();
-    });
+    if (moment(this.justificacion.fecha_cotizar).isBefore(this.justificacion.created_at)) {
+        this.callValidarFechasDlg('Fecha límite de cotización debe ser mayor a la fecha de creación');
+    } else if (moment(this.justificacion.fecha_mercado).isBefore(this.justificacion.fecha_cotizar)) {
+        this.callValidarFechasDlg('Fecha del estudio de mercado debe ser mayor a fecha límite de cotización');
+    // } else if (moment(this.justificacion.fecha_elaboracion).isBefore(this.justificacion.fecha_mercado)) {
+    //    this.callValidarFechasDlg('Fecha de emisión debe ser mayor a fecha del estudio de mercado');
+    } else {
+        this.rest.updateJustificacion(this.justificacion).subscribe((response: Justificacion) => {
+            this.justificacion = response;
+        }, error => {
+            console.log('Error Update Justificacion ' + this.justificacion.id + ' :::  ' + error);
+        }, () => {
+            console.log('Get Update Justificacion:' + this.justificacion.id);
+
+            this.editForm.form.markAsPristine();
+            this.asignarProveeSelected();
+        });
+    }
+  }
+
+  callValidarFechasDlg(msg: string) {
+      const dialogRef = this.dialog.open(ValidarFechasDialogComponent, {width: '280px', hasBackdrop: true, data: msg});
+      dialogRef.afterClosed().subscribe(result => {});
   }
 
   backToTable() {
@@ -228,10 +284,11 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
   */
 
-    openImprimirDialog(): void {
+    openImprimirDialog_old(): void {
+        const fechasImprimir: FechasImprimir = new FechasImprimir(this.justificacion.fecha_mercado, this.justificacion.fecha_elaboracion);
         const dialogRef = this.dialog.open(ImprimirDialogComponent, {
-            width: '300px', hasBackdrop: true,
-            data: this.justificacion.fecha_elaboracion
+            width: '280px', hasBackdrop: true,
+            data: fechasImprimir
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
@@ -253,6 +310,28 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
                 });
             }
         });
+    }
+
+    openImprimirDialog(): void {
+        if (moment(this.justificacion.fecha_elaboracion).isBefore(this.justificacion.fecha_mercado)) {
+            this.callValidarFechasDlg('Fecha de emisión debe ser mayor a fecha del estudio de mercado');
+        } else {
+            if (this.justificacion.num_pagos <= 0) {
+                this.justificacion.num_pagos = 1;
+            }
+            this.rest.updateJustificacion(this.justificacion).subscribe((response: Justificacion) => {
+                this.justificacion = response;
+            }, error => {
+                console.log('Error Update Justificacion ' + this.justificacion.id + ' :::  ' + error);
+            }, () => {
+                console.log('Get Update Justificacion:' + this.justificacion.id);
+
+                window.open(this.rest.getEndPoint() + 'justificaciones/' + this.justificacion.id + '.pdf');
+
+                this.editForm.form.markAsPristine();
+                this.asignarProveeSelected();
+            });
+        }
     }
 
   cotizar(event: Event, prov_id: number) {
@@ -607,5 +686,6 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         }
     }
     */
+
 }
 

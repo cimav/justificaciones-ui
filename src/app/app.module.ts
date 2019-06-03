@@ -25,13 +25,14 @@ import {WarningDialogComponent} from './dialogs/warning.dialog.component';
 import {ImportarDialogComponent} from './dialogs/importar.dialog.component';
 import {ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
 import {NotificarDialogComponent} from './dialogs/notificar.dialog.component';
+import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
     SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ProveedorDialogComponent,
-      WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent,
+      WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent, ValidarFechasDialogComponent,
     EditComponent,
     CallbackComponent,
     HighlightSearch
@@ -47,7 +48,7 @@ import {NotificarDialogComponent} from './dialogs/notificar.dialog.component';
     ReactiveFormsModule,
     CurrencyMaskModule
   ],
-  entryComponents: [SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent,
+  entryComponents: [SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ValidarFechasDialogComponent,
       ProveedorDialogComponent, WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent],
 
   providers: [

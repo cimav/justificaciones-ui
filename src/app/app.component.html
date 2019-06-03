@@ -22,7 +22,7 @@
 
 </mat-toolbar>
 
-<mat-sidenav-container id="div-container" *ngIf="auth.isAuthenticated()">
+<mat-sidenav-container id="div-container" *ngIf="auth.isAuthenticated()" style="background-color: #ffffff">
   <!-- <router-outlet></router-outlet> -->
   <app-table *ngIf="!justificacion_id" (justificacionIdChange)="justificacionIdChanged($event)" ></app-table>
   <app-edit *ngIf="justificacion_id" (justificacionIdToNull)="justificacionIdChanged($event)" [setJustificacion]="justificacion_id" ></app-edit>

@@ -3,37 +3,40 @@
 <ng-container *ngIf="justificacion">
 <!-- (ngSubmit)="onSubmit(justificacionForm)"  novalidate -->
 
+    <!--
   <ng-container>
     <div class="buttons-layout-left-top">
       <button mat-mini-fab color="accent" id="btn-back" (click)="backToTable()" matTooltip="Regresar a solicitudes" matTooltipPosition="after">
         <mat-icon>chevron_left</mat-icon>
       </button>
     </div>
-    <!--
-    <div class="buttons-layout-right-top">
-      <span id="label-estatus">{{statusTxt()}}</span>
-    </div>
-    -->
   </ng-container>
+    -->
 
   <form #editForm="ngForm"  >
 
 
-  <mat-tab-group style="position:absolute; left: 80px; right: 0px;"> <!--  -->
+  <mat-horizontal-stepper linear="true"> <!--  -->
 
     <!-- Datos generales -->
-    <mat-tab label="Justificación" >
+    <mat-step label="Justificación" [completed]="groupGeneral.valid && editForm.form.pristine">
 
-      <div class="subtitulos-tabs">Definir la necesidad o requerimiento</div>
+      <div class="subtitulos-tabs">Definir la necesidad o requerimiento
+      </div>
+        <!--
+          <mat-icon *ngIf="groupGeneral.valid">done</mat-icon>
+          <mat-icon *ngIf="!groupGeneral.valid">clear</mat-icon>
+        -->
 
-      <mat-sidenav-container class="div-container-edit"  > <!--[class.notificando]="!canEditar()"-->
+        <div  ngModelGroup="groupGeneral" #groupGeneral="ngModelGroup">
 
-      <!-- <fieldset > -->
+            <div class="subtitulos-tabs" > <!--[class.notificando]="!canEditar()"-->
 
-        <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+          <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px">
           <mat-form-field >
             <input matInput placeholder="Identificador" name="identificador" [(ngModel)]="justificacion.identificador" required>
           </mat-form-field>
+
           <mat-form-field matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below" >
             <input matInput placeholder="Requisición" name="requisicion"  [(ngModel)]="justificacion.requisicion" required>
             <!--<button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">-->
@@ -48,16 +51,6 @@
             <mat-radio-button color="primary"  name="cero" [value]="0" style="padding-right: 25px;">Bien</mat-radio-button>
             <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
           </mat-radio-group>
-          <mat-form-field > <!-- class="mat-elevation-z8" style="border: 1px solid #673ab7; padding: 5px;" -->
-            <input type="date" name="fechaElaboracion" matInput placeholder="Fecha de elaboración" [ngModel]="justificacion.created_at | date:'yyyy-MM-dd'" [disabled]="true" >
-          </mat-form-field>
-          <mat-form-field >
-            <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión"
-                   [(ngModel)]="justificacion.fecha_elaboracion" required>
-            <mat-datepicker-toggle matSuffix [for]="pickerFirma"></mat-datepicker-toggle>
-            <mat-datepicker #pickerFirma></mat-datepicker>
-            <mat-hint align="start" >Fecha en que se firma</mat-hint>
-          </mat-form-field>
         </div>
 
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px">
@@ -90,7 +83,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field >
-            <input matInput placeholder="Puesto/cargo de quien autoriza" name="puesto" [(ngModel)]="justificacion.autoriza_cargo" required>
+            <input matInput placeholder="Puesto/cargo de quien autoriza" name="puesto" [(ngModel)]="justificacion.autoriza_cargo" required >
           </mat-form-field >
         </div>
 
@@ -99,7 +92,7 @@
             <textarea mat-autosize #condiciones_pago maxlength="2000" matInput placeholder="Condiciones de pago"
                       [(ngModel)]="justificacion.condiciones_pago" name="condiciones_pago" required></textarea>
               <mat-hint align="start" >Como se va a pagar. E.g. Contra entrega, Contra factura, Reporte entregrado, etc.</mat-hint>
-            <mat-hint align="end">{{condiciones_pago.value.length}} / 200</mat-hint>
+            <mat-hint align="end">{{condiciones_pago.value.length}} / 2000</mat-hint>
           </mat-form-field>
         </div>
 
@@ -133,27 +126,6 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px" style="padding-right: 30px;">
-          <mat-form-field class="flex-none" style="width: 300px;" matTooltip="Fecha límite para que cada proveedor entregue su cotización" matTooltipPosition="above">
-            <input name="fechaCotizar" matInput [matDatepicker]="fechaCotizar" placeholder="Fecha límite para cotizar"
-                   [(ngModel)]="justificacion.fecha_cotizar" required>
-            <mat-datepicker-toggle matSuffix [for]="fechaCotizar"></mat-datepicker-toggle>
-            <mat-datepicker #fechaCotizar></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field style="width: 100px;">
-            <span matPrefix>#</span>
-            <input class="right" number matInput placeholder="Parcialidad(es)" name="num_pagos"  [(ngModel)]="justificacion.num_pagos"required type="number" min="1" max="12">
-          </mat-form-field>
-          <mat-form-field style="width: 100px;" matTooltip="Porcentaje de anticipo" matTooltipPosition="below">
-            <span matPrefix>%</span>
-            <input class="right" matInput placeholder="Anticipo" name="porcen_anticipo"  [(ngModel)]="justificacion.porcen_anticipo"required>
-          </mat-form-field>
-          <mat-form-field style="width: 100px;" matTooltip="Porcentaje de garantía de cumplimento" matTooltipPosition="below">
-            <span matPrefix>%</span>
-            <input class="right" matInput placeholder="Garantía" name="porcen_garantia"  [(ngModel)]="justificacion.porcen_garantia"required>
-          </mat-form-field>
-        </div>
-
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px" >
           <mat-form-field >
             <textarea mat-autosize  #terminos_entrega maxlength="2000" matInput placeholder="Térmimos de entrega"
@@ -177,19 +149,14 @@
             <mat-icon>check</mat-icon>
           </button>
         -->
-
-        <!-- </fieldset> -->
-
-  </mat-sidenav-container >
-    </mat-tab>
+      </div>
+        </div>
+    </mat-step>
 
     <!-- Proveedores -->
-    <mat-tab label="Cotizar Proveedores" >
-      <mat-sidenav-container class="div-container-edit">
-
-        <div class="subtitulos-tabs">Comparar y seleccionar proveedores</div>
-
-        <table mat-table [dataSource]="dsProveedores">
+    <mat-step label="Cotizar Proveedores" errorMessage="Gtotexco" [completed]="groupProveedores.valid && editForm.form.pristine && justificacion.proveedor_selected">
+      <div class="subtitulos-tabs">Comparar y seleccionar proveedores</div>
+      <table mat-table [dataSource]="dsProveedores">
 
           <!--
           <ng-container matColumnDef="index" >
@@ -249,23 +216,7 @@
 
             <td mat-footer-cell *matFooterCellDef="let element" colspan="6" >
 
-              <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="15px" >
 
-                <span style="float: left; margin-top: 10px;">
-                  <!-- <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: #f44336;">Al menos un proveedor debe ser Compranet</span> -->
-                  <mat-form-field class="flex-none" style="width: 280px; padding-right: 20px;" matTooltip="Fecha en que ya se recibieron todas la cotizaciones y se puede generar el estudio de mercardo" matTooltipPosition="above">
-                    <input name="fechaMercado" matInput [matDatepicker]="fechaMercado" placeholder="Fecha de estudio de mercado"
-                      [(ngModel)]="justificacion.fecha_mercado" required>
-                    <mat-datepicker-toggle matSuffix [for]="fechaMercado"></mat-datepicker-toggle>
-                    <mat-datepicker #fechaMercado></mat-datepicker>
-                  </mat-form-field>
-                  <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()"
-                          matTooltip="Generar estudio de mercado para determinar si se presenta a comité" matTooltipPosition="above"
-                          [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
-                    <mat-icon>account_balance</mat-icon>
-                    Estudio de Mercado
-                  </button>
-                </span>
         <!--
                 <button [disabled]="!isEdicion()" class="btn-notificar" color="accent" mat-flat-button (click)="openNotificarDialog()"
                         matTooltip="Una vez enviada la notificación no se podrán modificar los datos de compra" matTooltipPosition="above"
@@ -282,7 +233,6 @@
                   <mat-icon>add</mat-icon>
                 </button>
 
-              </div>
 
             </td>
           </ng-container>
@@ -293,91 +243,150 @@
           <tr mat-footer-row *matFooterRowDef="['disclaimer']; sticky: true;" class="example-second-footer-row" ></tr>
 
         </table>
-
-      </mat-sidenav-container>
-
-      <mat-sidenav-container *ngIf="!justificacion.proveedor_selected" class="div-container-edit">
-        <h4>No ha seleccionado proveedor</h4>
-      </mat-sidenav-container>
-
-      <mat-sidenav-container *ngIf="justificacion.proveedor_selected"class="div-container-edit">
-
-        <!--
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
-          <label>Proveedor: </label><h3>{{justificacion?.proveedor_selected?.razon_social}}</h3>
+      <div  ngModelGroup="groupProveedores" #groupProveedores="ngModelGroup">
+        <fieldset style="margin: 10px 0; border-color: lightgray;">
+          <legend style="color: rgba(0, 0, 0, 0.54);">Orden de fechas <mat-icon>arrow_forward</mat-icon> </legend>
+          <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px" style="padding-right: 10px;">
+            <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;" matTooltip="Fecha de la justificación" matTooltipPosition="above">
+              <!-- class="mat-elevation-z8" style="border: 1px solid #673ab7; padding: 5px;" -->
+              <mat-label><span>1</span> Fecha de elaboración</mat-label>
+              <input type="date" name="fechaElaboracion" matInput placeholder="Fecha de elaboración" [ngModel]="justificacion.created_at | date:'yyyy-MM-dd'" [disabled]="true" >
+              <mat-hint>Se autogenera</mat-hint>
+            </mat-form-field>
+              <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;" matTooltip="Fecha límite para que cada proveedor entregue su cotización" matTooltipPosition="above">
+                <mat-label><span>2</span> Fecha límite para cotizar</mat-label>
+                  <input name="fechaCotizar" matInput [matDatepicker]="fechaCotizar" placeholder="Fecha límite para cotizar"
+                         [(ngModel)]="justificacion.fecha_cotizar"  required >
+                  <mat-datepicker-toggle matSuffix [for]="fechaCotizar"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaCotizar></mat-datepicker>
+                  <mat-hint>De: elaboración</mat-hint>
+                  <mat-hint align="end">A: mercado</mat-hint>
+              </mat-form-field>
+            <div class="flex-none" style="width: 240px; padding-right: 10px; display: inline-flex;">
+              <mat-form-field class="flex-none"  matTooltip="Fecha en que ya se recibieron todas la cotizaciones y se puede generar el estudio de mercado" matTooltipPosition="above">
+                <mat-label><span>3</span> Fecha de estudio de mercado</mat-label>
+                <input name="fechaMercado" matInput [matDatepicker]="fechaMercado" placeholder="Fecha de estudio de mercado"
+                       [(ngModel)]="justificacion.fecha_mercado" required>
+                <mat-datepicker-toggle matSuffix [for]="fechaMercado"></mat-datepicker-toggle>
+                <mat-datepicker #fechaMercado></mat-datepicker>
+                <mat-hint>De: cotización</mat-hint>
+                <mat-hint align="end">A: emisión</mat-hint>
+                <!--
+                <button mat-icon-button matPrefix><mat-icon>account_balance</mat-icon></button>
+                <button mat-mini-fab matSuffix (click)="mercado()" matTooltip="Generar estudio de mercado para determinar si se presenta a comité" matTooltipPosition="below">
+                  <mat-icon aria-label="Example icon-button with a heart icon">account_balance</mat-icon>
+                </button>
+                -->
+              </mat-form-field>
+              <!-- <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: #f44336;">Al menos un proveedor debe ser Compranet</span> -->
+              <div style="padding-top: 24px; padding-left: 3px;">
+                <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()" style="min-width: 44px;"
+                        matTooltip="Generar estudio de mercado para determinar si se presenta a comité"
+                        matTooltipPosition="above"
+                        [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
+                  <mat-icon>account_balance</mat-icon>
+                </button>
+                </div>
+            </div>
+          </div>
+        </fieldset>
+        <div *ngIf="!justificacion.proveedor_selected" class="div-container-edit">
+          <h4>No ha seleccionado proveedor</h4>
         </div>
-        -->
+        <div *ngIf="justificacion.proveedor_selected"class="div-container-edit">
 
-        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
-          <mat-form-field fxFill>
-            <textarea mat-autosize maxlength="600" matInput placeholder="Motivo de la selección del proveedor" name="motivo_seleccion" #motivo_seleccion
-                      [(ngModel)]="justificacion.motivo_seleccion" required></textarea>
-            <mat-hint align="end">{{motivo_seleccion.value.length}} / 600</mat-hint>
-          </mat-form-field >
+          <!--
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
+            <label>Proveedor: </label><h3>{{justificacion?.proveedor_selected?.razon_social}}</h3>
+          </div>
+          -->
+
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
+            <mat-form-field fxFill>
+              <textarea mat-autosize maxlength="600" matInput placeholder="Motivo de la selección del proveedor" name="motivo_seleccion" #motivo_seleccion
+                        [(ngModel)]="justificacion.motivo_seleccion" required></textarea>
+              <mat-hint align="end">{{motivo_seleccion.value.length}} / 600</mat-hint>
+            </mat-form-field >
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
+            <mat-checkbox class="flex-none" name="economica" [(ngModel)]="justificacion.economica" color="primary" >Económica</mat-checkbox>
+            <mat-radio-group name="eficiencia_eficacia" [(ngModel)]="justificacion.eficiencia_eficacia" >
+              <mat-radio-button color="primary"  name="decision0" [value]="0">Eficiencia</mat-radio-button>
+              <mat-radio-button color="primary" name="decision1" [value]="1">Eficacia</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <!--
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+            <mat-form-field fxFill>
+              <textarea mat-autosize  maxlength="400" matInput placeholder="Forma de pago (cheque, transferencia bancaria, depósito, etc.)" name="forma_pago" #forma_pago
+                        [(ngModel)]="justificacion.forma_pago" required></textarea>
+              <mat-hint align="end">{{forma_pago.value.length}} / 200</mat-hint>
+            </mat-form-field >
+          </div>
+          -->
+
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px" style="padding-right: 30px;">
+                <mat-form-field style="width: 100px;">
+                    <span matPrefix>#</span>
+                    <input class="right" number matInput placeholder="Parcialidad(es)" name="num_pagos"  [(ngModel)]="justificacion.num_pagos"required type="number" min="1" max="12">
+                </mat-form-field>
+                <mat-form-field style="width: 100px;" matTooltip="Porcentaje de anticipo" matTooltipPosition="below">
+                    <span matPrefix>%</span>
+                    <input class="right" matInput placeholder="Anticipo" name="porcen_anticipo"  [(ngModel)]="justificacion.porcen_anticipo"required>
+                </mat-form-field>
+                <mat-form-field style="width: 100px;" matTooltip="Porcentaje de garantía de cumplimento" matTooltipPosition="below">
+                    <span matPrefix>%</span>
+                    <input class="right" matInput placeholder="Garantía" name="porcen_garantia"  [(ngModel)]="justificacion.porcen_garantia"required>
+                </mat-form-field>
+                <mat-form-field style="width: 250px;">
+                    <mat-select placeholder="Moneda" [(ngModel)]="justificacion.moneda_id" name="moneda" required >
+                        <mat-option *ngFor="let moneda of monedas" [value]="moneda.id">
+                            {{moneda.code}} {{moneda.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+          <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px">
+            <mat-form-field style="width: 200px;">
+              <span matPrefix>{{justificacion.moneda.simbolo}} &nbsp;</span>
+              <input currencyMask class="right" matInput placeholder="Subtotal" name="subtotal"  [ngModel]="monto()"
+                     [options]="{ prefix: '', thousands: ',', decimal: '.' }" required [disabled]="true">
+              <mat-hint>Proveedor seleccionado</mat-hint>
+            </mat-form-field>
+            <mat-form-field style="width: 200px;">
+              <span matPrefix>{{justificacion.moneda.simbolo}} &nbsp;</span>
+              <input currencyMask class="right" matInput placeholder="IVA" name="iva"  [(ngModel)]="justificacion.iva"
+                     [options]="{ prefix: '', thousands: ',', decimal: '.' }" required>
+              <mat-hint align="start">Cantidad (no porcentaje)</mat-hint>
+            </mat-form-field>
+            <mat-form-field style="width: 200px;">
+              <span matPrefix>{{justificacion.moneda.simbolo}} &nbsp;</span>
+              <input currencyMask class="right" matInput placeholder="Total" name="importe"  [value]=importe()
+                     [options]="{ prefix: '', thousands: ',', decimal: '.' }" required [disabled]="true">
+              <mat-hint>Subtotal + IVA</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!--
+          <button class="btn-cotizar" color="accent" color="accent" mat-flat-button (click)="mercado()" style="float: right; margin-top: 30px;"
+                  matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="before">
+            <mat-icon>description</mat-icon>
+            {{justiDicta(justificacion.tipo.fraccion)}}
+          </button>
+          -->
+
         </div>
-
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
-          <mat-checkbox class="flex-none" name="economica" [(ngModel)]="justificacion.economica" color="primary" >Económica</mat-checkbox>
-          <mat-radio-group name="eficiencia_eficacia" [(ngModel)]="justificacion.eficiencia_eficacia" >
-            <mat-radio-button color="primary"  name="decision0" [value]="0">Eficiencia</mat-radio-button>
-            <mat-radio-button color="primary" name="decision1" [value]="1">Eficacia</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <!--
-        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
-          <mat-form-field fxFill>
-            <textarea mat-autosize  maxlength="400" matInput placeholder="Forma de pago (cheque, transferencia bancaria, depósito, etc.)" name="forma_pago" #forma_pago
-                      [(ngModel)]="justificacion.forma_pago" required></textarea>
-            <mat-hint align="end">{{forma_pago.value.length}} / 200</mat-hint>
-          </mat-form-field >
-        </div>
-        -->
-        <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px">
-          <mat-form-field style="width: 250px;">
-            <mat-select placeholder="Moneda" [(ngModel)]="justificacion.moneda_id" name="moneda" required >
-              <mat-option *ngFor="let moneda of monedas" [value]="moneda.id">
-                {{moneda.code}} {{moneda.nombre}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field style="width: 200px;">
-            <span matPrefix>{{justificacion.moneda.simbolo}} &nbsp;</span>
-            <input currencyMask class="right" matInput placeholder="Subtotal" name="subtotal"  [ngModel]="monto()"
-                   [options]="{ prefix: '', thousands: ',', decimal: '.' }" required [disabled]="true">
-            <mat-hint>Proveedor seleccionado</mat-hint>
-          </mat-form-field>
-          <mat-form-field style="width: 200px;">
-            <span matPrefix>{{justificacion.moneda.simbolo}} &nbsp;</span>
-            <input currencyMask class="right" matInput placeholder="IVA" name="iva"  [(ngModel)]="justificacion.iva"
-                   [options]="{ prefix: '', thousands: ',', decimal: '.' }" required>
-            <mat-hint align="start">Cantidad (no porcentaje)</mat-hint>
-          </mat-form-field>
-          <mat-form-field style="width: 200px;">
-            <span matPrefix>{{justificacion.moneda.simbolo}} &nbsp;</span>
-            <input currencyMask class="right" matInput placeholder="Total" name="importe"  [value]=importe()
-                   [options]="{ prefix: '', thousands: ',', decimal: '.' }" required [disabled]="true">
-            <mat-hint>Subtotal + IVA</mat-hint>
-          </mat-form-field>
-        </div>
-
-        <!--
-        <button class="btn-cotizar" color="accent" color="accent" mat-flat-button (click)="mercado()" style="float: right; margin-top: 30px;"
-                matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="before">
-          <mat-icon>description</mat-icon>
-          {{justiDicta(justificacion.tipo.fraccion)}}
-        </button>
-        -->
-
-      </mat-sidenav-container>
-
-    </mat-tab>
+      </div>
+    </mat-step>
 
     <!-- Definicion -->
-    <mat-tab label="Tramitar ante comité"  > <!-- [disabled]="!hasCompranet()" -->
+    <mat-step label="Tramitar ante comité"  > <!-- [disabled]="!hasCompranet()" -->
 
       <div class="subtitulos-tabs">En su caso, someter el asunto a comité</div>
 
-        <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="25px">
+      <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="25px">
             <label>Fracción * <span style="font-style: italic;">Consultar con personal de adquisiciones</span></label>
         </div>
 
@@ -426,12 +435,30 @@
 
       </div>
 
-    </mat-tab>
+        <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px">
+            <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;"
+                            matTooltip="Fecha en que se firma la Justifiación o Dictamen" matTooltipPosition="above">
+                <mat-label><span>4</span> Fecha de emisión</mat-label>
+                <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión"
+                       [(ngModel)]="justificacion.fecha_elaboracion" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerFirma"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFirma></mat-datepicker>
+                <mat-hint align="start" >Fecha en que se firma</mat-hint>
+            </mat-form-field>
 
-  </mat-tab-group>
+            <button id="btn-pdf" mat-flat-button [disabled]="(!editForm.form.valid || editForm.form.dirty || !justificacion.proveedor_selected)" (click)="openImprimirDialog()"
+                    style="margin-right: 10px;"  matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="above">
+                <mat-icon>description</mat-icon>
+                {{justiDicta(justificacion.tipo.fraccion)}}
+            </button>
+
+        </div>
+
+    </mat-step>
+
+  </mat-horizontal-stepper>
 
   </form>
-
 
   <mat-toolbar id="div-footer-edit">
 
@@ -442,12 +469,6 @@
       </div>
 
     <div class="buttons-layout-right">
-
-      <button id="btn-pdf" mat-flat-button [disabled]="(!editForm.form.valid || editForm.form.dirty || !justificacion.proveedor_selected)" (click)="openImprimirDialog()"
-              style="margin-right: 10px;"  matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="above">
-        <mat-icon>description</mat-icon>
-        {{justiDicta(justificacion.tipo.fraccion)}}
-      </button>
 
       <button id="btn-guardar" mat-flat-button matTooltip="Guardar cambios" matTooltipPosition="above"
               (click)="saveDatos($event)" [disabled]=editForm.form.pristine>
