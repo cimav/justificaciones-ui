@@ -32,10 +32,16 @@
   */
 }
 #div-footer-edit {
+  /*
   position: absolute;
   bottom: 0px;
   left: 0;
   right: 0;
+  */
+  position: fixed;
+  /*position: -webkit-sticky;*//* For macOS/iOS Safari */
+  bottom: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000;
 }
 
 fieldset {

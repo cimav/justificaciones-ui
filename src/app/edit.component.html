@@ -13,13 +13,12 @@
   </ng-container>
     -->
 
-  <form #editForm="ngForm"  >
 
+    <form #editForm="ngForm"  style="    height: 100%;">
+        <mat-horizontal-stepper linear="true" > <!--  -->
 
-  <mat-horizontal-stepper linear="true"> <!--  -->
-
-    <!-- Datos generales -->
-    <mat-step label="Justificación" [completed]="groupGeneral.valid && editForm.form.pristine">
+            <!-- Datos generales -->
+            <mat-step label="Justificación" [completed]="groupGeneral.valid && editForm.form.pristine">
 
       <div class="subtitulos-tabs">Definir la necesidad o requerimiento
       </div>
@@ -30,7 +29,7 @@
 
         <div  ngModelGroup="groupGeneral" #groupGeneral="ngModelGroup">
 
-            <div class="subtitulos-tabs" > <!--[class.notificando]="!canEditar()"-->
+            <!-- <div class="subtitulos-tabs" > --> <!--[class.notificando]="!canEditar()"-->
 
           <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px">
           <mat-form-field >
@@ -150,11 +149,12 @@
           </button>
         -->
       </div>
-        </div>
+        <!-- </div> -->
+
     </mat-step>
 
-    <!-- Proveedores -->
-    <mat-step label="Cotizar Proveedores" errorMessage="Gtotexco" [completed]="groupProveedores.valid && editForm.form.pristine && justificacion.proveedor_selected">
+            <!-- Proveedores -->
+            <mat-step label="Cotizar Proveedores" errorMessage="Gtotexco" [completed]="groupProveedores.valid && editForm.form.pristine && justificacion.proveedor_selected">
       <div class="subtitulos-tabs">Comparar y seleccionar proveedores</div>
       <table mat-table [dataSource]="dsProveedores">
 
@@ -381,8 +381,8 @@
       </div>
     </mat-step>
 
-    <!-- Definicion -->
-    <mat-step label="Tramitar ante comité"  > <!-- [disabled]="!hasCompranet()" -->
+            <!-- Definicion -->
+            <mat-step label="Tramitar ante comité"  > <!-- [disabled]="!hasCompranet()" -->
 
       <div class="subtitulos-tabs">En su caso, someter el asunto a comité</div>
 
@@ -405,7 +405,7 @@
             <ng-container matColumnDef="texto" >
                 <td mat-cell style="" *matCellDef="let element">
                     <div>{{element.code}}</div>
-                    <div style="font-style: italic; color: rgba(0, 0, 0, 0.54); padding-top: 3px;">{{element.descripcion}}</div>
+                    <div style="font-style: italic; padding-top: 3px;">{{element.descripcion}}</div> <!--  color: rgba(0, 0, 0, 0.54); -->
                 </td>
             </ng-container>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsTipos;" (mouseover)="rowHover(row.id)" ></tr>
@@ -456,9 +456,8 @@
 
     </mat-step>
 
-  </mat-horizontal-stepper>
-
-  </form>
+        </mat-horizontal-stepper>
+    </form>
 
   <mat-toolbar id="div-footer-edit">
 
