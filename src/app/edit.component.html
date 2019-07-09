@@ -1,6 +1,6 @@
 <mat-progress-bar #matBuffer value="0" [bufferValue]="valueBuffer" mode="buffer" xmlns="http://www.w3.org/1999/html"></mat-progress-bar>
 
-<ng-container *ngIf="justificacion">
+<mat-sidenav-container mode="over" *ngIf="justificacion" >
 <!-- (ngSubmit)="onSubmit(justificacionForm)"  novalidate -->
 
     <!--
@@ -14,7 +14,7 @@
     -->
 
 
-    <form #editForm="ngForm"  style="    height: 100%;">
+  <form #editForm="ngForm" >
         <mat-horizontal-stepper linear="true" > <!--  -->
 
             <!-- Datos generales -->
@@ -32,20 +32,10 @@
             <!-- <div class="subtitulos-tabs" > --> <!--[class.notificando]="!canEditar()"-->
 
           <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px">
-          <mat-form-field >
+          <mat-form-field class="flex-none" style="width: 200px;">
             <input matInput placeholder="Identificador" name="identificador" [(ngModel)]="justificacion.identificador" required>
           </mat-form-field>
 
-          <mat-form-field matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below" >
-            <input matInput placeholder="Requisición" name="requisicion"  [(ngModel)]="justificacion.requisicion" required>
-            <!--<button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">-->
-            <button mat-icon-button matSuffix >
-              <mat-icon (click)="openRequisicionProveedorDialog(justificacion.requisicion)">search</mat-icon>
-            </button>
-          </mat-form-field>
-          <mat-form-field >
-            <input matInput placeholder="Número de proyecto" name="proyecto"  [(ngModel)]="justificacion.proyecto" required>
-          </mat-form-field>
           <mat-radio-group name="bien_servicio" [(ngModel)]="justificacion.bien_servicio" class="flex-none">
             <mat-radio-button color="primary"  name="cero" [value]="0" style="padding-right: 25px;">Bien</mat-radio-button>
             <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
@@ -243,6 +233,31 @@
           <tr mat-footer-row *matFooterRowDef="['disclaimer']; sticky: true;" class="example-second-footer-row" ></tr>
 
         </table>
+
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px" style="padding-top: 30px;">
+                    <mat-form-field class="flex-none" style="width: 200px;" matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below" >
+                        <input matInput placeholder="Requisición" name="requisicion"  [(ngModel)]="justificacion.requisicion" required>
+                        <!--<button mat-icon-button matSuffix (click)="searchRequisicion(justificacion.requisicion)">-->
+                        <button mat-icon-button matSuffix >
+                            <mat-icon (click)="openRequisicionProveedorDialog(justificacion.requisicion)">search</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <mat-form-field class="flex-none" style="width: 200px;" >
+                        <input matInput placeholder="Número de proyecto" name="proyecto"  [(ngModel)]="justificacion.proyecto" required>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px" style="    padding-top: 10px;">
+                    <mat-form-field>
+                        <mat-select placeholder="Partida" [(ngModel)]="justificacion.partida_id" name="partida_sel" required   > <!-- [compareWith]="comparePartida" -->
+                            <mat-option *ngFor="let partida of partidas" [value]="partida.id" >
+                                {{partida.texto}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
       <div  ngModelGroup="groupProveedores" #groupProveedores="ngModelGroup">
         <fieldset style="margin: 10px 0; border-color: lightgray;">
           <legend style="color: rgba(0, 0, 0, 0.54);">Orden de fechas <mat-icon>arrow_forward</mat-icon> </legend>
@@ -413,29 +428,7 @@
         </table>
         </div>
 
-      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px" style="    padding-top: 10px;">
-
-          <!--
-        <mat-form-field >
-          <mat-select placeholder="Fracción" [(ngModel)]="justificacion.tipo_id" name="tipox" required (selectionChange)="onTipoChanges($event.value)" >
-            <mat-option *ngFor="let tipo of tipos" [value]="tipo.id" >
-                {{tipo.texto}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        -->
-
-        <mat-form-field>
-          <mat-select placeholder="Partida" [(ngModel)]="justificacion.partida_id" name="partida_sel" required   > <!-- [compareWith]="comparePartida" -->
-            <mat-option *ngFor="let partida of partidas" [value]="partida.id" >
-              {{partida.texto}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      </div>
-
-        <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px">
+        <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px" style="display: block;">
             <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;"
                             matTooltip="Fecha en que se firma la Justifiación o Dictamen" matTooltipPosition="above">
                 <mat-label><span>4</span> Fecha de emisión</mat-label>
@@ -445,19 +438,22 @@
                 <mat-datepicker #pickerFirma></mat-datepicker>
                 <mat-hint align="start" >Fecha en que se firma</mat-hint>
             </mat-form-field>
-
-            <button id="btn-pdf" mat-flat-button [disabled]="(!editForm.form.valid || editForm.form.dirty || !justificacion.proveedor_selected)" (click)="openImprimirDialog()"
-                    style="margin-right: 10px;"  matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="above">
-                <mat-icon>description</mat-icon>
-                {{justiDicta(justificacion.tipo.fraccion)}}
-            </button>
-
+            <div fxLayout="row" fxLayoutAlign="space-around end" fxLayoutGap="25px" style="display: block;">
+                <button id="btn-pdf" mat-flat-button [disabled]="(!editForm.form.valid || editForm.form.dirty || !justificacion.proveedor_selected)" (click)="openImprimirDialog()"
+                        style="margin-right: 10px;"  matTooltip="Generar {{justiDicta(justificacion.tipo.fraccion)}}" matTooltipPosition="above">
+                    <mat-icon>description</mat-icon>
+                    {{justiDicta(justificacion.tipo.fraccion)}}
+                </button>
+            </div>
         </div>
-
     </mat-step>
 
         </mat-horizontal-stepper>
     </form>
+
+    <div style="height: 60px; background-color: white;">
+        <!-- chafa: evita que la forma se esconda -->
+    </div>
 
   <mat-toolbar id="div-footer-edit">
 
@@ -481,4 +477,4 @@
   </mat-toolbar>
 
 
-</ng-container>
+</mat-sidenav-container>
