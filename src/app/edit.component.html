@@ -13,7 +13,6 @@
   </ng-container>
     -->
 
-
   <form #editForm="ngForm" >
         <mat-horizontal-stepper linear="true" > <!--  -->
 
@@ -317,20 +316,38 @@
           -->
 
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
-            <mat-form-field fxFill>
+            <mat-form-field >
               <textarea mat-autosize maxlength="600" matInput placeholder="Motivo de la selección del proveedor" name="motivo_seleccion" #motivo_seleccion
                         [(ngModel)]="justificacion.motivo_seleccion" required></textarea>
               <mat-hint align="end">{{motivo_seleccion.value.length}} / 600</mat-hint>
             </mat-form-field >
           </div>
 
-          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
-            <mat-checkbox class="flex-none" name="economica" [(ngModel)]="justificacion.economica" color="primary" >Económica</mat-checkbox>
-            <mat-radio-group name="eficiencia_eficacia" [(ngModel)]="justificacion.eficiencia_eficacia" >
-              <mat-radio-button color="primary"  name="decision0" [value]="0">Eficiencia</mat-radio-button>
-              <mat-radio-button color="primary" name="decision1" [value]="1">Eficacia</mat-radio-button>
-            </mat-radio-group>
-          </div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px" >
+                <mat-checkbox  name="economica" [(ngModel)]="justificacion.economica" color="primary" #economica_chk></mat-checkbox>
+                <mat-form-field >
+                  <textarea mat-autosize maxlength="2000" matInput placeholder="Económica" name="economica_txt" #economica_txt
+                        [(ngModel)]="justificacion.economica_txt" required [disabled]="!economica_chk.checked"></textarea>
+                    <mat-hint align="end">{{economica_txt.value.length}} / 2000</mat-hint>
+                </mat-form-field >
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px" >
+                <mat-checkbox name="eficiente" [(ngModel)]="justificacion.eficiente" color="primary" #eficiente_chk></mat-checkbox>
+                <mat-form-field >
+                  <textarea mat-autosize maxlength="2000" matInput placeholder="Eficiente" name="eficiente_txt" #eficiente_txt
+                            [(ngModel)]="justificacion.eficiente_txt" required [disabled]="!eficiente_chk.checked"></textarea>
+                    <mat-hint align="end">{{eficiente_txt.value.length}} / 2000</mat-hint>
+                </mat-form-field >
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+                <mat-checkbox name="eficaz" [(ngModel)]="justificacion.eficaz" color="primary" #eficaz_chk></mat-checkbox>
+                <mat-form-field >
+                  <textarea mat-autosize maxlength="2000" matInput placeholder="Eficaz" name="eficaz_txt" #eficaz_txt
+                            [(ngModel)]="justificacion.eficaz_txt" required [disabled]="!eficaz_chk.checked"></textarea>
+                    <mat-hint align="end">{{eficaz_txt.value.length}} / 2000</mat-hint>
+                </mat-form-field >
+            </div>
+
           <!--
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
             <mat-form-field fxFill>
@@ -340,6 +357,10 @@
             </mat-form-field >
           </div>
           -->
+
+            <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="25px">
+                <label>Pago</label>
+            </div>
 
             <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px" style="padding-right: 30px;">
                 <mat-form-field style="width: 100px;">

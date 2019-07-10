@@ -26,6 +26,7 @@ import {ImportarDialogComponent} from './dialogs/importar.dialog.component';
 import {ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
 import {NotificarDialogComponent} from './dialogs/notificar.dialog.component';
 import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.component';
+import {Globals} from './globals';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.comp
 
   providers: [
     AuthService,
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+      Globals
   ],
   bootstrap: [AppComponent]
 })

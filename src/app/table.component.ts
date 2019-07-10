@@ -7,6 +7,7 @@ import {CrearDialogComponent} from './dialogs/crear.dialog.component';
 import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
 import {ReplicarDialogComponent} from './dialogs/replicar.dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {Globals} from './globals';
 
 @Component({
   selector: 'app-table',
@@ -17,7 +18,7 @@ export class TableComponent implements OnInit {
 
   @Output() justificacionIdChange = new EventEmitter();
 
-  empleado: Empleado;
+  // empleado: Empleado;
   dataSource: MatTableDataSource<Justificacion>;
   displayedColumns: string[] = []; // 'identificador', 'requisicion', 'creador_cuenta_cimav', 'descripcion', 'acciones'];
   row_hover = 0;
@@ -32,17 +33,19 @@ export class TableComponent implements OnInit {
   // ordenDireccion = 'desc';
 
   // public router: Router,
-  constructor(public auth: AuthService, public rest: RestService, public dialog: MatDialog) { }
+  constructor(public auth: AuthService, public rest: RestService, public dialog: MatDialog, private globals: Globals) { }
 
   ngOnInit() {
-    this.empleado = null;
+    // this.empleado = null;
+      this.globals.empleado = null
     this.rest.getEmpleado(this.auth.getCuenta()).subscribe( (response: Empleado) => {
-      this.empleado = response;
+      // this.empleado = response;
+      this.globals.empleado = response;
       this.getJustificaciones();
     }, error => {
       console.log('DB NO CONECTADA ' + this.auth.getCuenta() + ' :::  ' + error);
     }, () => {
-      console.log('Get Single Empleado:' + this.empleado.cuenta_cimav + ' > ' + this.empleado.is_admin);
+      console.log('Get Single Empleado:' + this.globals.empleado.cuenta_cimav + ' > ' + this.globals.empleado.is_admin);
     });
   }
 
@@ -56,15 +59,19 @@ export class TableComponent implements OnInit {
   }
   */
 
+  public isAsistente(): boolean {
+      return this.globals.empleado && this.globals.empleado.is_asistente;
+  }
+
   private getJustificaciones() {
-    this.rest.getJustificaciones(this.empleado.id).subscribe((response: Justificacion[]) => {
+    this.rest.getJustificaciones(this.globals.empleado.id).subscribe((response: Justificacion[]) => {
 
       this.valueBuffer = 0;
 
       const justificaciones: Justificacion[] = response;
 
       // this.esAsistente = justificaciones.filter(jus => jus.creador_id !== this.empleado.id).length > 0;
-      if (this.empleado.is_asistente) {
+      if (this.globals.empleado.is_asistente) {
         this.displayedColumns = ['identificador', 'requisicion', 'creador_cuenta_cimav', 'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
       } else {
         this.displayedColumns = ['identificador', 'requisicion',                         'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
@@ -170,14 +177,14 @@ export class TableComponent implements OnInit {
 
         nuevaJustificacion.identificador = result;
 
-        nuevaJustificacion.creador = this.empleado;
-        nuevaJustificacion.creador_id = this.empleado.id;
+        nuevaJustificacion.creador = this.globals.empleado;
+        nuevaJustificacion.creador_id = this.globals.empleado.id;
 
-        nuevaJustificacion.elaboro = this.empleado;
-        nuevaJustificacion.elaboro_id = this.empleado.id;
+        nuevaJustificacion.elaboro = this.globals.empleado;
+        nuevaJustificacion.elaboro_id = this.globals.empleado.id;
 
-        nuevaJustificacion.autorizo = this.empleado;
-        nuevaJustificacion.autorizo_id = this.empleado.id;
+        nuevaJustificacion.autorizo = this.globals.empleado;
+        nuevaJustificacion.autorizo_id = this.globals.empleado.id;
 
         const tipo0: Tipo = new Tipo();
         tipo0.id = 0 ;

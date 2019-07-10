@@ -10,6 +10,7 @@
     <div *ngIf="auth.isAuthenticated(); else loggedOut">
       <button mat-button (click)="auth.logout()" style="font-size: large; font-weight: 100;">
         <span>{{auth.getCuenta()}} <i class="fas fa-sign-out-alt"></i></span>
+        <!-- <span style="display: block;letter-spacing: 4px; font-size: smaller; line-height: 10px;">{{role()}}</span> -->
       </button>
     </div>
     <ng-template #loggedOut>

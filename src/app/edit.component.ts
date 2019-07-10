@@ -20,6 +20,7 @@ import {ImportarDialogComponent} from './dialogs/importar.dialog.component';
 import {FechasImprimir, ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
 import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.component';
 import * as moment from 'moment';
+import {Globals} from './globals';
 
 // https://angular.io/api/forms/FormControlName#use-with-ngmodel
 
@@ -51,7 +52,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   // private routeActive: ActivatedRoute, private router: Router,
   constructor(private rest: RestService,  public dialog: MatDialog,
-              private currencyPipe: CurrencyPipe, public msgsBar: MatSnackBar, private changeDetector: ChangeDetectorRef) {
+              private currencyPipe: CurrencyPipe, public msgsBar: MatSnackBar, private changeDetector: ChangeDetectorRef,
+              private globals: Globals) {
   }
 
   /*
@@ -687,5 +689,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
     */
 
+  public isAdmin(): boolean {
+        return this.globals.empleado && this.globals.empleado.is_admin;
+  }
 }
 

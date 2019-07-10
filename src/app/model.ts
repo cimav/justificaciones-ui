@@ -135,6 +135,13 @@ export class Justificacion {
     created_at: Date;
 
   creador_cuenta_cimav: string;
+
+    economica_txt: string;
+    eficiente: boolean;
+    eficiente_txt: string;
+    eficaz: boolean;
+    eficaz_txt: string;
+
   
   constructor() {
     this.requisicion = '';
@@ -174,6 +181,13 @@ export class Justificacion {
       this.fecha_termino = new Date();
       this.fecha_inicio = new Date();
       this.fecha_elaboracion = new Date();
+
+      this.economica_txt = '';
+      this.eficiente = false;
+      this.eficiente_txt = '';
+      this.eficaz = false;
+      this.eficaz_txt = '';
+
   }
 
 }

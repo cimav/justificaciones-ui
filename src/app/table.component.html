@@ -33,7 +33,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="creador_cuenta_cimav" *ngIf="empleado?.is_asistente">
+    <ng-container matColumnDef="creador_cuenta_cimav" *ngIf="isAsistente()">
       <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'" style="width: 130px;"> Creador </th>
       <td mat-cell *matCellDef="let element" [innerHTML]="element?.creador_cuenta_cimav | highlight: filterValue" matTooltip="{{element.creador_id}}"> {{element.creador_cuenta_cimav}} </td>
     </ng-container>
