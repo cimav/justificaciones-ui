@@ -369,7 +369,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   justiDicta(tipo: number) {
-    if (tipo === 7) {
+    if (tipo === 7 || tipo === 5) {
       return 'Dictamen';
     } else {
       return 'Justificación';
