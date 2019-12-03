@@ -50,8 +50,8 @@
 
         <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="15px" >
           <mat-form-field style="    padding-top: 10px;">
-            <textarea mat-autosize #razoncompra maxlength="2000" matInput placeholder="Razón y/o utilidad de la compra" [(ngModel)]="justificacion.razon_compra" name="razon_compra" required></textarea>
-            <mat-hint align="end">{{razoncompra.value.length}} / 2000</mat-hint>
+            <textarea mat-autosize #razoncompra maxlength="3000" matInput placeholder="Razón y/o utilidad de la compra" [(ngModel)]="justificacion.razon_compra" name="razon_compra" required></textarea>
+            <mat-hint align="end">{{razoncompra.value.length}} / 3000</mat-hint>
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="15px">
@@ -442,6 +442,14 @@
                 <td mat-cell style="" *matCellDef="let element">
                     <div>{{element.code}}</div>
                     <div style="font-style: italic; padding-top: 3px;">{{element.descripcion}}</div> <!--  color: rgba(0, 0, 0, 0.54); -->
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between center" >
+                        <mat-form-field appearance="outline" *ngIf="element.fraccion == 8">
+                            <textarea #acreditacion_marca mat-autosize maxlength="2000" matInput [(ngModel)]="justificacion.acreditacion_marca" name="acreditacion_marca"
+                                [disabled]="element.id != justificacion.tipo_id"></textarea>
+                            <mat-hint >Sustente la acreditación de usar una marca en específico</mat-hint>
+                            <mat-hint align="end">{{acreditacion_marca.value.length}} / 2000</mat-hint>
+                        </mat-form-field>
+                    </div>
                 </td>
             </ng-container>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsTipos;" (mouseover)="rowHover(row.id)" ></tr>

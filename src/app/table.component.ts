@@ -24,7 +24,7 @@ export class TableComponent implements OnInit {
   row_hover = 0;
   filterValue = '';
 
-  @ViewChild(MatSort) sort: MatSort;
+  //@ViewChild(MatSort) sort: MatSort;
 
   valueBuffer = 0;
   esAsistente = false;
@@ -71,10 +71,11 @@ export class TableComponent implements OnInit {
       const justificaciones: Justificacion[] = response;
 
       // this.esAsistente = justificaciones.filter(jus => jus.creador_id !== this.empleado.id).length > 0;
+        // 'fecha_elaboracion',
       if (this.globals.empleado.is_asistente) {
-        this.displayedColumns = ['identificador', 'requisicion', 'creador_cuenta_cimav', 'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
+        this.displayedColumns = ['identificador', 'requisicion', 'creador_cuenta_cimav', 'descripcion', 'editar', 'replicar', 'eliminar'];
       } else {
-        this.displayedColumns = ['identificador', 'requisicion',                         'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
+        this.displayedColumns = ['identificador', 'requisicion',                         'descripcion', 'editar', 'replicar', 'eliminar'];
       }
 
       this.dataSource = new MatTableDataSource(justificaciones); // .slice(0, 2)
@@ -110,7 +111,7 @@ export class TableComponent implements OnInit {
         return result != null;
       };
 
-        this.dataSource.sort = this.sort;
+       // this.dataSource.sort = this.sort;
 
     }, error => {
       console.log('DB NO CONECTADA ' + this.auth.getCuenta() + ' :::  ' + error);

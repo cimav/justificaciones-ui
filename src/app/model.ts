@@ -142,6 +142,7 @@ export class Justificacion {
     eficaz: boolean;
     eficaz_txt: string;
 
+    acreditacion_marca: string;
   
   constructor() {
     this.requisicion = '';
@@ -188,6 +189,7 @@ export class Justificacion {
       this.eficaz = false;
       this.eficaz_txt = '';
 
+      this.acreditacion_marca = '';
   }
 
 }
