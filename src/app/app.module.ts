@@ -27,6 +27,7 @@ import {ImprimirDialogComponent} from './dialogs/imprimir.dialog.component';
 import {NotificarDialogComponent} from './dialogs/notificar.dialog.component';
 import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.component';
 import {Globals} from './globals';
+import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {Globals} from './globals';
     TableComponent,
     SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ProveedorDialogComponent,
       WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent, ValidarFechasDialogComponent,
+      AgregarAnexosDialogComponent,
     EditComponent,
     CallbackComponent,
     HighlightSearch
@@ -50,7 +52,7 @@ import {Globals} from './globals';
     CurrencyMaskModule
   ],
   entryComponents: [SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ValidarFechasDialogComponent,
-      ProveedorDialogComponent, WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent],
+      ProveedorDialogComponent, WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent, AgregarAnexosDialogComponent],
 
   providers: [
     AuthService,

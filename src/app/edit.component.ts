@@ -10,7 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {RestService} from './rest.service';
-import {Empleado, Justificacion, Moneda, Partida, Proveedor, Tipo} from './model';
+import {Anexo, Empleado, Justificacion, Moneda, Partida, Proveedor, Tipo} from './model';
 import {NgForm,} from '@angular/forms';
 import {MatDialog, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {ProveedorData, ProveedorDialogComponent} from './dialogs/proveedor.dialog.component';
@@ -21,6 +21,8 @@ import {FechasImprimir, ImprimirDialogComponent} from './dialogs/imprimir.dialog
 import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.component';
 import * as moment from 'moment';
 import {Globals} from './globals';
+import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.component';
+import {environment} from "../environments/environment";
 
 // https://angular.io/api/forms/FormControlName#use-with-ngmodel
 
@@ -40,13 +42,15 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   // partidas_by_tipo: Partida[] = [];
   empleados: Empleado[] = [];
 
-  dsTipos: MatTableDataSource<Tipo>;
+    dsTipos: MatTableDataSource<Tipo>;
+    dsAnexos: MatTableDataSource<Anexo>;
 
   dsProveedores: MatTableDataSource<Proveedor>;
   displayedColumns: string[] = ['seleccionar', 'clave', 'razon_social', 'fuente', 'monto', 'acciones'];
-  row_hover = 0;
+  row_hover: any;
 
     displayedColumnsTipos: string[] = ['seleccionar', 'romano', 'texto'];
+    displayedColumnsAnexos: string[] = ['identifier', 'acciones'];
 
   valueBuffer = 0;
 
@@ -106,10 +110,13 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       console.log('Get Single Justificacion Entrando Edit:' + this.justificacion.id );
 
       this.dsProveedores = new MatTableDataSource(this.justificacion.proveedores);
+      console.log('Prov> ', this.justificacion.proveedores)
       this.asignarProveeSelected();
 
       // 1ero carga la Justificación y después las colecciones
       this.initCollections();
+
+      this.loadAnexos();
 
       this.valueBuffer = 100;
     });
@@ -235,6 +242,10 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     if (this.justificacion.num_pagos <= 0) {
         this.justificacion.num_pagos = 1;
     }
+    if (this.justificacion.bien_servicio == 1 && this.justificacion.tipo.fraccion == 8) {
+        // cuando es Servicio no puede ser VIII
+        this.justificacion.tipo_id = 0;
+    }
 
     if (moment(this.justificacion.fecha_cotizar).isBefore(this.justificacion.created_at)) {
         this.callValidarFechasDlg('Fecha límite de cotización debe ser mayor a la fecha de creación');
@@ -314,6 +325,57 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         });
     }
 
+    openAgregarAnexosDialog(): void {
+        const dialogRef = this.dialog.open(AgregarAnexosDialogComponent, {width: '400px', hasBackdrop: true, data: this.justificacion.id});
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('result>> ', result);
+            this.loadAnexos();
+        });
+    }
+
+    loadAnexos() {
+        this.valueBuffer = 0;
+        this.rest.getAnexosOf(this.justificacion.id).subscribe( (response: any) => {
+            this.justificacion.anexos = response.anexos;
+            console.log('Anexos> ', this.justificacion.anexos);
+            this.dsAnexos = new MatTableDataSource(this.justificacion.anexos);
+        }, error => {
+            console.log('Error getProveedoresOf ' + this.justificacion.id + ' ::: ' + error);
+        }, () => {
+            console.log('Get getProveedoresOf:' + this.justificacion.id);
+
+            this.valueBuffer = 100;
+        });
+    }
+
+    eliminarAnexo(idx: any, identifier: string) {
+        const dialogRef = this.dialog.open(EliminarDialogComponent, {
+            width: '450px',
+            data: {id: 10, identificador: identifier, titulo: 'anexo'},
+            hasBackdrop: true
+        });
+        dialogRef.afterClosed().subscribe((id_to_del: number) => {
+            if (id_to_del) {
+                this.rest.deleteAnexo(this.justificacion.id, idx).subscribe(
+                    data => {
+                    },
+                    error => {
+                        console.log('Error borrando  documento' + idx);
+                    }, () => {
+                        console.log('Borrado documento: ' + idx);
+
+                        this.loadAnexos();
+                    }
+                );
+            }
+        });
+    }
+
+    viewAnexo(url: string) {
+        url = environment.endpoint + url.replace('/', '');
+        window.open(url, "_blank");
+    }
+
     openImprimirDialog(): void {
         if (moment(this.justificacion.fecha_elaboracion).isBefore(this.justificacion.fecha_mercado)) {
             this.callValidarFechasDlg('Fecha de emisión debe ser mayor a fecha del estudio de mercado');
@@ -376,7 +438,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
-  rowHover(num: number) {
+  rowHover(num: any) {
     this.row_hover = num;
   }
 

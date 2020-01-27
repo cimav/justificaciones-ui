@@ -1,6 +1,6 @@
 import {Injectable, SecurityContext} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Empleado, Justificacion, Moneda, Partida, Proveedor, ProveedorNetmultix, Requisicion, Tipo} from './model';
+import {Anexo, Empleado, Justificacion, Moneda, Partida, Proveedor, ProveedorNetmultix, Requisicion, Tipo} from './model';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
@@ -271,14 +271,50 @@ export class RestService {
       );
   }
 
-  /*
-  replacer(key, value) {
-    if (key === 'type') {
-      return undefined;
-    }
-    return value;
+  agregarAnexo(id: number, formData: FormData): Observable<any> {
+      console.log('FormData> ' + formData);
+      // headers: { 'Content-Type':'multipart/form-data' }
+      return this._http.put(endpoint + 'justificaciones/add_anexo/' + id, formData)
+          .pipe(
+              map( (response: any) => {
+                  console.log('Answer> ', response);
+                  return response;
+              }),
+              catchError(this.handleError<any>('agregarAnexo'))
+          );
   }
-  */
+
+    public getAnexosOf = (justificacionId: number): Observable<any[]> => {
+
+        return this._http.get<any[]>(endpoint + 'justificaciones/get_anexos/' + justificacionId + '.json',  httpOptions)
+            .pipe(
+                map( (response: Response) => {
+                  const anexos = <any><any>response;
+                  return  anexos;
+                }),
+                catchError(this.handleError<any>('getAnexosOf'))
+            );
+    }
+
+    public deleteAnexo = (justi_id: number, idx: number): Observable<Response> => {
+        return this._http.delete(endpoint + 'justificaciones/remove_anexo/' + justi_id + '/' + idx, httpOptions)
+            .pipe(
+                map((response: Response) => {
+                    return response;
+                }),
+                catchError(this.handleError<any>('deleteAnexo'))
+            );
+    }
+
+
+/*
+replacer(key, value) {
+  if (key === 'type') {
+    return undefined;
+  }
+  return value;
+}
+*/
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

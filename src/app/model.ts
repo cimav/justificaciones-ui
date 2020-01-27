@@ -7,6 +7,11 @@ export class Empleado {
     is_asistente: boolean;
 }
 
+export class Anexo {
+  identifier: string;
+  url: string;
+}
+
 export class Tipo {
   id: number;
   code: string;
@@ -143,6 +148,8 @@ export class Justificacion {
     eficaz_txt: string;
 
     acreditacion_marca: string;
+
+    anexos: Anexo[];
   
   constructor() {
     this.requisicion = '';

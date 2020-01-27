@@ -1,0 +1,39 @@
+
+<h1 mat-dialog-title>Agregar anexo</h1>
+<div mat-dialog-content>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <input type="file" name="anexo" (change)="fileProgress($event)" />
+                </div>
+                <div *ngIf="fileUploadProgress">
+                    Upload progress: {{ fileUploadProgress }}
+                </div>
+                <!--
+                <div class="image-preview mb-3" *ngIf="previewUrl">
+                    <img [src]="previewUrl" height="300" />
+                </div>
+                -->
+                <div class="mb-3" *ngIf="uploadedFilePath">
+                    {{uploadedFilePath}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions style="display: block">
+    <ng-container>
+    <span class="buttons-layout-left-top">
+      <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar anexos" matTooltipPosition="after">
+        <mat-icon>close</mat-icon>
+      </button>
+    </span>
+    </ng-container>
+
+    <button style="float: right;" class="btn-guardar-anexo" [disabled]="fileData==null" mat-mini-fab  (click)="agregar()"
+             matTooltip="Agregar anexo" matTooltipPosition="above">
+        <mat-icon>check</mat-icon>
+    </button>
+</div>

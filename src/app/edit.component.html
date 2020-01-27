@@ -131,12 +131,51 @@
           </mat-form-field>
         </div>
 
+            <div class="subtitulos-tabs">Documentos anexados</div>
+
+            <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="25px" >
+                <table mat-table [dataSource]="dsAnexos" style="width: 50%">
+                    <ng-container matColumnDef="identifier" >
+                        <td mat-cell *matCellDef="let element" (click)="viewAnexo(element.url)">
+                            {{element.identifier}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <td mat-cell style="width: 20px;" *matCellDef="let element; let idx = index;">
+                            <button mat-icon-button matTooltip="Eliminar anexo" [disabled]="element != row_hover"
+                                    (click)="eliminarAnexo(idx, element.identifier)">
+                              <mat-icon >delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="disclaimer">
+                        <td mat-footer-cell *matFooterCellDef="let element" colspan="2" >
+                            <button mat-mini-fab="" id="btn-add-prov-2"
+                                    matTooltip="Agregar anexo" matTooltipPosition="before"
+                                    style="float: right;     margin: 10px;" (click)="openAgregarAnexosDialog()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+
+*                    <tr mat-row *matRowDef="let row; columns: displayedColumnsAnexos;" (mouseover)="rowHover(row);" ></tr>
+
+                    <tr mat-footer-row *matFooterRowDef="['disclaimer']; sticky: true;" class="example-second-footer-row" ></tr>
+
+
+                </table>
+            </div>
+
         <!--
           <button id="btn-guardar-datos" mat-fab [disabled]=datosForm.form.pristine matTooltip="Guardar cambios" matTooltipPosition="above"
                   (click)="saveDatos($event)">
             <mat-icon>check</mat-icon>
           </button>
         -->
+
       </div>
         <!-- </div> -->
 
@@ -426,38 +465,41 @@
             <label>Fracción * <span style="font-style: italic;">Consultar con personal de adquisiciones</span></label>
         </div>
 
-        <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="25px">
-            <table mat-table [dataSource]="dsTipos">
-            <ng-container matColumnDef="seleccionar">
-                <td mat-cell style="width: 60px;" *matCellDef="let element">
-                    <mat-slide-toggle color="primary" [checked]="element.id == justificacion.tipo_id" (change)="doSeleccionarTipo($event, element)" matTooltip="Seleccionar" matTooltipPosition="after" ></mat-slide-toggle>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="romano" >
-                <td mat-cell style="" *matCellDef="let element">
-                    <strong>{{element.romano}}</strong>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="texto" >
-                <td mat-cell style="" *matCellDef="let element">
-                    <div>{{element.code}}</div>
-                    <div style="font-style: italic; padding-top: 3px;">{{element.descripcion}}</div> <!--  color: rgba(0, 0, 0, 0.54); -->
-                    <div fxLayout="row wrap" fxLayoutAlign="space-between center" >
-                        <mat-form-field appearance="outline" *ngIf="element.fraccion == 8">
+                <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="25px">
+                    <table mat-table [dataSource]="dsTipos">
+                        <ng-container matColumnDef="seleccionar">
+                            <td mat-cell style="width: 60px;" *matCellDef="let element">
+                                <mat-slide-toggle color="primary" [checked]="element.id == justificacion.tipo_id" (change)="doSeleccionarTipo($event, element)"
+                                                  matTooltip="Seleccionar" matTooltipPosition="after"></mat-slide-toggle>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="romano">
+                            <td mat-cell style="" *matCellDef="let element">
+                                <strong>{{element.romano}}</strong>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="texto">
+                            <td mat-cell style="" *matCellDef="let element">
+                                <div>{{element.code}}</div>
+                                <div style="font-style: italic; padding-top: 3px;">{{element.descripcion}}</div> <!--  color: rgba(0, 0, 0, 0.54); -->
+                                <div fxLayout="row wrap" fxLayoutAlign="space-between center" *ngIf="element.fraccion == 8">
+                                    <mat-form-field appearance="outline">
                             <textarea #acreditacion_marca mat-autosize maxlength="2000" matInput [(ngModel)]="justificacion.acreditacion_marca" name="acreditacion_marca"
-                                [disabled]="element.id != justificacion.tipo_id"></textarea>
-                            <mat-hint >Sustente la acreditación de usar una marca en específico</mat-hint>
-                            <mat-hint align="end">{{acreditacion_marca.value.length}} / 2000</mat-hint>
-                        </mat-form-field>
-                    </div>
-                </td>
-            </ng-container>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsTipos;" (mouseover)="rowHover(row.id)" ></tr>
+                                      [disabled]="element.id != justificacion.tipo_id"></textarea>
+                                        <mat-hint>Sustente la acreditación de usar una marca en específico</mat-hint>
+                                        <mat-hint align="end">{{acreditacion_marca.value.length}} / 2000</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                        </ng-container>
 
-        </table>
-        </div>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsTipos;" (mouseover)="rowHover(row)"
+                            [hidden]="justificacion.bien_servicio==1 && row.fraccion == 8"></tr>
 
-        <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px" style="display: block;">
+                    </table>
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px" style="display: block;">
             <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;"
                             matTooltip="Fecha en que se firma la Justifiación o Dictamen" matTooltipPosition="above">
                 <mat-label><span>4</span> Fecha de emisión</mat-label>
