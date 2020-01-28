@@ -1,8 +1,9 @@
-import {Component, Inject, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, ViewChild, ViewEncapsulation, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {Proveedor, ProveedorNetmultix} from '../model';
 import {SearchProveedorDialogComponent} from './search-proveedor-dialog.component';
 import {NgForm} from '@angular/forms';
+import {RestService} from "../rest.service";
 
 export class ProveedorData {
   proveedor: Proveedor;
@@ -21,12 +22,24 @@ export class ProveedorData {
   styleUrls: ['./proveedor.dialog.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProveedorDialogComponent {
+export class ProveedorDialogComponent implements OnInit {
+
+  monedas: Moneda[] = [];
 
   @ViewChild('proveedorForm') proveedorForm: NgForm;
 
   constructor(private dialogRef: MatDialogRef<ProveedorDialogComponent>, // private rest: RestService,
-              @Inject(MAT_DIALOG_DATA) public data: ProveedorData, public dialog: MatDialog) {
+              @Inject(MAT_DIALOG_DATA) public data: ProveedorData, public dialog: MatDialog, private rest: RestService) {
+  }
+
+  ngOnInit() {
+    this.rest.getMonedas().subscribe(
+        (response: Moneda[]) => {
+          this.monedas = response;
+        },
+        error => console.log(error),
+        () => console.log('Get Monedas:' + (this.monedas).length)
+    );
   }
 
   openSearchDialog(): void {

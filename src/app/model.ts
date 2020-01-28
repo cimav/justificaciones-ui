@@ -64,6 +64,9 @@ export class Proveedor {
   fuente: number;
   es_nacional: boolean;
 
+  moneda_id: number;
+  moneda: Moneda;
+
   constructor() {
     this.clave = '';
     this.rfc = '';

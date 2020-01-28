@@ -30,6 +30,13 @@
           <input matInput placeholder="RFC" name="rfc" [(ngModel)]="data.proveedor.rfc" required>
         </mat-form-field >
       </div>
+      <mat-form-field style="width: 250px;">
+        <mat-select placeholder="Moneda" [(ngModel)]="data.proveedor.moneda_id" name="moneda" required >
+          <mat-option *ngFor="let moneda of monedas" [value]="moneda.id">
+            {{moneda.code}} {{moneda.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
           <input matInput placeholder="Domicilio" name="domicilio" [(ngModel)]="data.proveedor.domicilio" required>

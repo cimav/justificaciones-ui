@@ -46,7 +46,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     dsAnexos: MatTableDataSource<Anexo>;
 
   dsProveedores: MatTableDataSource<Proveedor>;
-  displayedColumns: string[] = ['seleccionar', 'clave', 'razon_social', 'fuente', 'monto', 'acciones'];
+  displayedColumns: string[] = ['seleccionar', 'clave', 'razon_social', 'fuente', 'monto', 'moneda', 'acciones'];
   row_hover: any;
 
     displayedColumnsTipos: string[] = ['seleccionar', 'romano', 'texto'];
@@ -449,6 +449,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       proveedor.justificacion_id = this.justificacion.id;
       proveedor.monto = 0.00;
       proveedor.fuente = 0;
+      proveedor.moneda_id = 1;
       this.rest.addProveedor(proveedor).subscribe( (response: Proveedor) => {
           // setTimeout( () => { /*Your Code*/ }, 17000 );
       }, error => {
@@ -478,6 +479,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       proveedor.justificacion_id = this.justificacion.id;
       proveedor.monto = 0.00;
       proveedor.fuente = 0;
+      proveedor.moneda_id = 1;
     }
 
     // const prove_cpy: Proveedor = Object.assign({}, proveedor);
@@ -491,6 +493,10 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+
+          if (result.moneda_id < 1) {
+              result.moneda_id = 1;
+          }
 
         if (result.id) {
           this.rest.updateProveedor(result).subscribe( (response: Proveedor) => {
@@ -538,8 +544,11 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     });
   }
 
-  currencyMonto(value) {
-    return this.currencyPipe.transform(value, this.justificacion.moneda.code, 'symbol-narrow');
+  currencyMonto(proveedor: Proveedor) {
+      if (proveedor && proveedor.moneda) {
+          return this.currencyPipe.transform(proveedor.monto, proveedor.moneda.code, 'symbol-narrow'); //'symbol'
+      }
+      return proveedor.monto;
   }
 
   fuenteTxt(id: number) {
