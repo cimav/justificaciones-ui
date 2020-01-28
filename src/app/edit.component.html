@@ -220,7 +220,7 @@
 
           <ng-container matColumnDef="moneda">
               <th mat-header-cell *matHeaderCellDef> Moneda </th>
-              <td mat-cell style="width: 60px;"*matCellDef="let element" [class.row-selected]="element.id == justificacion.proveedor_id" > {{element.moneda.code}} </td>
+              <td mat-cell style="width: 60px;"*matCellDef="let element" [class.row-selected]="element.id == justificacion.proveedor_id" > {{element?.moneda?.code}} </td>
           </ng-container>
 
           <ng-container matColumnDef="fuente" >
@@ -432,7 +432,7 @@
 
           <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px">
 
-              <div style="color: rgba(0, 0, 0, 0.54);">Here: {{justificacion.proveedor_selected?.moneda?.nombre}}</div>
+              <div style="color: rgba(0, 0, 0, 0.54);">{{justificacion.proveedor_selected?.moneda?.nombre}}</div>
 
             <mat-form-field style="width: 200px;">
               <span matPrefix>{{justificacion.proveedor_selected?.moneda?.simbolo}} &nbsp;</span>
