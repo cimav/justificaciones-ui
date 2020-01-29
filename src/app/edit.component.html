@@ -308,7 +308,14 @@
             <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;" matTooltip="Fecha de la justificación" matTooltipPosition="above">
               <!-- class="mat-elevation-z8" style="border: 1px solid #673ab7; padding: 5px;" -->
               <mat-label><span>1</span> Fecha de elaboración</mat-label>
-              <input type="date" name="fechaElaboracion" matInput placeholder="Fecha de elaboración" [ngModel]="justificacion.created_at | date:'yyyy-MM-dd'" [disabled]="!isAdmin()" >
+              <!-- <input type="date" name="fechaElaboracion" matInput placeholder="Fecha de elaboración" [ngModel]="justificacion.created_at | date:'yyyy-MM-dd'" [disabled]="!isAdmin()" > -->
+
+                <input name="fechaElaboracion" matInput [matDatepicker]="fechaElaboracion" placeholder="Fecha de elaboración"
+                       [(ngModel)]="justificacion.created_at"  required [disabled]="!isAdmin()">
+                <mat-datepicker-toggle matSuffix [for]="fechaElaboracion"></mat-datepicker-toggle>
+                <mat-datepicker #fechaElaboracion></mat-datepicker>
+
+
               <mat-hint>Se autogenera</mat-hint>
             </mat-form-field>
               <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;" matTooltip="Fecha límite para que cada proveedor entregue su cotización" matTooltipPosition="above">
