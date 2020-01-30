@@ -247,7 +247,7 @@
 
           <ng-container matColumnDef="disclaimer">
 
-            <td mat-footer-cell *matFooterCellDef="let element" colspan="6" >
+            <td mat-footer-cell *matFooterCellDef="let element" colspan="7" >
 
 
         <!--
@@ -277,6 +277,9 @@
 
         </table>
 
+                <div *ngIf="!justificacion.proveedor_selected" class="div-container-edit">
+                    <h4 style="color: #f44336;">No ha seleccionado proveedor</h4>
+                </div>
 
                 <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px" style="padding-top: 30px;">
                     <mat-form-field class="flex-none" style="width: 200px;" matTooltip="Capture la requisición y presione <enter> o la lupa para comprobar si existe" matTooltipPosition="below" >
@@ -355,9 +358,7 @@
             </div>
           </div>
         </fieldset>
-        <div *ngIf="!justificacion.proveedor_selected" class="div-container-edit">
-          <h4>No ha seleccionado proveedor</h4>
-        </div>
+
         <div *ngIf="justificacion.proveedor_selected"class="div-container-edit">
 
           <!--
