@@ -8,6 +8,7 @@ import {EliminarDialogComponent} from './dialogs/eliminar.dialog.component';
 import {ReplicarDialogComponent} from './dialogs/replicar.dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Globals} from './globals';
+import {isLineBreak} from 'codelyzer/angular/sourceMappingVisitor';
 
 @Component({
   selector: 'app-table',
@@ -41,6 +42,21 @@ export class TableComponent implements OnInit {
     this.rest.getEmpleado(this.auth.getCuenta()).subscribe( (response: Empleado) => {
       // this.empleado = response;
       this.globals.empleado = response;
+
+      switch (this.globals.empleado.sede) {
+        case 1: localStorage.setItem('sede', 'Chihuahua'); break;
+        case 2: localStorage.setItem('sede', 'Durango'); break;
+        case 3: localStorage.setItem('sede', 'Monterrey'); break;
+        case 4: localStorage.setItem('sede', 'Cd. Juarez'); break;
+      }
+      if (this.globals.empleado.is_admin) {
+        localStorage.setItem('role', 'Administrador');
+      } else if (this.globals.empleado.is_asistente) {
+        localStorage.setItem('role', 'Asistente');
+      } else {
+        localStorage.removeItem('role');
+      }
+
       this.getJustificaciones();
     }, error => {
       console.log('DB NO CONECTADA ' + this.auth.getCuenta() + ' :::  ' + error);

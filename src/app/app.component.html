@@ -8,9 +8,10 @@
     </div>
 
     <div *ngIf="auth.isAuthenticated(); else loggedOut">
-      <button mat-button (click)="auth.logout()" style="font-size: large; font-weight: 100;">
+      <button mat-button (click)="auth.logout()" style="line-height: 24px; font-size: large; font-weight: 100;">
         <span>{{auth.getCuenta()}} <i class="fas fa-sign-out-alt"></i></span>
-        <!-- <span style="display: block;letter-spacing: 4px; font-size: smaller; line-height: 10px;">{{role()}}</span> -->
+        <span *ngIf="role()" style="display: block;letter-spacing: 1px; font-size: x-small; line-height: 10px;">{{role()}}</span>
+        <span style="display: block;letter-spacing: 1px; font-size: x-small; line-height: 10px;">{{sede()}}</span>
       </button>
     </div>
     <ng-template #loggedOut>

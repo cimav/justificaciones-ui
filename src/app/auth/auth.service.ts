@@ -67,6 +67,10 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('idTokenPayload');
+
+    localStorage.removeItem('role');
+    localStorage.removeItem('sede');
+
     // Go back to the home route
     this.router.navigate(['/']);
   }

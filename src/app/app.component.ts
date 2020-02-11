@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
   */
 
   public role(): string {
+    /*
     if (this.globals.empleado) {
       if (this.globals.empleado.is_admin) {
         return 'comprador';
@@ -59,7 +60,11 @@ export class AppComponent implements OnInit {
           return 'asistente';
       }
     }
-    return '';
+    */
+    return localStorage.getItem('role');
+  }
+  public sede(): string {
+    return localStorage.getItem('sede');
   }
 
 }

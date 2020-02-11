@@ -2,6 +2,7 @@ export class Empleado {
   id: number;
   nombre: string;
   cuenta_cimav: string;
+  sede: number;
 
     is_admin: boolean;
     is_asistente: boolean;
