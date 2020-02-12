@@ -640,6 +640,21 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
+  searchProyecto(proyecto: string) {
+      this.rest.searchProyecto(proyecto).subscribe(
+          data => {
+              if (data) {
+                  this.justificacion.proyecto_objeto = data.objeto + '<br>' + data.responsable;
+              } else {
+                  this.justificacion.proyecto_objeto = 'Proyecto indefinido';
+              }
+              this.editForm.form.markAsDirty();
+          },
+          error => { console.log ('Error searchProyecto ' + proyecto); },
+          () => {}
+          );
+  }
+
   openRequisicionProveedorDialog(requisicion: string): void {
       const dialogRef = this.dialog.open(ImportarDialogComponent, {
           width: '350px',

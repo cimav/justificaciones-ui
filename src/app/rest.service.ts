@@ -1,6 +1,6 @@
 import {Injectable, SecurityContext} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Anexo, Empleado, Justificacion, Moneda, Partida, Proveedor, ProveedorNetmultix, Requisicion, Tipo} from './model';
+import {Anexo, Empleado, Justificacion, Moneda, Partida, Proveedor, ProveedorNetmultix, Proyecto, Requisicion, Tipo} from './model';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
@@ -262,16 +262,25 @@ export class RestService {
       );
   }
 
-  searchRequisicion(requisicion: string): Observable<Requisicion> {
-    requisicion = requisicion.replace(/[^0-9]/g, '0');
-    return this._http.get<Requisicion>(endpoint + 'requisiciones_netmultix/search/' + requisicion + '.json', httpOptions)
-      .pipe(
-        // map( this.extractData ),
-        catchError(this.handleError<any>('getRequisicion'))
-      );
-  }
+    searchRequisicion(requisicion: string): Observable<Requisicion> {
+        requisicion = requisicion.replace(/[^0-9]/g, '0');
+        return this._http.get<Requisicion>(endpoint + 'requisiciones_netmultix/search/' + requisicion + '.json', httpOptions)
+            .pipe(
+                // map( this.extractData ),
+                catchError(this.handleError<any>('getRequisicion'))
+            );
+    }
 
-  agregarAnexo(id: number, formData: FormData): Observable<any> {
+    searchProyecto(proyecto: string): Observable<Proyecto> {
+        // proyecto = proyecto.replace(/[^0-9]/g, '0');
+        return this._http.get<Proyecto>(endpoint + 'proyectos_netmultix/search/' + proyecto + '.json', httpOptions)
+            .pipe(
+                // map( this.extractData ),
+                catchError(this.handleError<any>('getProyecto'))
+            );
+    }
+
+    agregarAnexo(id: number, formData: FormData): Observable<any> {
       console.log('FormData> ' + formData);
       // headers: { 'Content-Type':'multipart/form-data' }
       return this._http.put(endpoint + 'justificaciones/add_anexo/' + id, formData)

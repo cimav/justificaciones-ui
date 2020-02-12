@@ -154,6 +154,8 @@ export class Justificacion {
     acreditacion_marca: string;
 
     anexos: Anexo[];
+
+    proyecto_objeto: string;
   
   constructor() {
     this.requisicion = '';
@@ -217,4 +219,11 @@ export class Requisicion {
   renglon: number;
   proyecto: string;
   renglo_status: number;
+}
+
+export class Proyecto {
+  proyecto: string;
+  objeto: string;
+  clave: string;
+  responsable;
 }
