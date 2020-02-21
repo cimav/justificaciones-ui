@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {Proveedor, ProveedorNetmultix, Moneda} from '../model';
 import {SearchProveedorDialogComponent} from './search-proveedor-dialog.component';
 import {NgForm} from '@angular/forms';
-import {RestService} from "../rest.service";
+import {RestService} from '../rest.service';
 
 export class ProveedorData {
   proveedor: Proveedor;
@@ -28,7 +28,7 @@ export class ProveedorDialogComponent implements OnInit {
 
   @ViewChild('proveedorForm') proveedorForm: NgForm;
 
-  constructor(private dialogRef: MatDialogRef<ProveedorDialogComponent>, // private rest: RestService,
+  constructor(private dialogRef: MatDialogRef<ProveedorDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ProveedorData, public dialog: MatDialog, private rest: RestService) {
   }
 

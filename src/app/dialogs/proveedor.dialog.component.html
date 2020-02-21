@@ -15,13 +15,13 @@
   </div>
 
   <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5px">
-    <div fxFlex="60" style="padding: 15px;"  > <!--[class.notificando]="!canEditar()" -->
+    <div style="padding: 15px; width: 100%;"  > <!--[class.notificando]="!canEditar()" -->
       <label>Fuente de consulta</label>
-      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" style="padding: 5px 15px 15px 0;">
         <mat-radio-group name="fuente" [(ngModel)]="data.proveedor.fuente" >
-          <mat-radio-button color="primary"  name="fuente0" [value]="0">Internet</mat-radio-button>
-          <mat-radio-button color="primary"  name="fuente2" [value]="2">Presencial</mat-radio-button>
-          <mat-radio-button color="primary" name="fuente1" [value]="1" >Compranet</mat-radio-button>
+          <mat-radio-button color="primary"  name="fuente0" [value]="0" style="padding-right: 25px;">Internet</mat-radio-button>
+          <mat-radio-button color="primary"  name="fuente2" [value]="2"  style="padding-right: 25px;">Presencial</mat-radio-button>
+          <mat-radio-button color="primary" name="fuente1" [value]="1"  style="padding-right: 25px;" [disabled]="true">Compranet</mat-radio-button>
         </mat-radio-group>
         <mat-checkbox class="flex-none" name="nacional" [(ngModel)]="data.proveedor.es_nacional" color="primary" >Nacional</mat-checkbox>
       </div>
@@ -44,15 +44,17 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
-          <input matInput placeholder="Contacto" name="contacto" [(ngModel)]="data.proveedor.contacto" required>
+          <input matInput placeholder="Nombre contacto" name="contacto" [(ngModel)]="data.proveedor.contacto" required>
         </mat-form-field >
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
-          <input matInput placeholder="Teléfono" name="telefono" [(ngModel)]="data.proveedor.telefono" required>
+          <input matInput placeholder="Email contacto" name="email" [(ngModel)]="data.proveedor.email" required>
         </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
         <mat-form-field>
-          <input matInput placeholder="Email" name="email" [(ngModel)]="data.proveedor.email" required>
+          <input matInput placeholder="Teléfono contacto" name="telefono" [(ngModel)]="data.proveedor.telefono" required>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
@@ -69,27 +71,6 @@
       </button>
       -->
 
-    </div>
-    <div fxFlex="40" class="prov-cotizado mat-elevation-z8" >
-      <div fxLayout="row" fxLayoutAlign="space-between top" fxLayoutGap="25px">
-        <label class="label-cotiza-answer"><strong>Resultado de la cotización</strong><br>A llenar cuando se reciba la cotización</label>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
-        <mat-form-field >
-                    <textarea mat-autosize name="tecnicas" maxlength="400" matInput placeholder="Cumple condiciones técnicas"
-                              [(ngModel)]="data.proveedor.cumple_tecnicas" required></textarea>
-        </mat-form-field>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
-        <mat-form-field >
-                    <textarea mat-autosize name="cantidad" maxlength="400" matInput placeholder="Cantidad que puede surtir"
-                              [(ngModel)]="data.proveedor.cantidad_surtir" required></textarea>
-        </mat-form-field>
-      </div>
-      <mat-form-field class="flex-none"  style="width: 200px; float: right;" > <!-- [class.notificando]="!canEditar()" -->
-        <input currencyMask="" matInput class="right" placeholder="Monto" name="monto" [(ngModel)]="data.proveedor.monto" required
-               [options]="{ prefix: '', thousands: ',', decimal: '.' }">
-      </mat-form-field >
     </div>
 
   </div>

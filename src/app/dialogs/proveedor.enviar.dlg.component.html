@@ -1,0 +1,19 @@
+<div mat-dialog-content>
+    <p style="margin-bottom: 30px;">Enviar solicitud de cotización FOCON04 a:</p>
+    <p><strong>{{data.razon_social}}</strong></p>
+    <p style="margin: 2px;"><mat-icon style="top: 3px; position: relative; padding-right: 4px;" >account_box</mat-icon>{{data.contacto}}</p>
+    <p style="margin: 2px;"><mat-icon style="top: 3px; position: relative; padding-right: 4px;">email</mat-icon>{{data.email}}</p>
+</div>
+<ng-container>
+    <span class="buttons-layout-left-top">
+      <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" [mat-dialog-close]="false" matTooltip="Cancelar" matTooltipPosition="after">
+        <mat-icon>close</mat-icon>
+      </button>
+    </span>
+</ng-container>
+
+<button  class="btn-guardar-provee" mat-mini-fab  (click)="onClick()" [mat-dialog-close]="true" matTooltip="Enviar" matTooltipPosition="above" style="float: right;">
+    <mat-icon>check</mat-icon>
+</button>
+
+

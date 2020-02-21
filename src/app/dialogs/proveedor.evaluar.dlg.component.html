@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Evaluar cotización</h1>
+
+<p style="margin-bottom: 30px; padding-left:10px;"><strong>{{data.razon_social}}</strong></p>
+
+<div style="color: rgba(0, 0, 0, 0.54); padding-bottom: 20px;">A llenar cuando se reciba la cotización</div>
+
+<div mat-dialog-content>
+    <form  #proveedorEvaluarForm="ngForm" >
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+                <mat-form-field >
+                    <input name="tecnicas" maxlength="400" matInput placeholder="Cumple condiciones técnicas" [(ngModel)]="data.cumple_tecnicas" required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px">
+                <mat-form-field >
+                    <input name="cantidad" maxlength="400" matInput placeholder="Cantidad que puede surtir" [(ngModel)]="data.cantidad_surtir" required>
+                </mat-form-field>
+            </div>
+            <mat-form-field class="flex-none"  style="width: 200px; float: right;" > <!-- [class.notificando]="!canEditar()" -->
+                <input currencyMask="" matInput class="right" placeholder="Monto" name="monto" [(ngModel)]="data.monto" required
+                       [options]="{ prefix: '', thousands: ',', decimal: '.' }">
+                <mat-hint >{{data.moneda.nombre}}</mat-hint>
+            </mat-form-field >
+    </form>
+</div>
+
+<div mat-dialog-actions style="    display: initial;">
+    <ng-container>
+    <span class="buttons-layout-left-top">
+      <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" matTooltip="Cancelar cambios" matTooltipPosition="after">
+        <mat-icon>close</mat-icon>
+      </button>
+    </span>
+    </ng-container>
+
+    <button  class="btn-guardar-provee" [disabled]=proveedorEvaluarForm.form.pristine mat-mini-fab  (click)="onClick()"
+             matTooltip="Guardar cambios" matTooltipPosition="above">
+        <mat-icon>check</mat-icon>
+    </button>
+</div>
+

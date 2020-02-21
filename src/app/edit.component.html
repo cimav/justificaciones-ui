@@ -230,7 +230,7 @@
 
           <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef > Acciones </th>
-            <td mat-cell style="width: 120px;" *matCellDef="let element">
+            <td mat-cell style="width: 200px;" *matCellDef="let element">
               <span class="acciones">
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openProveedorDialog($event, element)" matTooltip="Editar">
                   <mat-icon >edit</mat-icon>
@@ -238,8 +238,14 @@
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Eliminar" (click)="openEliminarProveedorDialog($event, element.id, element.razon_social)" >
                   <mat-icon>delete</mat-icon>
                 </button>
-                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Generar solicitud de cotización" (click)="cotizar($event, element.id)" >
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Abrir solicitud de cotización FOCON04" (click)="showFocon04Pdf($event, element.id)" >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Enviar solicitud de cotización FOCON04" (click)="openSendFocon04ProveedorDialog($event, element)" >
                   <mat-icon class="cotizar-send">send</mat-icon>
+                </button>
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Evaluar cotización"  (click)="openEvaluarProveedorDialog($event, element)" >
+                  <mat-icon >playlist_add_check</mat-icon>
                 </button>
               </span>
             </td>
@@ -356,7 +362,7 @@
                         matTooltip="Generar estudio de mercado para determinar si se presenta a comité"
                         matTooltipPosition="above"
                         [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
-                  <mat-icon>account_balance</mat-icon>
+                  <mat-icon>show_chart</mat-icon>
                 </button>
                 </div>
             </div>
@@ -524,7 +530,7 @@
                 <div fxLayout="column" fxLayoutAlign="space-around end" fxLayoutGap="25px" style="display: block;">
             <mat-form-field class="flex-none" style="width: 240px; padding-right: 10px;"
                             matTooltip="Fecha en que se firma la Justifiación o Dictamen" matTooltipPosition="above">
-                <mat-label><span>4</span> Fecha de emisión</mat-label>
+                <mat-label>Fecha de emisión</mat-label>
                 <input name="fechaFirma" matInput [matDatepicker]="pickerFirma" placeholder="Fecha de emisión"
                        [(ngModel)]="justificacion.fecha_elaboracion" required>
                 <mat-datepicker-toggle matSuffix [for]="pickerFirma"></mat-datepicker-toggle>

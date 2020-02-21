@@ -28,6 +28,8 @@ import {NotificarDialogComponent} from './dialogs/notificar.dialog.component';
 import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.component';
 import {Globals} from './globals';
 import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.component';
+import {ProveedorEvaluarDlgComponent} from './dialogs/proveedor.evaluar.dlg.component';
+import {ProveedorEnviarDlgComponent} from './dialogs/proveedor.enviar.dlg.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,7 @@ import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.comp
     TableComponent,
     SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ProveedorDialogComponent,
       WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent, ValidarFechasDialogComponent,
-      AgregarAnexosDialogComponent,
+      AgregarAnexosDialogComponent, ProveedorEvaluarDlgComponent, ProveedorEnviarDlgComponent,
     EditComponent,
     CallbackComponent,
     HighlightSearch
@@ -51,8 +53,8 @@ import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.comp
     ReactiveFormsModule,
     CurrencyMaskModule
   ],
-  entryComponents: [SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ValidarFechasDialogComponent,
-      ProveedorDialogComponent, WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent, AgregarAnexosDialogComponent],
+  entryComponents: [SearchProveedorDialogComponent, CrearDialogComponent, EliminarDialogComponent, ReplicarDialogComponent, ValidarFechasDialogComponent, ProveedorEvaluarDlgComponent,
+      ProveedorDialogComponent, WarningDialogComponent, ImportarDialogComponent, ImprimirDialogComponent, NotificarDialogComponent, AgregarAnexosDialogComponent, ProveedorEnviarDlgComponent],
 
   providers: [
     AuthService,

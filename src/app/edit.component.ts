@@ -23,6 +23,8 @@ import * as moment from 'moment';
 import {Globals} from './globals';
 import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.component';
 import {environment} from "../environments/environment";
+import {ProveedorEvaluarDlgComponent} from './dialogs/proveedor.evaluar.dlg.component';
+import {ProveedorEnviarDlgComponent} from './dialogs/proveedor.enviar.dlg.component';
 
 // https://angular.io/api/forms/FormControlName#use-with-ngmodel
 
@@ -398,10 +400,14 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         }
     }
 
-  cotizar(event: Event, prov_id: number) {
-    event.stopPropagation();
-    window.open(this.rest.getEndPoint() + 'cotizaciones/' + this.justificacion.id + '/' + prov_id + '.pdf');
-  }
+    showFocon04Pdf(event: Event, prov_id: number) {
+        event.stopPropagation();
+        window.open(this.rest.getEndPoint() + 'cotizaciones/' + this.justificacion.id + '/' + prov_id + '.pdf');
+    }
+
+    sendFocon04Pdf(event: Event, prov_id: number): void {
+        event.stopPropagation();
+    }
 
   /*
   openNotificarDialog(): void {
@@ -486,7 +492,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     // //  const dataProveedor: ProveedorData = new ProveedorData( Object.assign({}, proveedor), this.justificacion.status, this.empleado.is_admin);
     const dataProveedor: ProveedorData = new ProveedorData( Object.assign({}, proveedor), 0, true);
     const dialogRef = this.dialog.open(ProveedorDialogComponent, {
-      width: '850px',
+      width: '650px',
       data: dataProveedor, // prove_cpy
         hasBackdrop: true
     });
@@ -584,6 +590,88 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
             this.justificacion.tipo_id = 0; // 5 Fracción I
         }
         this.saveDatos(null);
+    }
+
+    openEvaluarProveedorDialog(event: Event, proveedor: Proveedor): void {
+        if (event) {
+            event.stopPropagation();
+        }
+
+        if (!proveedor) {
+            proveedor = new Proveedor();
+            proveedor.justificacion_id = this.justificacion.id;
+            proveedor.monto = 0.00;
+            proveedor.fuente = 0;
+            proveedor.moneda_id = 1;
+        }
+
+        const dialogRef = this.dialog.open(ProveedorEvaluarDlgComponent, {
+            width: '500px',
+            data: proveedor,
+            hasBackdrop: true
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+                if (result.moneda_id < 1) {
+                    result.moneda_id = 1;
+                }
+
+                if (result.id) {
+                    this.rest.updateProveedor(result).subscribe( (response: Proveedor) => {
+                        setTimeout( () => { /*Your Code*/ }, 217000 );
+                    }, error => {
+                        console.log('Error updateProveedor ' + result.id + ' :::  ' + error);
+                    }, () => {
+                        console.log('Get updateProveedor:' + result.id );
+
+                        this.loadProveedores();
+                    });
+                } else {
+                    this.rest.addProveedor(result).subscribe( (response: Proveedor) => {
+                    }, error => {
+                        console.log('Error addProveedor ' + result.id + ' :::  ' + error);
+                    }, () => {
+                        console.log('Get addProveedor:' + result.id );
+
+                        this.loadProveedores();
+                    });
+                }
+
+            }
+        });
+    }
+
+    openSendFocon04ProveedorDialog(event: Event, proveedor: Proveedor): void {
+        event.stopPropagation();
+
+        const dialogRef = this.dialog.open(ProveedorEnviarDlgComponent, {
+            width: '450px',
+            data: proveedor,
+            hasBackdrop: true
+        });
+
+        dialogRef.afterClosed().subscribe((enviar: boolean) => {
+            console.log('Enviar> ', enviar);
+            if (enviar) {
+                this.rest.sendFocon04(proveedor.id, this.justificacion.id).subscribe(
+                    data => {
+                    },
+                    error => {
+                        console.log('Error sendFocon04Pdf' + this.justificacion.id + ':' + proveedor.id);
+                        this.msgsBar.open('Error al enviar solicitud', proveedor.rfc, {
+                            duration: 2000,
+                        });
+                    }, () => {
+                        console.log('sendFocon04Pdf OK > ' + this.justificacion.id + ':' + proveedor.id);
+                        this.msgsBar.open('Solicitud enviada', proveedor.rfc, {
+                            duration: 2000,
+                        });
+                    }
+                );
+            }
+        });
     }
 
   openEliminarProveedorDialog(event: Event, _id: number, _clave: string): void {

@@ -315,6 +315,13 @@ export class RestService {
             );
     }
 
+    sendFocon04(proveedor_id, justificacion_id): Observable<Proyecto> {
+        return this._http.get<Proyecto>(endpoint + 'proveedores/send_focon04/' + proveedor_id + '/' + justificacion_id, httpOptions)
+            .pipe(
+                // map( this.extractData ),
+                catchError(this.handleError<any>('proveedores/sendFocon04'))
+            );
+    }
 
 /*
 replacer(key, value) {
