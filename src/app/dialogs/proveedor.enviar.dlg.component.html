@@ -1,19 +1,29 @@
-<div mat-dialog-content>
-    <p style="margin-bottom: 30px;">Enviar solicitud de cotización FOCON04 a:</p>
-    <p><strong>{{data.razon_social}}</strong></p>
-    <p style="margin: 2px;"><mat-icon style="top: 3px; position: relative; padding-right: 4px;" >account_box</mat-icon>{{data.contacto}}</p>
-    <p style="margin: 2px;"><mat-icon style="top: 3px; position: relative; padding-right: 4px;">email</mat-icon>{{data.email}}</p>
-</div>
+<form  #proveedorEnviarForm="ngForm" >
+    <div mat-dialog-content>
+        <p style="margin-bottom: 30px;">Enviar solicitud de cotización FOCON04 a:</p>
+        <p><strong>{{data.razon_social}}</strong></p>
+        <mat-form-field style="width: 100%;">
+            <mat-icon matPrefix style="padding-right: 5px;">account_box</mat-icon>
+            <input matInput placeholder="Nombre contacto" name="name_contacto" [(ngModel)]="data.contacto" required>
+        </mat-form-field>
+        <mat-form-field  style="width: 100%; margin-bottom: 20px;">
+            <mat-icon matPrefix style="padding-right: 5px;">email</mat-icon> <!-- &nbsp; -->
+            <input matInput email type="email" placeholder="Email contacto" name="email_contacto" [(ngModel)]="data.email" required>
+            <mat-hint align="end">Verifique que el email exista</mat-hint>
+        </mat-form-field>
+    </div>
+</form>
+
 <ng-container>
     <span class="buttons-layout-left-top">
-      <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()" [mat-dialog-close]="false" matTooltip="Cancelar" matTooltipPosition="after">
-        <mat-icon>close</mat-icon>
-      </button>
-    </span>
+          <button mat-mini-fab color="accent" id="btn-back" (click)="onNoClick()"
+                  matTooltip="Cancelar" matTooltipPosition="after">
+            <mat-icon>close</mat-icon>
+          </button>
+        </span>
+    <button  class="btn-guardar-provee" mat-mini-fab  (click)="onClick()" [disabled]="!proveedorEnviarForm.form.valid"
+             matTooltip="Enviar" matTooltipPosition="above" style="float: right;">
+        <mat-icon style="transform: rotate(-45deg);">send</mat-icon>
+    </button>
 </ng-container>
-
-<button  class="btn-guardar-provee" mat-mini-fab  (click)="onClick()" [mat-dialog-close]="true" matTooltip="Enviar" matTooltipPosition="above" style="float: right;">
-    <mat-icon>check</mat-icon>
-</button>
-
 

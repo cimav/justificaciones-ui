@@ -652,26 +652,40 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
             hasBackdrop: true
         });
 
-        dialogRef.afterClosed().subscribe((enviar: boolean) => {
-            console.log('Enviar> ', enviar);
-            if (enviar) {
-                this.rest.sendFocon04(proveedor.id, this.justificacion.id).subscribe(
-                    data => {
-                    },
-                    error => {
-                        console.log('Error sendFocon04Pdf' + this.justificacion.id + ':' + proveedor.id);
-                        this.msgsBar.open('Error al enviar solicitud', proveedor.rfc, {
-                            duration: 2000,
-                        });
-                    }, () => {
-                        console.log('sendFocon04Pdf OK > ' + this.justificacion.id + ':' + proveedor.id);
-                        this.msgsBar.open('Solicitud enviada', proveedor.rfc, {
-                            duration: 2000,
-                        });
-                    }
-                );
+        dialogRef.afterClosed().subscribe((provee: Proveedor) => {
+            console.log('Enviar> ', provee);
+            if (provee) {
+
+                this.rest.updateProveedor(provee).subscribe( (response: Proveedor) => {
+                    // 1ero update y después send
+                    this.sendFocon(response);
+                }, error => {
+                    console.log('Error updateProveedor ' + provee.id + ' :::  ' + error);
+                }, () => {
+                    console.log('Get updateProveedor:' + provee.id );
+                    this.loadProveedores();
+                });
+
             }
         });
+    }
+
+    sendFocon(proveedor: Proveedor): void {
+        this.rest.sendFocon04(proveedor.id, this.justificacion.id).subscribe(
+            data => {
+            },
+            error => {
+                console.log('Error sendFocon04Pdf' + this.justificacion.id + ':' + proveedor.id);
+                this.msgsBar.open('Error al enviar solicitud', proveedor.rfc, {
+                    duration: 2000,
+                });
+            }, () => {
+                console.log('sendFocon04Pdf OK > ' + this.justificacion.id + ':' + proveedor.id);
+                this.msgsBar.open('Solicitud enviada', proveedor.rfc, {
+                    duration: 2000,
+                });
+            }
+        );
     }
 
   openEliminarProveedorDialog(event: Event, _id: number, _clave: string): void {
@@ -745,7 +759,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   openRequisicionProveedorDialog(requisicion: string): void {
       const dialogRef = this.dialog.open(ImportarDialogComponent, {
-          width: '350px',
+          width: '480px',
           data: requisicion,
           hasBackdrop: true
       });

@@ -241,7 +241,7 @@
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Abrir solicitud de cotización FOCON04" (click)="showFocon04Pdf($event, element.id)" >
                   <mat-icon>visibility</mat-icon>
                 </button>
-                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Enviar solicitud de cotización FOCON04" (click)="openSendFocon04ProveedorDialog($event, element)" >
+                <button [disabled]="!isAdmin()" mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Enviar solicitud de cotización FOCON04" (click)="openSendFocon04ProveedorDialog($event, element)" >
                   <mat-icon class="cotizar-send">send</mat-icon>
                 </button>
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Evaluar cotización"  (click)="openEvaluarProveedorDialog($event, element)" >
