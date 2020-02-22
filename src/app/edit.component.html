@@ -30,11 +30,13 @@
 
             <!-- <div class="subtitulos-tabs" > --> <!--[class.notificando]="!canEditar()"-->
 
-          <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="25px">
-          <mat-form-field class="flex-none" style="width: 200px;">
-            <input matInput placeholder="Identificador" name="identificador" [(ngModel)]="justificacion.identificador" required>
-          </mat-form-field>
-
+          <div fxLayout="row wrap" fxLayoutAlign=" center" fxLayoutGap="25px">
+              <mat-form-field class="flex-none" style="width: 100px;">
+                  <input matInput placeholder="No" name="numero" [(ngModel)]="justificacion.id" [disabled]="true">
+              </mat-form-field>
+              <mat-form-field class="flex-none" style="width: 200px;">
+                  <input matInput placeholder="Identificador" name="identificador" [(ngModel)]="justificacion.identificador" required>
+              </mat-form-field>
           <mat-radio-group name="bien_servicio" [(ngModel)]="justificacion.bien_servicio" class="flex-none">
             <mat-radio-button color="primary"  name="cero" [value]="0" style="padding-right: 25px;">Bien</mat-radio-button>
             <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
