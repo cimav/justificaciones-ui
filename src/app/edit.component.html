@@ -19,8 +19,7 @@
             <!-- Datos generales -->
             <mat-step label="Justificación" [completed]="groupGeneral.valid && editForm.form.pristine">
 
-      <div class="subtitulos-tabs">Definir la necesidad o requerimiento
-      </div>
+                <div class="subtitulos-tabs"><span>FOCON03&nbsp;&nbsp;</span><span style="font-style: italic;">Definir la necesidad o requerimiento</span></div>
         <!--
           <mat-icon *ngIf="groupGeneral.valid">done</mat-icon>
           <mat-icon *ngIf="!groupGeneral.valid">clear</mat-icon>
@@ -185,7 +184,7 @@
 
             <!-- Proveedores -->
             <mat-step label="Cotizar Proveedores" errorMessage="Gtotexco" [completed]="groupProveedores.valid && editForm.form.pristine && justificacion.proveedor_selected">
-      <div class="subtitulos-tabs">Comparar y seleccionar proveedores</div>
+                <div class="subtitulos-tabs"><span>FOCON04&nbsp;&nbsp;</span><span style="font-style: italic;">Comparar y seleccionar proveedores</span></div>
       <table mat-table [dataSource]="dsProveedores">
 
           <!--
@@ -232,7 +231,7 @@
 
           <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef > Acciones </th>
-            <td mat-cell style="width: 200px;" *matCellDef="let element">
+            <td mat-cell style="width: 160px;" *matCellDef="let element">
               <span class="acciones">
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" (click)="openProveedorDialog($event, element)" matTooltip="Editar">
                   <mat-icon >edit</mat-icon>
@@ -240,10 +239,12 @@
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Eliminar" (click)="openEliminarProveedorDialog($event, element.id, element.razon_social)" >
                   <mat-icon>delete</mat-icon>
                 </button>
+                  <!--
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Abrir solicitud de cotización FOCON04" (click)="showFocon04Pdf($event, element.id)" >
                   <mat-icon>visibility</mat-icon>
                 </button>
-                <button [disabled]="!isAdmin()" mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Enviar solicitud de cotización FOCON04" (click)="openSendFocon04ProveedorDialog($event, element)" >
+                -->
+                <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Enviar solicitud de cotización FOCON04" (click)="openSendFocon04ProveedorDialog($event, element)" >
                   <mat-icon class="cotizar-send">send</mat-icon>
                 </button>
                 <button mat-icon-button color="" [disabled]="element.id != row_hover" matTooltip="Evaluar cotización"  (click)="openEvaluarProveedorDialog($event, element)" >
@@ -361,7 +362,7 @@
               <!-- <span *ngIf="!hasCompranet()" style="display: block; margin-bottom: 10px; line-height: 3px; font-size: smaller; color: #f44336;">Al menos un proveedor debe ser Compranet</span> -->
               <div style="padding-top: 24px; padding-left: 3px;">
                 <button class="btn-cotizar" color="accent" mat-flat-button (click)="mercado()" style="min-width: 44px;"
-                        matTooltip="Generar estudio de mercado para determinar si se presenta a comité"
+                        matTooltip="FOCON05 Generar estudio de mercado para determinar si se presenta a comité"
                         matTooltipPosition="above"
                         [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
                   <mat-icon>show_chart</mat-icon>

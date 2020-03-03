@@ -1,16 +1,27 @@
 <form  #proveedorEnviarForm="ngForm" >
     <div mat-dialog-content>
         <p style="margin-bottom: 30px;">Enviar solicitud de cotización FOCON04 a:</p>
-        <p><strong>{{data.razon_social}}</strong></p>
+        <p><strong>{{data.proveedor.razon_social}}</strong></p>
         <mat-form-field style="width: 100%;">
             <mat-icon matPrefix style="padding-right: 5px;">account_box</mat-icon>
-            <input matInput placeholder="Nombre contacto" name="name_contacto" [(ngModel)]="data.contacto" required>
+            <input matInput placeholder="Nombre contacto" name="name_contacto" [(ngModel)]="data.proveedor.contacto" required>
         </mat-form-field>
-        <mat-form-field  style="width: 100%; margin-bottom: 20px;">
+        <mat-form-field  style="width: 100%;">
             <mat-icon matPrefix style="padding-right: 5px;">email</mat-icon> <!-- &nbsp; -->
-            <input matInput email type="email" placeholder="Email contacto" name="email_contacto" [(ngModel)]="data.email" required>
+            <input matInput email type="email" placeholder="Email contacto" name="email_contacto" [(ngModel)]="data.proveedor.email" required>
             <mat-hint align="end">Verifique que el email sea correcto y exista</mat-hint>
         </mat-form-field>
+        <mat-form-field  style="width: 100%;">
+            <mat-icon matPrefix style="padding-right: 5px;">email</mat-icon>
+            <input [disabled]="true" matInput email type="email" placeholder="Email remisión" name="email_remision" [(ngModel)]="data.reply_to" required>
+            <mat-hint align="end">Se remitirá a quien elabora la justificación</mat-hint>
+        </mat-form-field>
+        <div style="margin-bottom: 20px;">
+            <button mat-icon-button color=""  matTooltip="Abrir solicitud de cotización FOCON04" (click)="showFocon04Pdf()" >
+                <mat-icon>attach_file</mat-icon>
+            </button>
+            <span style="top: 5px; left: -4px; position: relative;">PDF Adjunto: Solicitud de cotización FONCON04</span>
+        </div>
     </div>
 </form>
 

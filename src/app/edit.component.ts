@@ -24,7 +24,7 @@ import {Globals} from './globals';
 import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.component';
 import {environment} from "../environments/environment";
 import {ProveedorEvaluarDlgComponent} from './dialogs/proveedor.evaluar.dlg.component';
-import {ProveedorEnviarDlgComponent} from './dialogs/proveedor.enviar.dlg.component';
+import {ProveedorEnviarData, ProveedorEnviarDlgComponent} from './dialogs/proveedor.enviar.dlg.component';
 
 // https://angular.io/api/forms/FormControlName#use-with-ngmodel
 
@@ -244,7 +244,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     if (this.justificacion.num_pagos <= 0) {
         this.justificacion.num_pagos = 1;
     }
-    if (this.justificacion.bien_servicio == 1 && this.justificacion.tipo.fraccion == 8) {
+    if (this.justificacion.bien_servicio === 1 && this.justificacion.tipo.fraccion === 8) {
         // cuando es Servicio no puede ser VIII
         this.justificacion.tipo_id = 0;
     }
@@ -400,10 +400,12 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         }
     }
 
+    /*
     showFocon04Pdf(event: Event, prov_id: number) {
         event.stopPropagation();
         window.open(this.rest.getEndPoint() + 'cotizaciones/' + this.justificacion.id + '/' + prov_id + '.pdf');
     }
+     */
 
     sendFocon04Pdf(event: Event, prov_id: number): void {
         event.stopPropagation();
@@ -646,9 +648,11 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
     openSendFocon04ProveedorDialog(event: Event, proveedor: Proveedor): void {
         event.stopPropagation();
 
+        const data_envio: ProveedorEnviarData = new ProveedorEnviarData(proveedor, this.justificacion.elaboro.cuenta_cimav);
+
         const dialogRef = this.dialog.open(ProveedorEnviarDlgComponent, {
             width: '450px',
-            data: proveedor,
+            data: data_envio,
             hasBackdrop: true
         });
 
