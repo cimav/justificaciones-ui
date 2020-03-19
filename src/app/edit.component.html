@@ -382,9 +382,9 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="25px" style="margin-bottom: 20px;" >
             <mat-form-field >
-              <textarea mat-autosize maxlength="600" matInput placeholder="Motivo de la selección del proveedor" name="motivo_seleccion" #motivo_seleccion
+              <textarea mat-autosize maxlength="4000" matInput placeholder="Motivo de la selección del proveedor" name="motivo_seleccion" #motivo_seleccion
                         [(ngModel)]="justificacion.motivo_seleccion" required></textarea>
-              <mat-hint align="end">{{motivo_seleccion.value.length}} / 600</mat-hint>
+              <mat-hint align="end">{{motivo_seleccion.value.length}} / 4000</mat-hint>
             </mat-form-field >
           </div>
 
