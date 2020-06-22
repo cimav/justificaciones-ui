@@ -96,7 +96,7 @@ export class TableComponent implements OnInit {
 
       this.dataSource = new MatTableDataSource(justificaciones); // .slice(0, 2)
       this.dataSource.filterPredicate = function(data, filter: string): boolean {
-        const str = data.identificador + ' ' + data.creador_cuenta_cimav + ' '  + data.requisicion + ' ' + data.descripcion;
+        const str = data.id + ' ' + data.identificador + ' ' + data.creador_cuenta_cimav + ' '  + data.requisicion + ' ' + data.descripcion;
         const terms = filter.trim();
 
         // para OR

@@ -15,8 +15,8 @@
   <table mat-table [dataSource]="dataSource" > <!-- matSort  (matSortChange)="tablaSortChange($event)" matSortActive="fecha_elaboracion" matSortDirection="desc" -->
 
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef [ngClass]="'customWidthClass'"> No </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <th mat-header-cell *matHeaderCellDef [ngClass]="'customWidthClass'" style="width: 130px;"> No </th>
+      <td mat-cell *matCellDef="let element" [innerHTML]="element?.id | highlight: filterValue"> {{element.id}} </td>
     </ng-container>
 
     <ng-container matColumnDef="identificador" >
