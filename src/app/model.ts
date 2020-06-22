@@ -115,6 +115,7 @@ export class Justificacion {
   proyecto: string;
   bien_servicio: number;
   subtotal: number;
+  iva_tasa: number;
   iva: number;
   importe: number;
   condiciones_pago: string;
@@ -164,6 +165,7 @@ export class Justificacion {
     this.terminos_entrega = '';
     this.plazo = 1; // fecha tope
     this.subtotal = 0.00;
+    this.iva_tasa = 1;
     this.iva = 0.00;
     this.importe = 0.00;
     this.bien_servicio = 0;

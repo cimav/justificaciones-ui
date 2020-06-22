@@ -248,7 +248,16 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         // cuando es Servicio no puede ser VIII
         this.justificacion.tipo_id = 0;
     }
-
+      switch (this.justificacion.iva_tasa) {
+          case 0: {
+              this.justificacion.iva = 0.00;
+              break;
+          }
+          case 1: {
+              this.justificacion.iva = this.monto() * 0.16;
+              break;
+          }
+      }
     if (moment(this.justificacion.fecha_cotizar).isBefore(this.justificacion.created_at)) {
         this.callValidarFechasDlg('Fecha límite de cotización debe ser mayor a la fecha de creación');
     } else if (moment(this.justificacion.fecha_mercado).isBefore(this.justificacion.fecha_cotizar)) {
@@ -750,7 +759,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       this.rest.searchProyecto(proyecto).subscribe(
           data => {
               if (data) {
-                  this.justificacion.proyecto_objeto = data.objeto + '<br>' + data.responsable;
+                  this.justificacion.proyecto_objeto = data.objeto; // + '<br>' + data.responsable;
               } else {
                   this.justificacion.proyecto_objeto = 'Proyecto indefinido';
               }
@@ -880,6 +889,21 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
         }
     }
     */
+
+  public setIva(event: any) {
+      /*
+      switch (this.justificacion.iva_tasa) {
+          case 0: {
+              this.justificacion.iva = 0.00;
+              break;
+          }
+          case 1: {
+              this.justificacion.iva = this.monto() * 0.16;
+              break;
+          }
+      }
+       */
+  }
 
   public isAdmin(): boolean {
         return this.globals.empleado && this.globals.empleado.is_admin;

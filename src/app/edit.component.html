@@ -461,10 +461,17 @@
                      [options]="{ prefix: '', thousands: ',', decimal: '.' }" required [disabled]="true">
                 <mat-hint>Proveedor seleccionado&nbsp;{{justificacion.proveedor_selected?.moneda?.nombre}}</mat-hint>
             </mat-form-field>
-            <mat-form-field style="width: 200px;">
+
+                  <mat-radio-group name="iva_tasa" [(ngModel)]="justificacion.iva_tasa" (change)="setIva($event)" style="flex-direction: column; display: flex;">
+                      <mat-radio-button color="primary" name="iva_0" [value]="0" style="margin: 5px;">N/A 0%</mat-radio-button>
+                      <mat-radio-button color="primary"  name="iva_1" [value]="1" style="margin: 5px;">16%</mat-radio-button>
+                      <mat-radio-button color="primary"  name="iva_2" [value]="2" style="margin: 5px;">Cantidad</mat-radio-button>
+                  </mat-radio-group>
+
+            <mat-form-field  style="width: 200px;">
               <span matPrefix>{{justificacion.proveedor_selected?.moneda?.simbolo}} &nbsp;</span>
               <input currencyMask class="right" matInput placeholder="IVA" name="iva"  [(ngModel)]="justificacion.iva"
-                     [options]="{ prefix: '', thousands: ',', decimal: '.' }" required>
+                     [options]="{ prefix: '', thousands: ',', decimal: '.' }" required  [disabled]="justificacion.iva_tasa < 2">
               <mat-hint align="start">Cantidad (no porcentaje)</mat-hint>
             </mat-form-field>
             <mat-form-field style="width: 200px;">
