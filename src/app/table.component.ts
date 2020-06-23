@@ -205,8 +205,8 @@ export class TableComponent implements OnInit {
         nuevaJustificacion.autorizo = this.globals.empleado;
         nuevaJustificacion.autorizo_id = this.globals.empleado.id;
 
-        nuevaJustificacion.asesor = this.globals.empleado;
-        nuevaJustificacion.asesor_id = this.globals.empleado.id;
+        // nuevaJustificacion.asesor = this.globals.empleado;
+        // nuevaJustificacion.asesor_id = this.globals.empleado.id;
 
         const tipo0: Tipo = new Tipo();
         tipo0.id = 0 ;

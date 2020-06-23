@@ -41,8 +41,8 @@
             <mat-radio-button color="primary" name="uno" [value]="1" >Servicio</mat-radio-button>
           </mat-radio-group>
 
-          <mat-form-field  *ngIf="isAdmin()" class="flex-none" style="width: 350px;" >
-              <mat-select placeholder="Asesor" [(ngModel)]="justificacion.asesor_id" name="asesor" required>
+          <mat-form-field  class="flex-none" style="width: 350px;" >
+              <mat-select placeholder="Asesor" [(ngModel)]="justificacion.asesor_id" name="asesor" [disabled]="!isAdmin()">
                   <mat-option *ngFor="let asesor of asesores" [value]="asesor.id">
                       {{asesor.nombre}}
                   </mat-option>
