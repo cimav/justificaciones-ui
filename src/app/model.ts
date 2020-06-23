@@ -6,6 +6,7 @@ export class Empleado {
 
     is_admin: boolean;
     is_asistente: boolean;
+    is_asesor: boolean;
 }
 
 export class Anexo {
@@ -97,6 +98,7 @@ export class Justificacion {
   elaboro: Empleado;
   moneda: Moneda;
   partida: Partida;
+  asesor: Empleado;
 
   proveedor_id: number;
   proveedor_selected: Proveedor;
@@ -109,6 +111,7 @@ export class Justificacion {
   autorizo_id: number;
   moneda_id: number;
   partida_id: number;
+  asesor_id: number;
 
   identificador: string;
   requisicion: string;

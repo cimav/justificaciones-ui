@@ -22,7 +22,7 @@ import {ValidarFechasDialogComponent} from './dialogs/validar.fechas.dialog.comp
 import * as moment from 'moment';
 import {Globals} from './globals';
 import {AgregarAnexosDialogComponent} from './dialogs/agregar.anexos.dialog.component';
-import {environment} from "../environments/environment";
+import {environment} from '../environments/environment';
 import {ProveedorEvaluarDlgComponent} from './dialogs/proveedor.evaluar.dlg.component';
 import {ProveedorEnviarData, ProveedorEnviarDlgComponent} from './dialogs/proveedor.enviar.dlg.component';
 
@@ -42,7 +42,8 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   monedas: Moneda[] = [];
   partidas: Partida[] = [];
   // partidas_by_tipo: Partida[] = [];
-  empleados: Empleado[] = [];
+    empleados: Empleado[] = [];
+    asesores: Empleado[] = [];
 
     dsTipos: MatTableDataSource<Tipo>;
     dsAnexos: MatTableDataSource<Anexo>;
@@ -172,7 +173,16 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
     );
 
-    /**************************/
+      this.rest.getAsesores().subscribe(
+          (response: Empleado[]) => {
+              this.asesores = response;
+          },
+          error => console.log(error),
+          () => console.log('Get Asesores:' + (this.asesores).length)
+      );
+
+
+      /**************************/
     /**** Punto de entrada ****/
     /*
     this.routeActive.params.subscribe(params => {

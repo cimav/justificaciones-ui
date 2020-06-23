@@ -21,7 +21,8 @@ const httpOptions = {
 export class RestService {
 
   cachedEmpleado: Empleado;
-  cachedEmpleados: Empleado[];
+    cachedEmpleados: Empleado[];
+    cachedAsesores: Empleado[];
   cachedTipos: Tipo[];
   cachedMonedas: Moneda[];
   cachedPartidas: Partida[];
@@ -145,22 +146,38 @@ export class RestService {
     }
   }
 
-  public getEmpleados = (): Observable<Empleado[]> => {
-    if (this.cachedEmpleados) {
-      return of(this.cachedEmpleados);
-    } else {
-      return this._http.get<Empleado[]>(endpoint + 'empleados.json', httpOptions)
-        .pipe(
-          map((response: Response) => {
-            this.cachedEmpleados = <Empleado[]><any>response;
-            return this.cachedEmpleados;
-          }),
-          catchError(this.handleError<any>('getEmpleados'))
-        );
+    public getEmpleados = (): Observable<Empleado[]> => {
+        if (this.cachedEmpleados) {
+            return of(this.cachedEmpleados);
+        } else {
+            return this._http.get<Empleado[]>(endpoint + 'empleados.json', httpOptions)
+                .pipe(
+                    map((response: Response) => {
+                        this.cachedEmpleados = <Empleado[]><any>response;
+                        return this.cachedEmpleados;
+                    }),
+                    catchError(this.handleError<any>('getEmpleados'))
+                );
+        }
     }
-  }
 
-  public getProveedoresNetmultix = (): Observable<ProveedorNetmultix[]> => {
+    public getAsesores = (): Observable<Empleado[]> => {
+        if (this.cachedAsesores) {
+            return of(this.cachedAsesores);
+        } else {
+            console.log(endpoint + 'empleados/asesores');
+            return this._http.get<Empleado[]>(endpoint + 'empleados/asesores', httpOptions)
+                .pipe(
+                    map((response: Response) => {
+                        this.cachedAsesores = <Empleado[]><any>response;
+                        return this.cachedAsesores;
+                    }),
+                    catchError(this.handleError<any>('getAsesores'))
+                );
+        }
+    }
+
+    public getProveedoresNetmultix = (): Observable<ProveedorNetmultix[]> => {
     if (this.cachedProveedoresNetmultix) {
       return of(this.cachedProveedoresNetmultix);
     } else {

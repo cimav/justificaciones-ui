@@ -51,6 +51,8 @@ export class TableComponent implements OnInit {
       }
       if (this.globals.empleado.is_admin) {
         localStorage.setItem('role', 'Administrador');
+      } else if (this.globals.empleado.is_asesor) {
+          localStorage.setItem('role', 'Asesor');
       } else if (this.globals.empleado.is_asistente) {
         localStorage.setItem('role', 'Asistente');
       } else {
@@ -89,9 +91,9 @@ export class TableComponent implements OnInit {
       // this.esAsistente = justificaciones.filter(jus => jus.creador_id !== this.empleado.id).length > 0;
         // 'fecha_elaboracion',
       if (this.globals.empleado.is_asistente) {
-        this.displayedColumns = ['id', 'identificador', 'requisicion', 'creador_cuenta_cimav', 'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
+        this.displayedColumns = ['id', 'identificador', 'requisicion', 'creador_cuenta_cimav', 'asesor_cuenta_cimav', 'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
       } else {
-        this.displayedColumns = ['id', 'identificador', 'requisicion',                         'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
+        this.displayedColumns = ['id', 'identificador', 'requisicion',                         'asesor_cuenta_cimav',  'fecha_elaboracion', 'descripcion', 'editar', 'replicar', 'eliminar'];
       }
 
       this.dataSource = new MatTableDataSource(justificaciones); // .slice(0, 2)
@@ -202,6 +204,9 @@ export class TableComponent implements OnInit {
 
         nuevaJustificacion.autorizo = this.globals.empleado;
         nuevaJustificacion.autorizo_id = this.globals.empleado.id;
+
+        nuevaJustificacion.asesor = this.globals.empleado;
+        nuevaJustificacion.asesor_id = this.globals.empleado.id;
 
         const tipo0: Tipo = new Tipo();
         tipo0.id = 0 ;
