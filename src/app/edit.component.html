@@ -307,6 +307,15 @@
                             <mat-icon (click)="openRequisicionProveedorDialog(justificacion.requisicion)">search</mat-icon>
                         </button>
                     </mat-form-field>
+
+                    <div *ngIf="isAdmin()" style="padding-top: 0; padding-left: 0;">
+                        <button class="btn-existencia" mat-flat-button (click)="constanciaExistencia()" style="min-width: 44px;"
+                                matTooltip="FOCON02 Constancia de existencia del bien"
+                                matTooltipPosition="above">
+                            <mat-icon>playlist_add_check</mat-icon>
+                        </button>
+                    </div>
+
                     <mat-form-field class="flex-none" style="width: 200px;" >
                         <input matInput placeholder="Número de proyecto" name="proyecto"  [(ngModel)]="justificacion.proyecto" required>
                         <button mat-icon-button matSuffix >
@@ -376,7 +385,7 @@
                         [disabled]="justificacion.proveedores?.length <= 0 || justificacion.fecha_mercado == null || editForm.form.dirty">
                   <mat-icon>show_chart</mat-icon>
                 </button>
-                </div>
+               </div>
             </div>
           </div>
         </fieldset>
