@@ -446,8 +446,7 @@ export class EditComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   constanciaExistencia() {
       const responsable_almacen: string = JSON.parse(localStorage.idTokenPayload)['name'];
-      window.open(this.rest.getEndPoint() + 'requisiciones_netmultix/constancia_existencia/'
-          + this.justificacion.requisicion + '/' + responsable_almacen.toUpperCase() + '.pdf');
+      window.open(this.rest.getEndPoint() + 'requisiciones_netmultix/constancia_existencia/' + this.justificacion.requisicion + '.pdf');
   }
 
   mercado() {
