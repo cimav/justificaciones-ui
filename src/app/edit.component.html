@@ -308,10 +308,11 @@
                         </button>
                     </mat-form-field>
 
-                    <div *ngIf="isAdmin()" style="padding-top: 0; padding-left: 0;">
+                    <div style="padding-top: 0; padding-left: 0;"                        >
                         <button class="btn-existencia" mat-flat-button (click)="constanciaExistencia()" style="min-width: 44px;"
                                 matTooltip="FOCON02 Constancia de existencia del bien"
-                                matTooltipPosition="above">
+                                matTooltipPosition="above"
+                                [disabled]="justificacion.requisicion == null || editForm.form.dirty" >
                             <mat-icon>playlist_add_check</mat-icon>
                         </button>
                     </div>
